@@ -7,6 +7,24 @@
         case 'home':
             $adminController->homeController();
             break;
+        case 'danhmuc':
+            $adminController->danhmucController();
+            break;
+        case 'addDanhmuc':
+            $adminController->addDanhmuc();
+            break;
+        case 'pushDanhmuc':
+            $adminController->pushDanhmuc();
+            break;
+        case 'deleteDanhmuc':
+            $adminController->deleteDanhmuc();
+            break;
+        case 'editDanhmuc':
+            $adminController->loadViewEditDanhmuc();
+            break;
+        case 'updateDanhmuc':
+            $adminController->updateDanhmuc();
+            break;
     }
 
 
