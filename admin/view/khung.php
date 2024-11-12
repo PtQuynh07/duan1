@@ -121,7 +121,7 @@
                       </li>
             
                       <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="?action=danhmuc" class="nav-link">
                               <i class="fa-solid fa-list"></i>
                           <p>
                             Quản lý danh mục
