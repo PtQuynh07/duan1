@@ -25,6 +25,12 @@
         case 'updateDanhmuc':
             $adminController->updateDanhmuc();
             break;
+        case 'user':
+            $adminController->loadViewUser();
+            break;
+        case 'client':
+            $adminController->loadViewClient();
+            break;
     }
 
 

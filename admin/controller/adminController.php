@@ -8,21 +8,25 @@ class AdminController
     {
         $this->adminModel = new AdminModel();
     }
+
     function homeController()
     {
         include "./view/home.php";
     }
+
     //quan tri danh muc
     function danhmucController()
     {
         $danhmucs = $this->adminModel->getAllloai();
         include "./view/danhmuc.php";
     }
+
     function addDanhmuc()
     {
         $category = $this->adminModel->getAllloai();
         include "./view/addDanhmuc.php";
     }
+
     function pushDanhmuc()
     {
         if (isset($_POST['addDanhmuc'])) {
@@ -33,12 +37,14 @@ class AdminController
         }
         header("location:?action=danhmuc");
     }
+
     function deleteDanhmuc()
     {
         $id = $_GET['id'];
         $this->adminModel->destroyDanhmuc($id);
         header("location:?action=danhmuc");
     }
+
     function loadViewEditDanhmuc()
     {
         $id = $_GET['id'];
@@ -46,6 +52,7 @@ class AdminController
         $loaihang = $this->adminModel->getAllloai();
         include "./view/editDanhmuc.php";
     }
+
     function updateDanhmuc()
     {
         $id = $_GET['id'];
@@ -56,5 +63,16 @@ class AdminController
             $this->adminModel->updateDanhmuc($tenloai, $ngaycapnhat, $id);
         }
         header("location:?action=danhmuc");
+    }
+
+    function loadViewUser(){
+        // require_once "./view/user.php";
+        $admins = $this->adminModel->getAllUser();
+        include "./view/adminAcc.php";
+    }
+
+    function loadViewClient(){
+        $customers = $this->adminModel->getAllUser();
+        include "./view/customerAcc.php";
     }
 }
