@@ -8,10 +8,12 @@ class AdminController
     {
         $this->adminModel = new AdminModel();
     }
+
     function homeController()
     {
         include "./view/home.php";
     }
+<<<<<<< HEAD
     // quan tri san pham
     function sanphamController(){
         $allsanpham = $this->adminModel->getAllsanpham();
@@ -167,6 +169,8 @@ class AdminController
 
 
 
+=======
+>>>>>>> c783113b47334ec99073bc4399995f01960b63ff
 
     //quan tri danh muc
     function danhmucController()
@@ -174,11 +178,13 @@ class AdminController
         $danhmucs = $this->adminModel->getAllloai();
         include "./view/danhmuc.php";
     }
+
     function addDanhmuc()
     {
         $category = $this->adminModel->getAllloai();
         include "./view/addDanhmuc.php";
     }
+
     function pushDanhmuc()
     {
         if (isset($_POST['addDanhmuc'])) {
@@ -189,12 +195,14 @@ class AdminController
         }
         header("location:?action=danhmuc");
     }
+
     function deleteDanhmuc()
     {
         $id = $_GET['id'];
         $this->adminModel->destroyDanhmuc($id);
         header("location:?action=danhmuc");
     }
+
     function loadViewEditDanhmuc()
     {
         $id = $_GET['id'];
@@ -202,6 +210,7 @@ class AdminController
         $loaihang = $this->adminModel->getAllloai();
         include "./view/editDanhmuc.php";
     }
+
     function updateDanhmuc()
     {
         $id = $_GET['id'];
@@ -213,4 +222,16 @@ class AdminController
         }
         header("location:?action=danhmuc");
     }
+
+    function loadViewUser(){
+        // require_once "./view/user.php";
+        $admins = $this->adminModel->getAllUser();
+        include "./view/adminAcc.php";
+    }
+
+    function loadViewClient(){
+        $customers = $this->adminModel->getAllUser();
+        include "./view/customerAcc.php";
+    }
+}
 }

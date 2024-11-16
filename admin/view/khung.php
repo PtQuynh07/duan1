@@ -138,13 +138,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                           <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="?action=user" class="nav-link">
                             <i class="nav-icon far fa-user"></i>
                               <p>Tài khoản quản trị</p>
                             </a>
                           </li>
                           <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="?action=client" class="nav-link">
                             <i class="nav-icon far fa-user"></i>
                               <p>Tài khoản khách hàng</p>
                             </a>

@@ -211,4 +211,9 @@ function deletesanphamById($id) {
         WHERE id = '$id'";
         $this->conn->query($sql);
     }
+    function getAllUser(){
+        $sql = "SELECT * FROM users";
+        $result = $this->conn->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
