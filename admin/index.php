@@ -7,6 +7,52 @@
         case 'home':
             $adminController->homeController();
             break;
+        case 'sanpham':
+            $adminController->sanphamController();
+            break;
+        case 'addSanpham':
+            $adminController->addSanpham();
+            break;
+        case 'pushSanpham':
+            $adminController->prushSanpham();
+            break;
+
+         case 'editProduct':
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+                    $adminController->editProduct($id);
+                } else {
+                    echo "Không tìm thấy ID sản phẩm.";
+                }
+                break;
+            
+            case 'updateProduct':
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+                    $adminController->updateProduct($id);
+                } else {
+                    echo "Không tìm thấy ID sản phẩm.";
+                }
+                break;
+
+        case 'deleteSanpham':
+            $adminController->deleteSanpham();
+            break;
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         case 'danhmuc':
             $adminController->danhmucController();
             break;
