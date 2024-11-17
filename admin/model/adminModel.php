@@ -8,7 +8,15 @@ class AdminModel
     {
         $this->conn = connectDB();
     }
+    private $username = 'admin1';
+    private $password = '123456';
 
+    public function authenticate($username, $password){
+        if($username === $this->username && $password === $this->password){
+            return true;
+        }
+        return false;
+    }
     // san pham
     function allsanpham(){
         $sql = "SELECT * FROM products order by id asc";
@@ -174,13 +182,6 @@ function deletesanphamById($id) {
     $stmt_product->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt_product->execute();
 }
-
-
-
-
-
-
-
     //danh muc
     function getAllloai()
     {
@@ -216,4 +217,5 @@ function deletesanphamById($id) {
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }

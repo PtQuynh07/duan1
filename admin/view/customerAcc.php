@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,8 +76,8 @@
 
 <body>
     <?php
-    include "./view/khung.php";
-    ?>
+      include "./view/khung.php";
+      ?>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">

@@ -9,6 +9,35 @@ class AdminController
         $this->adminModel = new AdminModel();
     }
 
+    public function showLoginForm(){
+        // header('Location: ./view/login.php');
+        include "./view/login.php";
+    }
+
+    public function login(){
+        if(isset($_POST['submit'])){
+            $username = $_POST['user'];
+            $password = $_POST['pass'];
+
+            $user = new AdminModel();
+
+            if($user->authenticate($username, $password)){
+                $_SESSION['username'] = $username;
+                header("location:?action=home");
+                exit();
+            } else {
+                $error = "Sai thông tin đăng nhập!";
+                include './view/login.php';
+            }
+        }
+    }
+
+    function logout(){
+        include "./view/login.php";
+        session_destroy();
+        exit();
+    }
+
     function homeController()
     {
         include "./view/home.php";
@@ -232,5 +261,7 @@ class AdminController
         $customers = $this->adminModel->getAllUser();
         include "./view/customerAcc.php";
     }
+
+
 }
 
