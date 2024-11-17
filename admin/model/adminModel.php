@@ -8,6 +8,16 @@ class AdminModel
     {
         $this->conn = connectDB();
     }
+
+    private $username = 'admin1';
+    private $password = '123456';
+
+    public function authenticate($username, $password){
+        if($username === $this->username && $password === $this->password){
+            return true;
+        }
+        return false;
+    }
     //danh muc
     function getAllloai()
     {
@@ -43,4 +53,5 @@ class AdminModel
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }
