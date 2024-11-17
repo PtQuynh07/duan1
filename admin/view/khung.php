@@ -111,6 +111,7 @@
           <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
 
+
           <li class="nav-item">
             <a href="?action=sanpham" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -142,7 +143,71 @@
                 <a href="?action=user" class="nav-link">
                   <i class="nav-icon far fa-user"></i>
                   <p>Tài khoản quản trị</p>
-                </a>
+                </a>       
+                   <li class="nav-item">
+                        <a href="?action=sanpham" class="nav-link">
+                          <i class="nav-icon fas fa-th"></i>
+                          <p>
+                            Quản lý sản phẩm
+                           
+                          </p>
+                        </a>
+                      </li>
+            
+                      <li class="nav-item">
+                        <a href="?action=danhmuc" class="nav-link">
+                              <i class="fa-solid fa-list"></i>
+                          <p>
+                            Quản lý danh mục
+                           
+                          </p>
+                        </a>
+                      </li>
+            
+                      <li class="nav-item">
+                        <a href="#" class="nav-link ">
+                              <i class="fa-solid fa-user"></i>
+                          <p>Quản lí tài khoản</p>        
+                            <i class="right fas fa-angle-left"></i>        
+                        </a>
+                        <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                            <a href="?action=user" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                              <p>Tài khoản quản trị</p>
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="?action=client" class="nav-link">
+                            <i class="nav-icon far fa-user"></i>
+                              <p>Tài khoản khách hàng</p>
+                            </a>
+                          </li>
+                          </ul>
+                      </li>
+            
+                      <li class="nav-item">
+                        <a href="#" class="nav-link">
+                        <i class='fas fa-cart-arrow-down'></i>
+                          <p>
+                            Quản lý đơn hàng
+                           
+                          </p>
+                        </a>
+                      </li>
+            
+                      <li class="nav-item">
+                        <a href="#" class="nav-link">
+                              <i class="fa-solid fa-chart-line"></i>
+                          <p>
+                           Thống kê
+                           
+                          </p>
+                        </a>
+                      </li>
+            
+                </ul>
+
               </li>
               <li class="nav-item">
                 <a href="?action=client" class="nav-link">

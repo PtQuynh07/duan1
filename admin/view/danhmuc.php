@@ -83,7 +83,7 @@
     <div class="content-header">
       <div class="container-fluid">
         <h1 class="m-0">Danh mục</h1>
-        <div class="button"><a href="?action=addDanhmuc"><button type="button" class="btn btn-danger">Thêm sản phẩm</button></a></div>
+        <div class="button"><a href="?action=addDanhmuc"><button type="button" class="btn btn-danger">Thêm danh mục</button></a></div>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -91,8 +91,9 @@
               <th scope="col">Tên danh mục</th>
               <th scope="col">Ngày tạo</th>
               <th scope="col">Ngày cập nhật</th>
-              <th>Xóa</th>
               <th>Sửa</th>
+              <th>Xóa</th>
+            
             </tr>
           </thead>
           <?php
@@ -105,8 +106,9 @@
                   <td><?php echo $danhmuc['category_name'] ?></td>
                   <td><?php echo $danhmuc['created_at'] ?></td>
                   <td><?php echo $danhmuc['updated_at'] ?></td>
-                  <td><a onclick="return confirm('Bạn có muốn xóa danh mục sản phẩm không?')" href="?action=deleteDanhmuc&id=<?php echo $danhmuc['id'] ?>"><i class="fa-solid fa-trash-can" style="color: #ff3d3d;"></i></a></td>
                   <td><a href="?action=editDanhmuc&id=<?php echo $danhmuc['id'] ?>"><i class="fa-solid fa-screwdriver-wrench" style="color: #000000;"></i></a></td>
+                  <td><a onclick="return confirm('Bạn có muốn xóa danh mục sản phẩm không?')" href="?action=deleteDanhmuc&id=<?php echo $danhmuc['id'] ?>"><i class="fa-solid fa-trash-can" style="color: #ff3d3d;"></i></a></td>
+                 
                 </tr>
               </tbody>
           <?php
