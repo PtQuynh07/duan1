@@ -13,7 +13,7 @@ class AdminController
     {
         include "./view/home.php";
     }
-<<<<<<< HEAD
+
     // quan tri san pham
     function sanphamController(){
         $allsanpham = $this->adminModel->getAllsanpham();
@@ -169,8 +169,7 @@ class AdminController
 
 
 
-=======
->>>>>>> c783113b47334ec99073bc4399995f01960b63ff
+
 
     //quan tri danh muc
     function danhmucController()
@@ -234,4 +233,4 @@ class AdminController
         include "./view/customerAcc.php";
     }
 }
-}
+
