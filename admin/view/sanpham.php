@@ -106,7 +106,7 @@ img{
                         <td><?= $row['product_name']  ?></td>
                      
                         <td>
-                        <img src="./assets/dist/img/<?= $row['image_url'] ?>" alt="Product Image">
+                        <img src="../assets/images/product/default/home-1/<?= $row['image_url'] ?>" alt="Product Image">
                         </td>
 
                         <td><?= $row['material']  ?></td>
@@ -134,5 +134,6 @@ img{
 </table>
       </div>
     </div>
+    <!-- <img src="../assets/images/product/default/home-1/default-1.jpg" alt=""> -->
 </body>
 </html>

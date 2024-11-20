@@ -107,10 +107,11 @@
 
                             <div class="mb-3">
                                 <label for="image_url" class="form-label">Ảnh sản phẩm:</label>
-                                <img src="./assets/dist/img/<?= $images[0]['image_url']; ?>" alt="">
+                                <img src="../assets/images/product/default/home-1/<?= $images[0]['image_url']; ?>" alt="">
                                 <input type="file" name="image_url" class="form-control">
 
                             </div>
+                            
 
                             <div class="mb-3">
                                 <label for="alt_text" class="form-label">Mô tả ảnh:</label>
