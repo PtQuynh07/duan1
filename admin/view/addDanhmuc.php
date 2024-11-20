@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thêm Danh Mục</title>
 </head>
-
-
 <body>
     <?php
       include "./view/khung.php";
@@ -24,11 +21,11 @@
                             <form action="?action=pushDanhmuc" method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Tên danh mục:</label>
-                                    <input type="text" class="form-control" placeholder="Nhập tên danh mục..." name="name">
+                                    <input type="text" class="form-control" placeholder="Nhập tên danh mục..." name="name" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Ngày tạo:</label>
-                                    <input type="datetime-local" name="created_at" id="" class="form-control">
+                                    <input type="datetime-local" name="created_at" id="" class="form-control" required>
                                 </div>
                                 <!-- <div class="mb-3">
                                     <label for="name" class="form-label">Ngày cập nhật:</label>

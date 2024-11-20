@@ -1,8 +1,6 @@
 <?php session_start(); ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +15,7 @@
     <style>
         body {
             background-color: #F5F5F5;
-            background-image: url('background1.jpg');
+            background-image: url('../assets/images/banner/background1.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -66,7 +64,7 @@
                     <div class="d-flex align-items-center" style="padding-left:30px; padding-right:30px; padding-top:20px">
                         <form action="" method="POST" style="width: 23rem;">
                             <h3 class="fw-normal" style="letter-spacing: 2px; padding-top:10px;">
-                                <span><img src="logo.jpg" style="width:120px; height:120px;"></span>
+                                <span><img src="../assets/images/logo/logo.png" style="width:120px; height:120px;"></span>
                                 Customer Log In
                             </h3>
 

@@ -4,7 +4,8 @@
     $action = isset($_GET['action']) ? $_GET['action'] : 'home';
     $userController = new UserController();
     switch($action){
-        case '/':
+        case 'home':
+            $userController -> showSanpham();
             break;
     }
 

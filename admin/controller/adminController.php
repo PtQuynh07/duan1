@@ -179,7 +179,6 @@ class AdminController
     }
 }
 
-    
     function deleteSanpham() {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
@@ -189,16 +188,6 @@ class AdminController
             exit();
         }
     }
-
-
-
-
-
-
-
-
-
-
 
     //quan tri danh muc
     function danhmucController()

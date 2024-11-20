@@ -7,5 +7,11 @@
         {
             $this -> userModel = new UserModel();
         }
+
+        //trang chủ
+        function showSanpham(){
+            $danhmucs = $this->userModel->getDanhmuc();
+            include "./view/home.php";
+        }
     }
 ?>

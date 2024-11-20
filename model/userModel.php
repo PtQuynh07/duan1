@@ -7,5 +7,12 @@
         {
             $this -> conn = connectDB();
         }
+
+        //trang chủ
+        function getDanhmuc(){
+            $sql = "SELECT * FROM categories";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 ?>

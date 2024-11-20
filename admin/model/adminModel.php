@@ -147,10 +147,6 @@ public function updateVariantOptions($data) {
     ]);
 }
 
-
-
-
-
 //deleteSanPham
 function deletesanphamById($id) {
 
