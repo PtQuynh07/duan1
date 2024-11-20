@@ -47,48 +47,19 @@
                                 <nav>
                                     <ul>
                                         <li class="has-dropdown">
-                                            <a class="active main-menu-link" href="index.html">Home </a>
+                                            <a class="active main-menu-link" href="?action=home">Home </a>
                                             <!-- Sub Menu -->
                                         </li>
                                         <li class="has-dropdown ">
-                                            <a href="product-details-default.html">Shop <i class="fa fa-angle-down"></i></a>
-                                            <!-- Mega Menu -->
-                                            <ul class="sub-menu">
-                                                <li><a href="blog-grid-sidebar-left.html">Blog Grid Sidebar left</a></li>
-                                                <li><a href="blog-grid-sidebar-right.html">Blog Grid Sidebar Right</a></li>
-                                                <li><a href="blog-full-width.html">Blog Full Width</a></li>
-                                                <li><a href="blog-list-sidebar-left.html">Blog List Sidebar Left</a></li>
-                                                <li><a href="blog-list-sidebar-right.html">Blog List Sidebar Right</a></li>
-                                                <li><a href="blog-single-sidebar-left.html">Blog Single Sidebar left</a></li>
-                                                <li><a href="blog-single-sidebar-right.html">Blog Single Sidebar Right</a></li>
-                                            </ul>
+                                            <?php
+                                                foreach($danhmucs as $danhmuc){
+                                            ?>
+                                                <li><a href=""><?php echo $danhmuc['category_name'] ?></a></li>
+                                            <?php
+                                                }
+                                            ?>
                                         </li>
-                                        <li class="has-dropdown">
-                                            <a href="blog-single-sidebar-left.html">Blog <i class="fa fa-angle-down"></i></a>
-                                            <!-- Sub Menu -->
-                                            <ul class="sub-menu">
-                                                <li><a href="blog-grid-sidebar-left.html">Blog Grid Sidebar left</a></li>
-                                                <li><a href="blog-grid-sidebar-right.html">Blog Grid Sidebar Right</a></li>
-                                                <li><a href="blog-full-width.html">Blog Full Width</a></li>
-                                                <li><a href="blog-list-sidebar-left.html">Blog List Sidebar Left</a></li>
-                                                <li><a href="blog-list-sidebar-right.html">Blog List Sidebar Right</a></li>
-                                                <li><a href="blog-single-sidebar-left.html">Blog Single Sidebar left</a></li>
-                                                <li><a href="blog-single-sidebar-right.html">Blog Single Sidebar Right</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="has-dropdown">
-                                            <a href="#">Pages <i class="fa fa-angle-down"></i></a>
-                                            <!-- Sub Menu -->
-                                            <ul class="sub-menu">
-                                                <li><a href="faq.html">Frequently Questions</a></li>
-                                                <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                                                <li><a href="404.html">404 Page</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="about-us.html">About Us</a>
-                                        </li>
-
+                                        
                                         <li>
                                             <a href="contact-us.html">Contact Us</a>
                                         </li>
