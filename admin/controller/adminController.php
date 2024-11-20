@@ -77,26 +77,25 @@ class AdminController
             if (!empty($_FILES['image_url']['name'])) {
                 $img = $_FILES['image_url']['name'];
                 $tmp = $_FILES['image_url']['tmp_name'];
-                move_uploaded_file($tmp, './assets/dist/img/' . $img);
+                move_uploaded_file($tmp, '../assets/images/product/default/home-1/' . $img);
             }
     
-            // Thêm sản phẩm vào bảng products và lấy product_id
+          
             $product_id = $this->adminModel->insertProduct($data);
     
-            // Thêm biến thể sản phẩm vào bảng product_variants và lấy product_variant_id
+      
             $product_variant_id = $this->adminModel->insertProductVariant($product_id, $data['sku'], $data['price'], $data['stock_quantity']);
     
-            // Thêm các tùy chọn biến thể vào bảng variant_options
+          
             $this->adminModel->insertVariantOptions($product_variant_id, $data['option_color'], $data['option_size']);
     
-            // Thêm ảnh sản phẩm vào bảng product_images với product_variant_id
+          
             if (!empty($img)) {
                 $alt_text = isset($_POST['alt_text']) ? $_POST['alt_text'] : '';
 
                 $this->adminModel->insertProductImage($product_variant_id, $img, $alt_text);
             }
-    
-            // Sau khi thêm tất cả các dữ liệu, chuyển hướng về trang sản phẩm
+  
             header("Location: ?action=sanpham");
         } else {
             echo "Lỗi";
@@ -158,7 +157,7 @@ class AdminController
             $tmp = $_FILES['image_url']['tmp_name'];
             $alt_text = $_POST['alt_text'];
 
-            if (move_uploaded_file($tmp, './assets/dist/img/' . $img)) {
+            if (move_uploaded_file($tmp, '../assets/images/product/default/home-1/' . $img)) {
                 $this->adminModel->updateProductImage([
                     'image_url' => $img,
                     'alt_text' => $alt_text,
