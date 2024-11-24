@@ -152,6 +152,9 @@
 </head>
 
 <body>
+    <?php 
+    $error="";
+    ?>
     <div class="container-fluid">
         <div>
             <!-- Phần Form Đăng Nhập -->
@@ -162,6 +165,7 @@
                     <form class="form" method="POST">
                         <input type="text" name="user" placeholder="Username" required>
                         <input type="password" name="pass" placeholder="Password" required>
+                        <p style="color:red; margin:0px; padding:0px; background-color:white;"><?= $error ?></p>
                         <input type="submit" value="Log in" name="submit" class="btn btn-success">
                     </form>
 
@@ -177,5 +181,10 @@
     <!-- </section> -->
    
 </body>
-
+<?php
+if (!empty($error)) {
+    $error = htmlspecialchars($error, ENT_QUOTES, 'UTF-8');
+    echo '<script>alert("' . $error . '");</script>';
+}
+?>
 </html>

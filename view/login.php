@@ -1,6 +1,8 @@
 <?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,88 +15,173 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #F5F5F5;
-            background-image: url('../assets/images/banner/background1.jpg');
+            display: grid;
+            place-items: center;
+            gap: 50px;
+            margin: 0;
+            height: 100vh;
+            padding: 0 32px;
+            font-family: "Euclid Circular A", "Poppins";
+            position: relative;
+            /* Quan trọng để tạo pseudo-element */
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./assets/images/banner/background1.jpg');
             background-size: cover;
             background-position: center;
+            filter: blur(5px);
+            /* Áp dụng hiệu ứng làm mờ */
+            z-index: -1;
+            /* Đặt ảnh nền phía sau */
         }
 
-        .custom-margin {
-            margin-top: 70px;
+
+        @media (width >=500px) {
+            body {
+                padding: 0;
+            }
         }
 
-        .box {
-            width: 450px;
-            height: 520px;
-            background-color: white;
-            border: 1px solid black;
-            border-radius: 10px;
-            float: left;
-            margin-top: 7%;
-            margin-left: 36%;
+        .background::after {
+            content: "";
+            position: inherit;
+            right: -50vmin;
+            bottom: -55vmin;
+            width: inherit;
+            height: inherit;
+            border-radius: inherit;
+            background: #143d81;
+        }
+
+        .card {
+            overflow: hidden;
+            position: relative;
+            left: 35%;
+            z-index: 3;
+            width: 94%;
+            margin: 0 20px;
+            padding: 170px 30px 54px;
+            border-radius: 24px;
+            background-image: url('./assets/images/banner/banner.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            box-shadow: 0 100px 100px rgb(0 0 0 / 10%);
+        }
+
+        @media (width >=500px) {
+            .card {
+                margin: 0;
+                width: 360px;
+            }
+        }
+
+        .card .logo {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            translate: -50% 0;
+            width: 64px;
+            height: 64px;
+        }
+
+        .card>h4 {
+            font-size: 22px;
+            font-weight: 400;
+            margin: 0 0 38px;
+            color: black;
+        }
+
+        .form {
+            margin: 0 0 44px 0;
+            display: grid;
+            gap: 12px;
+        }
+
+        .form :is(input, button) {
+            width: 100%;
+            height: 56px;
+            border-radius: 28px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .form>input {
+            border: 0;
+            padding: 0 24px;
+            color: #222222;
+            background: #ededed;
+        }
+
+        .form>input::placeholder {
+            color: rgb(0 0 0 / 28%);
+        }
+
+        .form>button {
+            border: 0;
+            color: #f9f9f9;
+            background: #226ce7;
+            display: grid;
+            place-items: center;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .card>footer {
+            color: black;
+        }
+
+        .card>footer>a {
+            color: darkred;
         }
     </style>
 
 </head>
 
 <body>
-    <!-- <section class="vh-100"> -->
+
     <div class="container-fluid">
         <div>
             <!-- Phần Form Đăng Nhập -->
             <div class="text-black">
-                <!-- <div class="px-5 ms-xl-4">
-                        <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
-                        <span class="h1 fw-bold mb-0">Logo</span>
-                    </div> -->
-                <?php
-                $check = "";
-                if (isset($_POST['submit'])) {
-                    if ($_POST['username'] == "user1" && $_POST['password'] == "123456") {
-                        $_SESSION['username'] = $_POST['username'];
-                        $_SESSION['password'] = $_POST['password'];
-                        header("location: home.php");
-                    } else {
-                        $check = "Thông tin đăng nhập không đúng!";
-                    }
-                }
-                ?>
-                <div class="box ">
-                    <div class="d-flex align-items-center" style="padding-left:30px; padding-right:30px; padding-top:20px">
-                        <form action="" method="POST" style="width: 23rem;">
-                            <h3 class="fw-normal" style="letter-spacing: 2px; padding-top:10px;">
-                                <span><img src="../assets/images/logo/logo.png" style="width:120px; height:120px;"></span>
-                                Customer Log In
-                            </h3>
+                <div class="card">
+                    <img class="logo" src="./assets/images/logo/logo.jpg" style="mix-blend-mode: multiply; width:auto; height:130px;">
+                    <h4 class="margin-bottom:80px;">Log In</h4>
+                    <form class="form" method="POST">
+                        <input type="text" name="user" placeholder="Username" required>
+                        <input type="password" name="pass" placeholder="Password" required>
+                        <input type="submit" value="Log in" name="submit" class="btn btn-success">
+                    </form>
 
-                            <div class="form-outline" style="margin-bottom: 25px;">
-                                <label class="form-label" for="username">User name:</label>
-                                <input type="text" id="username" name="username" class="form-control form-control-lg" required placeholder="User name..." />
-
-                            </div>
-
-                            <div class="form-outline mb-2">
-                                <label class="form-label" for="password">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control form-control-lg" required placeholder="Password..." />
-
-                            </div>
-                            <p style="color:red"><?= $check ?></p>
-
-                            <button type="submit" name="submit" class="btn btn-outline-secondary btn-lg btn-block" style="width:66px; height:66px; margin-top:15px; margin-left:150px;">-></button>
-
-                        </form>
-
-                    </div>
-
+                    <footer style="margin-bottom: -25px;">
+                        Chưa có tài khoản?
+                        <a href="#">Bấm vào đây</a>
+                        để đăng ký.
+                    </footer>
                 </div>
-
             </div>
-
-
         </div>
     </div>
     <!-- </section> -->
-</body>
 
+</body>
+<?php
+if (!empty($error)) {
+    $error = htmlspecialchars($error, ENT_QUOTES, 'UTF-8');
+    echo '<script>alert("' . $error . '");</script>';
+}
+?>
 </html>

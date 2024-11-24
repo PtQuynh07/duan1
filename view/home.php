@@ -85,7 +85,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="login.html"><i class="bi bi-person-circle"></i></a>
+                                    <a href="?action=login"><i class="bi bi-person-circle"></i></a>
                                 </li>
                             </ul>
                             <!-- End Header Action Link -->
