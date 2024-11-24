@@ -7,6 +7,15 @@
         case 'home':
             $userController -> showSanpham();
             break;
+        case 'login':
+            if($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $userController->login();
+            } else {
+                $userController->showLoginForm();
+            }
+            break;
+        case 'signUp':
+            break;
     }
 
 ?>
