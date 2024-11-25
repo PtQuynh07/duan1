@@ -80,14 +80,10 @@ img{
       <th scope="col">Catogery</th>
       <th scope="col"> Product Name</th>
       <th scope="col">Product img</th>
-     
       <th scope="col">material</th>
-      <th scope="col">sku</th>
       <th scope="col">price</th>
       <th scope="col">color</th>
       <th scope="col">size</th>
-      <th scope="col">quantily</th>
-    
       <th scope="col">sửa</th>
       <th scope="col">xóa</th>
     </tr>
@@ -111,15 +107,11 @@ img{
 
                         <td><?= $row['material']  ?></td>
 
-                        <td><?= $row['sku']  ?></td>
-
                         <td><?= $row['price']  ?></td>
 
                         <td><?= $row['option_color']  ?></td>
 
                         <td><?= $row['option_size']  ?></td>
-
-                        <td><?= $row['stock_quantity']  ?></td>
                         
                         <td><a href="?action=editProduct&id=<?= $row['id']  ?>"><i class="fa-solid fa-screwdriver-wrench" style="color: #000000;"></i></a></td>
                         <td><a onclick="return confirm('Bạn có muốn xóa  sản phẩm không?')" href="?action=deleteSanpham&id=<?= $row['id']  ?>"><i class="fa-solid fa-trash-can" style="color: #ff3d3d;"></i></a></td>
