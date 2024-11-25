@@ -1,4 +1,5 @@
 <?php
+
 include "./includes/connect.php";
 class UserModel
 {
@@ -70,6 +71,63 @@ class UserModel
             return false;
         }
     }
+
+   function isLoggedIn() {
+        return isset($_SESSION['user']); 
+    }
+
+      // Sản phẩm theo danh mục
+      function getProductCategory($id) {
+        if (isset($id)) {
+            $sql = "SELECT p.product_name, pv.price, pi.image_url
+                    FROM products p
+                    JOIN product_variants pv ON p.id = pv.product_id
+                    JOIN product_images pi ON pv.id = pi.product_variant_id
+                   WHERE p.category_id = :id AND pi.is_primary = 1";
+                
+    
+            $stmt = $this->conn->prepare($sql);
+    
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                return []; 
+            }
+        } else {
+            echo "ID danh mục không hợp lệ";
+            exit;
+        }
+    }
+
+
+        function getCategoryInfo($id) {
+            $sql = "SELECT category_name FROM categories WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return null;  
+            }
+        }
+
+
+   
+        
+
+        public function totalCart($cartItems) {
+            $total = 0;
+            foreach ($cartItems as $item) {
+                $total += $item['price'] * $item['quantity'];
+            }
+            return $total;
+        }
+
+        
     
     
 }

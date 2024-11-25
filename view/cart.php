@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
+
+
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
@@ -15,14 +17,29 @@
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <style>
         .header-logo .logo img {
             height: 100px;
             width: 150px;
         }
-        .product-default-single-item .image-link img {
-            margin-bottom: 50px;
-        }
+        .cart-image {
+    width: 200px;
+    height: auto;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ cho ảnh */
+    border-radius: 5px; /* Bo góc cho ảnh để mềm mại hơn */
+    transition: box-shadow 0.3s ease; /* Hiệu ứng khi hover */
+    background: transparent; /* Đảm bảo không có nền */
+    border: none; /* Loại bỏ viền nếu có */
+}
+
+.cart-image:hover {
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Bóng đậm hơn khi hover */
+}
+
     </style>
 
 </head>
@@ -55,7 +72,7 @@
                                             <?php
                                                 foreach($danhmucs as $danhmuc){
                                             ?>
-                                                <li><a href="?action=product_category&id=<?=$danhmuc['id']?>"><?php echo $danhmuc['category_name'] ?></a></li>
+                                               <li><a href="?action=product_category&id=<?=$danhmuc['id']?>"><?php echo $danhmuc['category_name'] ?></a></li>
                                             <?php
                                                 }
                                             ?>
@@ -78,14 +95,14 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="?action=cart">
+                                    <a href="cart.html">
                                         <i class="icon-bag"></i>
                                         <span class="item-count">3</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="?action=login"><i class="bi bi-person-circle"></i></a>
+                                    <a href="login.html"><i class="bi bi-person-circle"></i></a>
                                 </li>
                             </ul>
                             <!-- End Header Action Link -->
@@ -95,14 +112,16 @@
             </div>
         </div>
     </header>
-
+ 
     <!-- Start Offcanvas Mobile Menu Section -->
     <div id="offcanvas-about" class="offcanvas offcanvas-rightside offcanvas-mobile-about-section">
         <!-- Start Offcanvas Header -->
         <div class="offcanvas-header text-right">
             <button class="offcanvas-close"><i class="ion-android-close"></i></button>
         </div> <!-- End Offcanvas Header -->
-       
+        <!-- Start Offcanvas Mobile Menu Wrapper -->
+        <!-- Start Mobile contact Info -->
+
         <!-- End Mobile contact Info -->
     </div> <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
 
@@ -112,8 +131,14 @@
         <div class="offcanvas-header text-right">
             <button class="offcanvas-close"><i class="ion-android-close"></i></button>
         </div> <!-- End Offcanvas Header -->
-    </div>
-        
+
+        <!-- GIỎ HÀNG -->
+     
+
+    </div> <!-- End  Offcanvas Addcart Section -->
+
+
+
     <!-- Start Offcanvas Search Bar Section -->
     <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
@@ -125,413 +150,196 @@
     <!-- End Offcanvas Search Bar Section -->
 
     <!-- Offcanvas Overlay -->
-    <div class="offcanvas-overlay"></div>
+   
 
     <!-- Start Hero Slider Section-->
-    <div class="hero-slider-section">
-        <!-- Slider main container -->
-        <div class="hero-slider-active swiper-container">
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Start Hero Single Slider Item -->
-                <div class="hero-single-slider-item swiper-slide">
-                    <!-- Hero Slider Image -->
-                    <div class="hero-slider-bg">
-                        <img src="assets/images/hero-slider/home-1/hero-slider-1.jpg" alt="">
-                    </div>
-                    <!-- Hero Slider Content -->
-                    <div class="hero-slider-wrapper">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="hero-slider-content">
-                                        <h4 class="subtitle">New collection</h4>
-                                        <h2 class="title">Best Of NeoCon <br> Gold Award </h2>
-                                        <a href="product-details-default.html" class="btn btn-lg btn-outline-golden">shop now </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- End Hero Single Slider Item -->
-                <!-- Start Hero Single Slider Item -->
-                <div class="hero-single-slider-item swiper-slide">
-                    <!-- Hero Slider Image -->
-                    <div class="hero-slider-bg">
-                        <img src="assets/images/hero-slider/home-1/hero-slider-2.jpg" alt="">
-                    </div>
-                    <!-- Hero Slider Content -->
-                    <div class="hero-slider-wrapper">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="hero-slider-content">
-                                        <h4 class="subtitle">New collection</h4>
-                                        <h2 class="title">Luxy Chairs <br> Design Award </h2>
-                                        <a href="#" class="btn btn-lg btn-outline-golden">shop now </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- End Hero Single Slider Item -->
-            </div>
-
-            <!-- If we need pagination -->
-            <div class="swiper-pagination active-color-golden"></div>
-
-            <!-- If we need navigation buttons -->
-            <div class="swiper-button-prev d-none d-lg-block"></div>
-            <div class="swiper-button-next d-none d-lg-block"></div>
-        </div>
-    </div>
-    <!-- End Hero Slider Section-->
-
-    <!-- Start Service Section -->
-    <div class="service-promo-section section-top-gap-100">
-        <div class="service-wrapper">
+    <div class="breadcrumb-section breadcrumb-bg-color--golden">
+        <div class="breadcrumb-wrapper">
             <div class="container">
                 <div class="row">
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="0">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-1.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">FREE SHIPPING</h6>
-                                <p>Get 10% cash back, free shipping, free returns, and more at 1000+ top retailers!</p>
-                            </div>
+                    <div class="col-12">
+                        <h3 class="breadcrumb-title">Cart</h3>
+                        <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                            <nav aria-label="breadcrumb">
+                                <ul>
+                                    <li><a href="?action=home">Home</a></li>
+                                    <li><a href="blog-grid-sidebar-left.html">Blog</a></li>
+                                    <li><a href="#">Cart</a></li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
-                    <!-- End Service Promo Single Item -->
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="200">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-2.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">30 DAYS MONEY BACK</h6>
-                                <p>100% satisfaction guaranteed, or get your money back within 30 days!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Service Promo Single Item -->
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="400">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-3.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">SAFE PAYMENT</h6>
-                                <p>Pay with the world’s most popular and secure payment methods.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Service Promo Single Item -->
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="600">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-4.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">LOYALTY CUSTOMER</h6>
-                                <p>Card for the other 30% of their purchases at a rate of 1% cash back.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Service Promo Single Item -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Service Section -->
+
 
     <!-- Start Product Default Slider Section -->
-    <div class="product-default-slider-section section-top-gap-100 section-fluid">
-        <!-- Start Section Content Text Area -->
-        <div class="section-title-wrapper" data-aos="fade-up" data-aos-delay="0">
+    <div class="cart-section">
+        <!-- Start Cart Table -->
+        <div class="cart-table-wrapper"  data-aos="fade-up"  data-aos-delay="0">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <div class="section-content-gap">
-                            <div class="secton-content">
-                                <h3 class="section-title">THE NEW ARRIVALS</h3>
-                                <p>Preorder now to receive exclusive deals & gifts</p>
+                        <div class="table_desc">
+                            <div class="table_page table-responsive">
+                            <table>
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php if (!empty($cartItems)): ?>
+        <?php foreach ($cartItems as $item): ?>
+            <tr>
+                <td><img src="assets/images/product/default/home-1/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="cart-image"></td>
+                <td><?= htmlspecialchars($item['name']) ?></td>
+                <td><?= number_format($item['price'], 0, ',', '.') ?>đ</td>
+                <td>
+                    <input 
+                        type="number" 
+                        name="quantity" 
+                        value="<?= $item['quantity'] ?>" 
+                        min="1" 
+                        onchange="updateQuantity('<?= htmlspecialchars($item['name']) ?>', this.value)"
+                        style="width: 60px; text-align: center;">
+                </td>
+                <td id="total-<?= htmlspecialchars($item['name']) ?>"><?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?>đ</td>
+                <td><a href="#" class="btn-remove" data-url="?action=removeFromCart&name=<?= urlencode($item['name']) ?>"><i class="fa-solid fa-trash-can"></i></a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="6">Your cart is empty.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+
+</table>
+
+<script>
+function updateQuantity(name, quantity) {
+    if (quantity < 1) {
+        alert("Quantity must be at least 1.");
+        return;
+    }
+
+    // Gửi yêu cầu AJAX để cập nhật số lượng
+    fetch('?action=updateQuantity', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `name=${encodeURIComponent(name)}&quantity=${quantity}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Cập nhật tổng giá trị (total) mới
+            const totalCell = document.getElementById(`total-${name}`);
+            if (totalCell) {
+                totalCell.innerText = data.newTotalFormatted; // Giá trị tổng mới
+            }
+        } else {
+            alert(data.message || "Failed to update quantity.");
+        }
+    })
+    .catch(error => {
+        console.error("Error updating quantity:", error);
+    });
+}
+
+
+document.querySelectorAll('.btn-remove').forEach(button => {
+    button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const url = this.getAttribute('data-url');
+        Swal.fire({
+            title: 'Bạn có chắc chắn không?',
+            text: "Bạn có muốn xóa sản phẩm khỏi giỏ hàng không",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url; 
+            }
+        });
+    });
+});
+
+</script>
+
+
+
+                            </div>
+                            <div class="cart_submit">
+                                <button class="btn btn-md btn-golden" type="submit">update cart</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Start Section Content Text Area -->
-        <div class="product-wrapper" data-aos="fade-up" data-aos-delay="200">
+        </div> 
+
+        <!-- Start Coupon Start -->
+        <div class="coupon_area">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="product-slider-default-2rows default-slider-nav-arrow">
-                            <!-- Slider main container -->
-                            <div class="swiper-container product-default-slider-4grid-2row">
-                                <!-- Additional required wrapper -->
-                                <div class="swiper-wrapper">
-                                    <!-- Start Product Default Single Item- sp mới -->
-                                        <?php
-                                            foreach($spmois as $spmoi){
-                                        ?>
-                                    <div class="product-default-single-item product-color--golden swiper-slide">
-                                            <div class="image-box">
-                                            <a href="" class="image-link">
-                                                <img class="img_product" src="./assets/images/product/default/home-1/<?php echo $spmoi['image_url'] ?>" alt="">
-                                                <!-- <img src="./assets/images/product/default/home-1/<?php echo $spmoi['hover_image'] ?>" alt=""> -->
-                                            </a>
-                                            <div class="tag">
-                                                <span>sale</span>
-                                            </div>
-                                            <div class="action-link">
-                                                <div class="action-link-left">
-                                                    <a href="cart.html">Add to Cart</a>
-                                                </div>
-                                                <div class="action-link-right">
-                                                    <a href="#"><i class="icon-heart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content">
-                                            <div class="content-left">
-                                                <h6 class="title"><a href=""><?php echo $spmoi['product_name'] ?></a></h6>
-                                                <ul class="review-star">
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="empty"><i class="ion-android-star"></i></li>
-                                                </ul>
-                                            </div>
-                                            <div class="content-right">
-                                                <span class="price"><?php echo $spmoi['price'] ?></span>
-                                            </div>
-                                        
-                                        </div>
-                                    </div>  
-                                        <?php
-                                            }
-                                        ?> 
-                                         
-                                    <!-- End Product Default Single Item -->
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code left"  data-aos="fade-up"  data-aos-delay="200">
+                            <h3>Coupon</h3>
+                            <div class="coupon_inner">
+                                <p>Enter your coupon code if you have one.</p>
+                                <input class="mb-2" placeholder="Coupon code" type="text">
+                                <button type="submit" class="btn btn-md btn-golden">Apply coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="coupon_code right"  data-aos="fade-up"  data-aos-delay="400">
+                            <h3>Cart Totals</h3>
+                            <div class="coupon_inner">
+                                <div class="cart_subtotal">
+                                    <p>Subtotal</p>
+                                    <p class="cart_amount">$215.00</p>
+                                </div>
+                                <div class="cart_subtotal ">
+                                    <p>Shipping</p>
+                                    <p class="cart_amount"><span>Flat Rate:</span> $255.00</p>
+                                </div>
+                                <a href="#">Calculate shipping</a>
+
+                                <div class="cart_subtotal">
+                                    <p>Total</p>
+                                    <p class="cart_amount">$215.00</p>
+                                </div>
+                                <div class="checkout_btn">
+                                    <a href="#" class="btn btn-md btn-golden">Proceed to Checkout</a>
                                 </div>
                             </div>
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> <!-- End Coupon Start -->
     </div>
-    <!-- End Product Default Slider Section -->
 
-    <!-- Start Banner Section -->
-    <div class="banner-section section-top-gap-100 section-fluid">
-        <div class="banner-wrapper">
-            <div class="container-fluid">
-                <div class="row mb-n6">
 
-                    <div class="col-lg-6 col-12 mb-6">
-                        <!-- Start Banner Single Item -->
-                        <div class="banner-single-item banner-style-1 banner-animation img-responsive" data-aos="fade-up" data-aos-delay="0">
-                            <div class="image">
-                                <img src="assets/images/banner/banner-style-1-img-1.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h4 class="title">Mini rechargeable
-                                    Table Lamp - E216</h4>
-                                <h5 class="sub-title">We design your home</h5>
-                                <a href="product-details-default.html" class="btn btn-lg btn-outline-golden icon-space-left"><span class="d-flex align-items-center">discover now <i class="ion-ios-arrow-thin-right"></i></span></a>
-                            </div>
-                        </div>
-                        <!-- End Banner Single Item -->
-                    </div>
 
-                    <div class="col-lg-6 col-12 mb-6">
-                        <div class="row mb-n6">
-                            <!-- Start Banner Single Item -->
-                            <div class="col-lg-6 col-sm-6 mb-6">
-                                <div class="banner-single-item banner-style-2 banner-animation img-responsive" data-aos="fade-up" data-aos-delay="0">
-                                    <div class="image">
-                                        <img src="assets/images/banner/banner-style-2-img-1.jpg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <h4 class="title">Kitchen <br>
-                                            utensils</h4>
-                                        <a href="product-details-default.html" class="link-text"><span>Shop now</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Banner Single Item -->
-                            <!-- Start Banner Single Item -->
-                            <div class="col-lg-6 col-sm-6 mb-6">
-                                <div class="banner-single-item banner-style-2 banner-animation img-responsive" data-aos="fade-up" data-aos-delay="200">
-                                    <div class="image">
-                                        <img src="assets/images/banner/banner-style-2-img-2.jpg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <h4 class="title">Sofas and <br>
-                                            Armchairs</h4>
-                                        <a href="product-details-default.html" class="link-text"><span>Shop now</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Banner Single Item -->
-                            <!-- Start Banner Single Item -->
-                            <div class="col-lg-6 col-sm-6 mb-6">
-                                <div class="banner-single-item banner-style-2 banner-animation img-responsive" data-aos="fade-up" data-aos-delay="0">
-                                    <div class="image">
-                                        <img src="assets/images/banner/banner-style-2-img-3.jpg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <h4 class="title">Chair & Bar<br>
-                                            stools</h4>
-                                        <a href="product-details-default.html" class="link-text"><span>Shop now</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Banner Single Item -->
-                            <!-- Start Banner Single Item -->
-                            <div class="col-lg-6 col-sm-6 mb-6">
-                                <div class="banner-single-item banner-style-2 banner-animation img-responsive" data-aos="fade-up" data-aos-delay="200">
-                                    <div class="image">
-                                        <img src="assets/images/banner/banner-style-2-img-4.jpg" alt="">
-                                    </div>
-                                    <div class="content">
-                                        <h4>Interior <br>
-                                            lighting</h4>
-                                        <a href="product-details-default.html"><span>Shop now</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Banner Single Item -->
-                        </div>
-                    </div>
-                </div>
+    <!-- FOOTER -->
 
-            </div>
-        </div>
-    </div>
-    <!-- End Banner Section -->
-
-    <!-- Start Product Default Slider Section -->
-    <div class="product-default-slider-section section-top-gap-100 section-fluid section-inner-bg">
-        <!-- Start Section Content Text Area -->
-        <div class="section-title-wrapper" data-aos="fade-up" data-aos-delay="0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-content-gap">
-                            <div class="secton-content">
-                                <h3 class="section-title">BEST SELLERS</h3>
-                                <p>Add our best sellers to your weekly lineup.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Start Section Content Text Area -->
-        <div class="product-wrapper" data-aos="fade-up" data-aos-delay="0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="product-slider-default-1row default-slider-nav-arrow">
-                            <!-- Slider main container -->
-                            <div class="swiper-container product-default-slider-4grid-1row">
-                                <!-- Additional required wrapper -->
-                                <div class="swiper-wrapper">
-                                    <!-- Start Product Default Single Item - sp nổi bật -->
-                                     <?php
-                                        foreach($spnoibats as $spnoibat){
-                                    ?>
-                                        <div class="product-default-single-item product-color--golden swiper-slide">
-                                        <div class="image-box">
-                                            <a href="" class="image-link">
-                                            <img class="img_product" src="./assets/images/product/default/home-1/<?php echo $spnoibat['image_url'] ?>" alt="">
-                                                <!-- <img src="assets/images/product/default/home-1/default-10.jpg" alt=""> -->
-                                            </a>
-                                            <div class="action-link">
-                                                <div class="action-link-left">
-                                                    <a href="cart.html">Add to Cart</a>
-                                                </div>
-                                                <div class="action-link-right">
-                                                    <a href="wishlist.html"><i class="icon-heart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="content">
-                                            <div class="content-left">
-                                                <h6 class="title"><a href=""><?php echo $spnoibat['product_name'] ?></a></h6>
-                                                <ul class="review-star">
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="fill"><i class="ion-android-star"></i></li>
-                                                    <li class="empty"><i class="ion-android-star"></i></li>
-                                                </ul>
-                                            </div>
-                                            <div class="content-right">
-                                                <span class="price"><?php echo $spnoibat['price'] ?></span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <?php
-                                        }
-                                     ?>
-                                    
-                                    <!-- End Product Default Single Item -sp nổi bật-->
-                                </div>
-                            </div>
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Product Default Slider Section -->
-
-    <!-- Start Instagramr Section -->
-    <div class="instagram-section section-top-gap-100 section-inner-bg">
-        <div class="instagram-wrapper" data-aos="fade-up" data-aos-delay="0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="instagram-box">
-                            <div id="instagramFeed" class="instagram-grid clearfix">
-                                <a href="https://www.instagram.com/p/CCFOZKDDS6S/" target="_blank" class="instagram-image-link float-left banner-animation"><img src="assets/images/instagram/instagram-1.jpg" alt=""></a>
-                                <a href="https://www.instagram.com/p/CCFOYDNjWF5/" target="_blank" class="instagram-image-link float-left banner-animation"><img src="assets/images/instagram/instagram-2.jpg" alt=""></a>
-                                <a href="https://www.instagram.com/p/CCFOXH6D-zQ/" target="_blank" class="instagram-image-link float-left banner-animation"><img src="assets/images/instagram/instagram-3.jpg" alt=""></a>
-                                <a href="https://www.instagram.com/p/CCFOVcrDDOo/" target="_blank" class="instagram-image-link float-left banner-animation"><img src="assets/images/instagram/instagram-4.jpg" alt=""></a>
-                                <a href="https://www.instagram.com/p/CCFOUajjABP/" target="_blank" class="instagram-image-link float-left banner-animation"><img src="assets/images/instagram/instagram-5.jpg" alt=""></a>
-                                <a href="https://www.instagram.com/p/CCFOS2MDmjj/" target="_blank" class="instagram-image-link float-left banner-animation"><img src="assets/images/instagram/instagram-6.jpg" alt=""></a>
-                            </div>
-                            <div class="instagram-link">
-                                <h5><a href="https://www.instagram.com/myfurniturecom/" target="_blank" rel="noopener noreferrer">HONOTEMPLATE</a></h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Instagramr Section -->
-
-    <!-- Start Footer Section -->
-    <footer class="footer-section footer-bg">
+     <footer class="footer-section footer-bg section-top-gap-100">
         <div class="footer-wrapper">
             <!-- Start Footer Top -->
             <div class="footer-top">
@@ -823,11 +631,11 @@
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">Add To Cart</a>
                                             </div>
                                         </div>
-                                    </div> <!-- End Product Variable Area -->
+                                    </div> 
                                     <div class="modal-product-about-text">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam, reiciendis maiores quidem aperiam, rerum vel recusandae</p>
                                     </div>
-                                    <!-- Start  Product Details Social Area-->
+                               
                                     <div class="modal-product-details-social">
                                         <span class="title">SHARE THIS PRODUCT</span>
                                         <ul>
@@ -838,7 +646,7 @@
                                             <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
                                         </ul>
 
-                                    </div> <!-- End  Product Details Social Area-->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -846,37 +654,15 @@
                 </div>
             </div>
         </div>
-    </div> <!-- End Modal Quickview cart -->
-
-    <!-- ::::::::::::::All JS Files here :::::::::::::: -->
-    <!-- Global Vendor, plugins JS -->
-    <!-- <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
-    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
-    <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>  -->
-
-    <!--Plugins JS-->
-    <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
-    <script src="assets/js/plugins/material-scrolltop.js"></script>
-    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
-    <script src="assets/js/plugins/jquery.zoom.min.js"></script>
-    <script src="assets/js/plugins/venobox.min.js"></script>
-    <script src="assets/js/plugins/jquery.waypoints.js"></script>
-    <script src="assets/js/plugins/jquery.lineProgressbar.js"></script>
-    <script src="assets/js/plugins/aos.min.js"></script>
-    <script src="assets/js/plugins/jquery.instagramFeed.js"></script>
-    <script src="assets/js/plugins/ajax-mail.js"></script> -->
-
-    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    </div> <
     <script src="assets/js/vendor/vendor.min.js"></script>
     <script src="assets/js/plugins/plugins.min.js"></script>
 
     <!-- Main JS -->
     <script src="assets/js/main.js"></script>
+
 </body>
 
-<!-- Mirrored from htmldemo.hasthemes.com/hono/hono/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Jan 2021 00:31:38 GMT -->
+
 
 </html>
