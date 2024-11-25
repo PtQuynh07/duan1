@@ -51,6 +51,7 @@ class UserModel
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    //login
     function checkLogin($user, $pass)
     {
         $sql = "SELECT username, password 
