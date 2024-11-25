@@ -14,24 +14,38 @@ class AdminController
         include "./view/login.php";
     }
 
-    public function login(){
-        if(isset($_POST['submit'])){
+    //dang nhap, dang xuat
+    public function login() {
+        if (isset($_POST['submit'])) {
             $username = $_POST['user'];
             $password = $_POST['pass'];
-
-            $user = new AdminModel();
-
-            if($user->authenticate($username, $password)){
-                $_SESSION['username'] = $username;
-                header("location:?action=home");
-                exit();
-            } else {
-                $error = "Sai thông tin đăng nhập!";
-                include './view/login.php';
+    
+            // Lấy thông tin người dùng từ CSDL
+            $userInfo = $this->adminModel->getUserByUsername($username);
+            if($userInfo){
+                if ($userInfo && $userInfo['password'] === $password) { // So sánh trực tiếp mật khẩu
+                    if ($userInfo['role'] === 'admin') {
+                        // Lưu thông tin vào session
+                        $_SESSION['username'] = $userInfo['username'];
+                        $_SESSION['role'] = $userInfo['role'];
+        
+                        // Chuyển hướng đến trang chính
+                        header("Location: ?action=home");
+                        exit();
+                    } else {
+                        echo "<script>alert('Bạn không có quyền truy cập trang quản trị');</script>";
+                    }
+                } else {
+                    echo "<script>alert('Mật khẩu không đúng');</script>";
+                }
+            }else{
+                echo "<script>alert('Người dùng không tồn tại');</script>";
             }
+            // Hiển thị lại form với thông báo lỗi
+            include './view/login.php';
         }
     }
-
+    
     function logout(){
         include "./view/login.php";
         session_destroy();

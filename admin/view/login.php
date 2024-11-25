@@ -1,5 +1,3 @@
-<?php session_start(); ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,10 +179,4 @@
     <!-- </section> -->
    
 </body>
-<?php
-if (!empty($error)) {
-    $error = htmlspecialchars($error, ENT_QUOTES, 'UTF-8');
-    echo '<script>alert("' . $error . '");</script>';
-}
-?>
 </html>

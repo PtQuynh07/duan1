@@ -76,7 +76,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="index.php?action=logout" onclick="return confirm('Bạn có  muốn đăng xuất?')">
+        <a class="nav-link" href="?action=login" onclick="return confirm('Bạn có  muốn đăng xuất?')">
           <i class="fas fa-sign-out-alt"></i>
         </a>
       </li>

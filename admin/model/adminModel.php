@@ -8,15 +8,23 @@ class AdminModel
     {
         $this->conn = connectDB();
     }
-    private $username = 'admin1';
-    private $password = '123456';
-
-    public function authenticate($username, $password){
-        if($username === $this->username && $password === $this->password){
-            return true;
+    //dang nhap
+    public function getUserByUsername($username) {
+        try {
+            // Query để lấy thông tin người dùng
+            $sql = "SELECT * FROM users WHERE username = :username";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['username' => $username]);
+    
+            // Trả về thông tin người dùng nếu tồn tại
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // Ghi log lỗi nếu có vấn đề
+            error_log("Error fetching user: " . $e->getMessage());
+            return false;
         }
-        return false;
     }
+    
     // san pham
     function allsanpham(){
         $sql = "SELECT * FROM products order by id asc";
