@@ -22,6 +22,77 @@
             height: 100px;
             width: 150px;
         }
+
+      /* Thẻ cha bao gồm cả ảnh và nút */
+.product-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-box img {
+    transition: transform 0.3s ease-in-out;
+}
+.img-fluid {
+margin-bottom: 40px;
+}
+
+/* Phóng to ảnh khi hover vào thẻ cha */
+.product-wrapper:hover .image-box img {
+    transform: scale(1.1);
+}
+
+/* Ẩn div chứa nút ADD TO CART */
+.action-link {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8); /* Nền đen với độ mờ */
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.action-link-left .btn-add-to-cart:hover {
+    color: #bda379; /* Màu vàng đậm */
+}
+
+/* Hiển thị nút ADD TO CART khi hover vào thẻ cha */
+.product-wrapper:hover .action-link {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Chữ "ADD TO CART" đậm hơn */
+.action-link-left .btn-add-to-cart {
+    font-weight: bold; /* Làm chữ đậm */
+    font-size: 16px; /* Tăng kích thước chữ nếu cần */
+    color: #fff; /* Màu chữ trắng */
+    text-decoration: none; /* Loại bỏ gạch chân */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Căn chỉnh icon-heart ngang hàng */
+.action-link-right a {
+    color: #fff; /* Màu trắng để đồng bộ */
+    font-size: 20px; /* Kích thước phù hợp với chữ */
+    margin-left: 10px; /* Khoảng cách giữa chữ và icon */
+    display: inline-block;
+    vertical-align: middle; /* Giúp icon và chữ ngang hàng */
+}
+
+/* Chỉnh toàn bộ action-link */
+.action-link {
+    display: flex; /* Sử dụng flexbox để căn chỉnh */
+    justify-content: space-between; /* Đẩy hai phần trái và phải sang hai đầu */
+    align-items: center; /* Đảm bảo căn giữa theo trục dọc */
+}
+
+
+
     </style>
 
 </head>
@@ -156,15 +227,7 @@
         </div>
     </div>
 
-    <!-- End Hero Slider Section-->
 
-    <!-- Start Service Section -->
-
-    <!-- End Service Section -->
-
-    <!-- Start Banner Section -->
-
-    <!-- End Banner Section -->
 
     <!-- Start Product Default Slider Section -->
     <div class="blog-section" style=" margin-top: 100px;">
@@ -172,18 +235,25 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="blog-wrapper">
-                        <div class="row mb-n6">
-    <?php
-    foreach ($product_category as $sanphamdm) {
-        ?>
+                    <div class="row mb-n6">
+    <?php foreach ($product_category as $sanphamdm) { ?>
         <div class="col-xl-4 col-md-6 col-12 mb-6">
             <div class="blog-list blog-grid-single-item blog-color--golden" data-aos="fade-up" data-aos-delay="0">
-                <div class="image-box">
-                    <a href="#" class="image-link">
-                    <img class="img-fluid" src="assets/images/product/default/home-1/<?=$sanphamdm['image_url']?>" alt="Product Image">
-
-                    </a>
-                
+                <!-- Thẻ cha bọc cả image-box và action-link -->
+                <div class="product-wrapper">
+                    <div class="image-box">
+                        <a href="#" class="image-link">
+                            <img class="img-fluid" src="assets/images/product/default/home-1/<?=$sanphamdm['image_url']?>" alt="Product Image">
+                        </a>
+                    </div>
+                    <div class="action-link">
+                        <div class="action-link-left">
+                            <a href="?action=addToCart&name=<?= urlencode($sanphamdm['product_name'] ?? '') ?>&price=<?= urlencode($sanphamdm['price'] ?? '') ?>&image=<?= urlencode($sanphamdm['image_url'] ?? '') ?>" class="btn-add-to-cart">ADD TO CART</a>
+                        </div>
+                        <div class="action-link-right">
+                            <a href="#"><i class="icon-heart"></i></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="content">
                     <h6 class="title"><a href="#"><?=$sanphamdm['product_name']?></a></h6>
@@ -200,19 +270,14 @@
                         <div class="content-right" style="margin-left: 180px;">
                             <span class="price"><?=$sanphamdm['price']?></span>
                         </div>
-                       
                     </div>
                 </div>
             </div>
-            <a href="?action=addToCart&name=<?= urlencode($sanphamdm['product_name'] ?? '') ?>&price=<?= urlencode($sanphamdm['price'] ?? '') ?>&image=<?= urlencode($sanphamdm['image_url'] ?? '') ?>" class="btn-add-to-cart">ADD TO CART</a>
-
         </div>
-        <?php
-    }
-
-?>
-
+    <?php } ?>
 </div>
+
+
 
                     <!-- Start Pagination -->
                     <div class="page-pagination text-center" data-aos="fade-up"  data-aos-delay="0">
