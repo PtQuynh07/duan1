@@ -27,21 +27,33 @@ class UserController
     //xử lý đăng nhập
     public function login() {
         // Kiểm tra nếu form đã được gửi
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Lấy thông tin từ form
-            $formUsername = trim($_POST['user']);
-            $formPassword = trim($_POST['pass']);
-             $userModel = new UserModel();
-             $user = $userModel->checkLogin($formUsername, $formPassword);
-             if ($user) {
-            $_SESSION['user'] = $user;  
-             header('Location: ?action=home'); 
-                exit; 
+            $username = trim($_POST['user'] ?? '');
+            $password = trim($_POST['pass'] ?? '');
+    
+            if (empty($username) || empty($password)) {
+                $error = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!';
             } else {
-            $error = 'Đăng nhập không thành công!';
+                $userModel = new UserModel();
+                $user = $userModel->checkLogin($username, $password);
+    
+                if ($user) {
+                    // Lưu ID và thông tin cần thiết của người dùng vào session
+                    $_SESSION['user'] = [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                    ];
+    
+                    // Chuyển hướng đến trang chủ
+                    header('Location: ?action=home');
+                    exit;
+                } else {
+                    $error = 'Đăng nhập không thành công!';
+                }
             }
         }
-
+    
         include './view/login.php';
     }
 
@@ -153,5 +165,46 @@ class UserController
             'newTotalFormatted' => number_format($newTotal, 0, ',', '.') . 'đ'
         ]);
         exit;
+    }
+
+    //xử lý đăng ký tài khoản
+    public function register() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $username = $_POST['username'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $confirmPassword = $_POST['confirm_password'];
+
+            // Kiểm tra mật khẩu khớp
+            if ($password !== $confirmPassword) {
+                $error = "Mật khẩu không khớp.";
+                require 'views/register.php';
+                return;
+            }
+
+            // Kiểm tra tài khoản đã tồn tại
+            if ($this->userModel->userExists($username, $email)) {
+                $error = "Tên đăng nhập hoặc email đã được sử dụng.";
+                require 'views/register.php';
+                return;
+            }
+
+            // Tạo tài khoản
+            $success = $this->userModel->createUser($username, $email, $password);
+            if ($success) {
+                session_destroy();
+                header('Location: ?action=login');
+                exit;
+            } else {
+                $error = "Đã xảy ra lỗi trong quá trình tạo tài khoản.";
+            }
+        }
+
+        require 'views/register.php';
+    }
+
+    //hiển thị form đăng ký
+    public function showSignUpForm(){
+        include "./view/register.php";
     }
 }

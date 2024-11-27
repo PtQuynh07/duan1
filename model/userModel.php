@@ -52,49 +52,46 @@ class UserModel
     }
 
     //login
-    function checkLogin($user, $pass)
+    public function checkLogin($username, $password)
     {
-        $sql = "SELECT username, password 
-                FROM users 
-                WHERE username = :username 
-                  AND password = :password 
-                  AND role = 'client'";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt->bindParam(':username', $user, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $pass, PDO::PARAM_STR);
-
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
+        if ($user && $password === $user['password']) {
+            // Trả về toàn bộ thông tin người dùng (bao gồm ID)
+            return $user;
         }
+
+        return false;
     }
 
-   function isLoggedIn() {
-        return isset($_SESSION['user']); 
+
+
+    function isLoggedIn()
+    {
+        return isset($_SESSION['user']);
     }
 
-      // Sản phẩm theo danh mục
-      function getProductCategory($id) {
+    // Sản phẩm theo danh mục
+    function getProductCategory($id)
+    {
         if (isset($id)) {
             $sql = "SELECT p.product_name, pv.price, pi.image_url
                     FROM products p
                     JOIN product_variants pv ON p.id = pv.product_id
                     JOIN product_images pi ON pv.id = pi.product_variant_id
                    WHERE p.category_id = :id AND pi.is_primary = 1";
-                
-    
+
+
             $stmt = $this->conn->prepare($sql);
-    
+
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } else {
-                return []; 
+                return [];
             }
         } else {
             echo "ID danh mục không hợp lệ";
@@ -103,32 +100,44 @@ class UserModel
     }
 
 
-        function getCategoryInfo($id) {
-            $sql = "SELECT category_name FROM categories WHERE id = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return null;  
-            }
+    function getCategoryInfo($id)
+    {
+        $sql = "SELECT category_name FROM categories WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            return null;
         }
+    }
 
 
-   
-        
 
-        public function totalCart($cartItems) {
-            $total = 0;
-            foreach ($cartItems as $item) {
-                $total += $item['price'] * $item['quantity'];
-            }
-            return $total;
+
+
+    public function totalCart($cartItems)
+    {
+        $total = 0;
+        foreach ($cartItems as $item) {
+            $total += $item['price'] * $item['quantity'];
         }
+        return $total;
+    }
 
-        
-    
-    
+    public function createUser($username, $email, $password) {
+        $hashedPassword = $password;
+        $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([$username, $email, $hashedPassword]);
+    }
+
+    public function userExists($username, $email) {
+        $query = "SELECT COUNT(*) FROM users WHERE username = ? OR email = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$username, $email]);
+        return $stmt->fetchColumn() > 0; 
+    }
 }
