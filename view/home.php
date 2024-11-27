@@ -100,7 +100,7 @@
                             <!-- Start Header Logo -->
                             <div class="header-logo">
                                 <div class="logo">
-                                    <a href="index.html"><img src="assets/images/logo/logo.png" alt=""></a>
+                                    <a href="?action=home"><img src="assets/images/logo/logo.png" alt=""></a>
                                 </div>
                             </div>
                             <!-- End Header Logo -->
@@ -158,24 +158,6 @@
         </div>
     </header>
 
-    <!-- Start Offcanvas Mobile Menu Section -->
-    <div id="offcanvas-about" class="offcanvas offcanvas-rightside offcanvas-mobile-about-section">
-        <!-- Start Offcanvas Header -->
-        <div class="offcanvas-header text-right">
-            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
-        </div> <!-- End Offcanvas Header -->
-
-        <!-- End Mobile contact Info -->
-    </div> <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
-
-    <!-- Start Offcanvas Addcart Section -->
-    <div id="offcanvas-add-cart" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
-        <!-- Start Offcanvas Header -->
-        <div class="offcanvas-header text-right">
-            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
-        </div> <!-- End Offcanvas Header -->
-    </div>
-
     <!-- Start Offcanvas Search Bar Section tìm kiếm -->
     <div id="search" class="search-modal">
         <form class="form-search">
@@ -189,13 +171,6 @@
             <button type="button" class="close">×</button>
         </form>
     </div>
-
-
-
-    <!-- End Offcanvas Search Bar Section -->
-
-    <!-- Offcanvas Overlay -->
-    <div class="offcanvas-overlay"></div>
 
     <!-- Start Hero Slider Section-->
     <div class="hero-slider-section">
@@ -353,7 +328,7 @@
                                     ?>
                                         <div class="product-default-single-item product-color--golden swiper-slide">
                                             <div class="image-box">
-                                                <a href="" class="image-link">
+                                                <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>" class="image-link">
                                                     <img class="img_product" src="./assets/images/product/default/home-1/<?php echo $spmoi['image_url'] ?>" alt="">
                                                     <!-- <img src="./assets/images/product/default/home-1/<?php echo $spmoi['hover_image'] ?>" alt=""> -->
                                                 </a>
@@ -362,7 +337,7 @@
                                                 </div>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a href="cart.html">Add to Cart</a>
+                                                        <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>">Buy Now</a>
                                                     </div>
                                                     <div class="action-link-right">
                                                         <a href="#"><i class="icon-heart"></i></a>
@@ -526,13 +501,13 @@
                                     ?>
                                         <div class="product-default-single-item product-color--golden swiper-slide">
                                             <div class="image-box">
-                                                <a href="" class="image-link">
+                                                <a href="?action=productDetail&id=<?php echo $spnoibat['id'] ?>" class="image-link">
                                                     <img src="./assets/images/product/default/home-1/<?php echo $spnoibat['image_url'] ?>" alt="">
                                                     <!-- <img src="./assets/images/product/default/home-1/<?php echo $spnoibat['hover_image'] ?>" alt=""> -->
                                                 </a>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a href="cart.html">Add to Cart</a>
+                                                        <a href="?action=productDetail&id=<?php echo $spnoibat['id'] ?>">Buy Now</a>
                                                     </div>
                                                     <div class="action-link-right">
                                                         <a href="wishlist.html"><i class="icon-heart"></i></a>
