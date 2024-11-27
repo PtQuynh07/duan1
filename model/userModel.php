@@ -54,27 +54,20 @@ class UserModel
     }
 
     //login
-    function checkLogin($user, $pass)
+    public function checkLogin($username, $password)
     {
-        $sql = "SELECT username, password 
-                FROM users 
-                WHERE username = :username 
-                  AND password = :password 
-                  AND role = 'client'";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt->bindParam(':username', $user, PDO::PARAM_STR);
-        $stmt->bindParam(':password', $pass, PDO::PARAM_STR);
-
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
+        if ($user && $password === $user['password']) {
+            // Trả về toàn bộ thông tin người dùng (bao gồm ID)
+            return $user;
         }
-    }
 
+        return false;
+    }
+   
     function isLoggedIn()
     {
         return isset($_SESSION['user']);
@@ -121,6 +114,8 @@ class UserModel
         }
     }
 
+
+
     public function totalCart($cartItems)
     {
         $total = 0;
@@ -129,6 +124,20 @@ class UserModel
         }
         return $total;
     }
+
+    public function createUser($username, $email, $password) {
+        $hashedPassword = $password;
+        $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([$username, $email, $hashedPassword]);
+    }
+
+    public function userExists($username, $email) {
+        $query = "SELECT COUNT(*) FROM users WHERE username = ? OR email = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$username, $email]);
+        return $stmt->fetchColumn() > 0; 
+
 
     //sp chi tiết
     function getRawProductDetails($id)
@@ -181,6 +190,7 @@ class UserModel
         }
         
         return $data[$id];
+
     }
 }
 
