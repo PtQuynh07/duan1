@@ -17,10 +17,10 @@
         case 'signUp':
             break;
 
-         case 'product_category':
+        case 'product_category':
                 $userController -> product_category($_GET['id']);
                 break;
-         case 'addToCart':
+        case 'addToCart':
                     $userController->addToCart();
                     break;
         case 'cart':
@@ -32,6 +32,10 @@
         case 'updateQuantity':
                     $userController->updateQuantity();
                     break;
+        case 'productDetail':
+            $userController->productDetail();
+            break;
+        
     }
 
 ?>
