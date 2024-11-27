@@ -20,6 +20,7 @@ class UserModel
     function getSpMoi()
     {
         $sql = "SELECT
+            p.id,
             p.product_name, 
             pv.price,
             pi.image_url,
@@ -37,6 +38,7 @@ class UserModel
     function getSpNoibat()
     {
         $sql = "SELECT
+            p.id,
             p.product_name, 
             pv.price,
             pi.image_url,
@@ -65,9 +67,7 @@ class UserModel
 
         return false;
     }
-
-
-
+   
     function isLoggedIn()
     {
         return isset($_SESSION['user']);
@@ -77,7 +77,7 @@ class UserModel
     function getProductCategory($id)
     {
         if (isset($id)) {
-            $sql = "SELECT p.product_name, pv.price, pi.image_url
+            $sql = "SELECT p.id, p.product_name, pv.price, pi.image_url
                     FROM products p
                     JOIN product_variants pv ON p.id = pv.product_id
                     JOIN product_images pi ON pv.id = pi.product_variant_id
@@ -116,8 +116,6 @@ class UserModel
 
 
 
-
-
     public function totalCart($cartItems)
     {
         $total = 0;
@@ -139,5 +137,60 @@ class UserModel
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$username, $email]);
         return $stmt->fetchColumn() > 0; 
+
+
+    //sp chi tiết
+    function getRawProductDetails($id)
+    {
+        $sql = "SELECT
+                p.id as productId,
+                p.product_name,
+                p.description,
+                p.material,
+                pv.price,
+                pi.image_url,
+                vo.option_color
+                FROM products p
+                JOIN product_variants pv ON p.id = pv.product_id
+                JOIN product_images pi ON pv.id = pi.product_variant_id
+                JOIN variant_options vo ON pv.id = vo.product_variant_id
+                WHERE p.id = '$id';
+                ";
+        $result = $this->conn->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+    function getFormattedProductData($id) {
+        //lấy dữ liệu thô
+        $productDetails = $this->getRawProductDetails($id);
+
+        //cbi dữ liệu đã xử lý
+        $data = [];
+        foreach($productDetails as $detail){
+            $id = $detail['productId'];
+
+            //xử lý cấp độ sản phẩm
+            if(!isset($data[$id])){
+                $data[$id] = [
+                    'product_name' => $detail['product_name'],
+                    'description' => $detail['description'],
+                    'material' => $detail['material'],
+                    'price' => $detail['price'],
+                    'variants' => []
+                ];
+            }
+            // xử lí cấp độ biến thể 
+            $variantKey = $detail['option_color'];
+            if(!isset($data[$id]['variants'][$variantKey])){
+                $data[$id]['variants'][$variantKey] = [
+                    'images' => []
+                ];
+            }
+            //thêm ảnh vào biến thể
+            $data[$id]['variants'][$variantKey]['images'][] = $detail['image_url'];
+        }
+        
+        return $data[$id];
+
     }
 }
+

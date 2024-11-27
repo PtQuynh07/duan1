@@ -62,6 +62,7 @@ class UserController
         $product_category = $this->userModel->getProductCategory($id);
         $danhmucs = $this->userModel->getDanhmuc();
         $category_info = $this->userModel->getCategoryInfo($id);
+        $spnoibats = $this->userModel->getSpNoibat();
         include "./view/product_category.php";
     }
 
@@ -206,5 +207,14 @@ class UserController
     //hiển thị form đăng ký
     public function showSignUpForm(){
         include "./view/register.php";
+
+    //sp chi tiết
+    function productDetail(){
+        $danhmucs = $this->userModel->getDanhmuc();
+        $spnoibats = $this->userModel->getSpNoibat();
+        $id = $_GET['id'];
+        $productData = $this->userModel->getFormattedProductData($id);
+        include "./view/product_detail.php";
+
     }
 }
