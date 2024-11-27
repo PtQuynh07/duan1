@@ -67,7 +67,7 @@ class UserModel
 
         return false;
     }
-   
+
     function isLoggedIn()
     {
         return isset($_SESSION['user']);
@@ -125,20 +125,22 @@ class UserModel
         return $total;
     }
 
-    public function createUser($username, $email, $password) {
+    public function createUser($username, $email, $password)
+    {
         $hashedPassword = $password;
         $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         return $stmt->execute([$username, $email, $hashedPassword]);
     }
 
-    public function userExists($username, $email) {
+    public function userExists($username, $email)
+    {
         $query = "SELECT COUNT(*) FROM users WHERE username = ? OR email = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->execute([$username, $email]);
-        return $stmt->fetchColumn() > 0; 
-
-
+        return $stmt->fetchColumn() > 0;
+    }
+    
     //sp chi tiết
     function getRawProductDetails($id)
     {
@@ -159,17 +161,18 @@ class UserModel
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
-    function getFormattedProductData($id) {
+    function getFormattedProductData($id)
+    {
         //lấy dữ liệu thô
         $productDetails = $this->getRawProductDetails($id);
 
         //cbi dữ liệu đã xử lý
         $data = [];
-        foreach($productDetails as $detail){
+        foreach ($productDetails as $detail) {
             $id = $detail['productId'];
 
             //xử lý cấp độ sản phẩm
-            if(!isset($data[$id])){
+            if (!isset($data[$id])) {
                 $data[$id] = [
                     'product_name' => $detail['product_name'],
                     'description' => $detail['description'],
@@ -180,7 +183,7 @@ class UserModel
             }
             // xử lí cấp độ biến thể 
             $variantKey = $detail['option_color'];
-            if(!isset($data[$id]['variants'][$variantKey])){
+            if (!isset($data[$id]['variants'][$variantKey])) {
                 $data[$id]['variants'][$variantKey] = [
                     'images' => []
                 ];
@@ -188,9 +191,7 @@ class UserModel
             //thêm ảnh vào biến thể
             $data[$id]['variants'][$variantKey]['images'][] = $detail['image_url'];
         }
-        
-        return $data[$id];
 
+        return $data[$id];
     }
 }
-

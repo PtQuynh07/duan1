@@ -138,6 +138,67 @@
         .img-fluid {
             margin-bottom: 40px;
         }
+
+        #search {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            z-index: 1000;
+        }
+
+        #search form {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Nút Close */
+        #search .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: white;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+            margin-right: 280px;
+        }
+
+        #search .close:hover {
+            color: #f1c40f;
+            /* Màu nổi bật khi hover */
+        }
+
+        /* Input Search */
+        #search input[type="search"] {
+            width: 50%;
+            margin-top: -280px;
+            padding: 10px 15px;
+            border: 1px solid white;
+            border-radius: 25px;
+            background-color: transparent;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        #search input[type="search"]::placeholder {
+            color: #ddd;
+        }
+
+        #search .icon-search {
+            margin-right: 10px;
+            margin-left: 130px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
     </style>
 
 </head>
@@ -153,7 +214,7 @@
                             <!-- Start Header Logo -->
                             <div class="header-logo">
                                 <div class="logo">
-                                    <a href="index.html"><img src="assets/images/logo/logo.png" alt=""></a>
+                                    <a href="?action=home"><img src="assets/images/logo/logo.png" alt=""></a>
                                 </div>
                             </div>
                             <!-- End Header Logo -->
@@ -200,7 +261,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="login.html"><i class="bi bi-person-circle"></i></a>
+                                    <a href="?action=login"><i class="bi bi-person-circle"></i></a>
                                 </li>
                             </ul>
                             <!-- End Header Action Link -->
@@ -237,12 +298,17 @@
 
 
 
-    <!-- Start Offcanvas Search Bar Section -->
+    <!-- Start Offcanvas Search Bar Section tìm kiếm -->
     <div id="search" class="search-modal">
-        <button type="button" class="close">×</button>
-        <form>
-            <input type="search" placeholder="type keyword(s) here" />
-            <button type="submit" class="btn btn-lg btn-golden">Search</button>
+        <form class="form-search">
+            <!-- Icon Search -->
+            <span class="icon-search">
+                <i class="bi bi-search"></i>
+            </span>
+            <!-- Input -->
+            <input type="search" placeholder="Tìm kiếm sản phẩm" />
+            <!-- Close Button -->
+            <button type="button" class="close">×</button>
         </form>
     </div>
     <!-- End Offcanvas Search Bar Section -->
@@ -300,7 +366,7 @@
                                             </div>
                                             <div class="action-link">
                                                 <div class="action-link-left">
-                                                    <a href="?action=addToCart&name=<?= urlencode($sanphamdm['product_name'] ?? '') ?>&price=<?= urlencode($sanphamdm['price'] ?? '') ?>&image=<?= urlencode($sanphamdm['image_url'] ?? '') ?>" class="btn-add-to-cart">BUY NOW</a>
+                                                    <a href="?action=productDetail&id=<?php echo $sanphamdm['id'] ?>" class="btn-add-to-cart">BUY NOW</a>
                                                 </div>
                                                 <div class="action-link-right">
                                                     <a href="#"><i class="icon-heart"></i></a>

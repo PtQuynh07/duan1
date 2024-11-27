@@ -22,25 +22,22 @@ switch ($action) {
         }
         break;
 
-        case 'product_category':
-                $userController -> product_category($_GET['id']);
-                break;
-        case 'addToCart':
-                    $userController->addToCart();
-                    break;
-        case 'cart':
-                    $userController->cart();
-                    break;
-        case 'removeFromCart':
-                    $userController->removeFromCart();
-                    break;
-        case 'updateQuantity':
-                    $userController->updateQuantity();
-                    break;
-        case 'productDetail':
-            $userController->productDetail();
-            break;
-        
-    }
-
-?>
+    case 'product_category':
+        $userController->product_category($_GET['id']);
+        break;
+    case 'addToCart':
+        $userController->addToCart();
+        break;
+    case 'cart':
+        $userController->cart();
+        break;
+    case 'removeFromCart':
+        $userController->removeFromCart();
+        break;
+    case 'updateQuantity':
+        $userController->updateQuantity();
+        break;
+    case 'productDetail':
+        $userController->productDetail();
+        break;
+}
