@@ -168,7 +168,7 @@
 
                     <footer style="margin-bottom: -25px;">
                         Chưa có tài khoản?
-                        <a href="#">Bấm vào đây</a>
+                        <a href="?action=signUp">Bấm vào đây</a>
                         để đăng ký.
                     </footer>
                 </div>

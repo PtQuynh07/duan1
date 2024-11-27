@@ -184,35 +184,38 @@ class UserController
             // Kiểm tra mật khẩu khớp
             if ($password !== $confirmPassword) {
                 $error = "Mật khẩu không khớp.";
-                require 'views/register.php';
+                require './view/signUp.php';
                 return;
             }
 
             // Kiểm tra tài khoản đã tồn tại
             if ($this->userModel->userExists($username, $email)) {
                 $error = "Tên đăng nhập hoặc email đã được sử dụng.";
-                require 'views/register.php';
+                require './view/signUp.php';
                 return;
             }
 
             // Tạo tài khoản
             $success = $this->userModel->createUser($username, $email, $password);
             if ($success) {
+                echo "<script>
+                        alert('Đăng kí tài khoản thành công!');
+                        window.location.href = '?action=login';
+                    </script>";
                 session_destroy();
-                header('Location: ?action=login');
                 exit;
             } else {
                 $error = "Đã xảy ra lỗi trong quá trình tạo tài khoản.";
             }
         }
 
-        require 'views/register.php';
+        require './view/signUp.php';
     }
 
     //hiển thị form đăng ký
     public function showSignUpForm()
     {
-        include "./view/register.php";
+        include "./view/signUp.php";
     }
 
     //sp chi tiết
