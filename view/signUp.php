@@ -170,11 +170,6 @@
                         <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirm Password">
                         <button type="submit">Register</button>
                     </form>
-                    <!-- <form class="form" method="POST">
-                        <input type="text" name="user" placeholder="Username" required>
-                        <input type="password" name="pass" placeholder="Password" required>
-                        <input type="submit" value="Sign Up" name="submit" class="btn btn-success">
-                    </form> -->
                 </div>
             </div>
         </div>

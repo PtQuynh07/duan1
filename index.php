@@ -21,7 +21,22 @@ switch ($action) {
             $userController->showSignUpForm();
         }
         break;
+    case 'forgot_form':
+        $userController->showForgotPasswordForm();
+        break;
 
+    case 'forgot_password':
+        $userController->handleForgotPassword();
+        break;
+
+    case 'reset_form':
+        $token = $_GET['token'] ?? '';
+        $userController->showResetPasswordForm($token);
+        break;
+
+    case 'reset_password':
+        $userController->handleResetPassword();
+        break;
     case 'product_category':
         $userController->product_category($_GET['id']);
         break;

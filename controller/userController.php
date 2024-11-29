@@ -45,7 +45,7 @@ class UserController
                         'id' => $user['id'],
                         'username' => $user['username'],
                     ];
-
+                    
                     // Chuyển hướng đến trang chủ
                     header('Location: ?action=home');
                     exit;
@@ -226,5 +226,54 @@ class UserController
         $id = $_GET['id'];
         $productData = $this->userModel->getFormattedProductData($id);
         include "./view/product_detail.php";
+    }
+
+    public function showForgotPasswordForm()
+    {
+        include './view/forgot_password.php';
+    }
+
+    public function handleForgotPassword()
+    {
+        $email = $_POST['email'];
+        $user = $this->userModel->findByEmail($email);
+
+        if ($user) {
+            $token = $this->userModel->createPasswordResetToken($email);
+            $resetLink = "http://localhost/duan1/index.php?action=reset_form&token=$token";
+
+            // Gửi email (thay thế bằng công cụ chuyên nghiệp nếu cần)
+            mail($email, "Reset Password", "Click here to reset your password: $resetLink");
+
+            // echo '<a href="'.$resetLink.'">Bấm vào đây</a> để đổi lại mật khẩu.';
+            header('location: '.$resetLink);
+        } else {
+            echo "Email không tồn tại.";
+        }
+    }
+
+    public function showResetPasswordForm($token)
+    {
+        $reset = $this->userModel->findByToken($token);
+
+        if ($reset) {
+            include './view/reset_password.php';
+        } else {
+            echo "Token không hợp lệ hoặc đã hết hạn.";
+        }
+    }
+
+    public function handleResetPassword()
+    {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        if ($this->userModel->updatePassword($email, $password)) {
+            $this->userModel->deleteToken($email);
+            echo "Mật khẩu đã được cập nhật thành công.";
+            header("Location: index.php?action=login");
+        } else {
+            echo "Có lỗi xảy ra. Vui lòng thử lại.";
+        }
     }
 }

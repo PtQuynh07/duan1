@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,7 +89,7 @@
 
         .card .logo {
             position: absolute;
-            top: 25px;
+            top: 15px;
             left: 50%;
             translate: -50% 0;
             width: 64px;
@@ -101,12 +99,12 @@
         .card>h4 {
             font-size: 22px;
             font-weight: 400;
-            margin: 0 0 38px;
+            margin: 0 0 25px;
             color: black;
         }
 
         .form {
-            margin: 0 0 44px 0;
+            margin: 0 0 33px 0;
             display: grid;
             gap: 12px;
         }
@@ -159,19 +157,16 @@
             <div class="text-black">
                 <div class="card">
                     <img class="logo" src="./assets/images/logo/logo.jpg" style="mix-blend-mode: multiply; width:auto; height:130px;">
-                    <h4 class="margin-bottom:80px;">Đăng nhập</h4>
-                    <form class="form" method="POST">
-                        <input type="text" name="user" placeholder="Tên đăng nhập" required>
-                        <input type="password" name="pass" placeholder="Mật khẩu" required>
-                        <input type="submit" value="Đăng nhập" name="submit" class="btn btn-success">
+                    <h4 class="margin-bottom:40px;">Nhập mật khẩu mới</h4>
+                    <?php if (!empty($error)): ?>
+                        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+                    <?php endif; ?>
+                    <form method="POST" action="index.php?action=reset_password" class="form">
+                        <input type="hidden" name="email" value="<?php echo htmlspecialchars($reset['email']); ?>">
+                        <input type="password" id="password" name="password" required placeholder="Password">
+                        <input type="password" id="password_confirm" name="password_confirm" required placeholder="Password Confirm">
+                        <button type="submit" name="submit">Xác nhận</button>
                     </form>
-
-                    <footer style="margin-bottom: -25px;">
-                        Chưa có tài khoản?
-                        <a href="?action=signUp">Bấm vào đây</a>
-                        để đăng ký.<br>
-                        <a href="?action=forgot_form">Quên mật khẩu?</a>
-                    </footer>
                 </div>
             </div>
         </div>
@@ -179,10 +174,5 @@
     <!-- </section> -->
 
 </body>
-<?php
-if (!empty($error)) {
-    $error = htmlspecialchars($error, ENT_QUOTES, 'UTF-8');
-    echo '<script>alert("' . $error . '");</script>';
-}
-?>
+
 </html>
