@@ -366,7 +366,7 @@
 
                             <div class="d-flex align-items-center ">
                                 <div class="product-buy-now-btn">
-                                    <a href="" class="btn btn-block btn-lg btn-black-default-hover">Buy Now</a>
+                                    <a href="?action=checkout" class="btn btn-block btn-lg btn-black-default-hover">Buy Now</a>
                                 </div>
                                 <div class="product-add-cart-btn">
                                     <a href="" class="btn btn-block btn-lg btn-black-default-hover">+ Add To Cart</a>

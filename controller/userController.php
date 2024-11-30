@@ -228,6 +228,7 @@ class UserController
         include "./view/product_detail.php";
     }
 
+//quen mat khau
     public function showForgotPasswordForm()
     {
         include './view/forgot_password.php';
@@ -275,5 +276,11 @@ class UserController
         } else {
             echo "Có lỗi xảy ra. Vui lòng thử lại.";
         }
+    }
+
+    //checkout
+    function checkout(){
+        $danhmucs = $this->userModel->getDanhmuc();
+        include "./view/checkout.php";
     }
 }
