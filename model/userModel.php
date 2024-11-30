@@ -1,6 +1,7 @@
 <?php
 
 include "./includes/connect.php";
+
 class UserModel
 {
     public $conn;
@@ -8,15 +9,18 @@ class UserModel
     function __construct()
     {
         $this->conn = connectDB();
+        // Đặt múi giờ Việt Nam
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
     }
 
-    //trang chủ
+    // trang chủ
     function getDanhmuc()
     {
         $sql = "SELECT * FROM categories";
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+
     function getSpMoi()
     {
         $sql = "SELECT
@@ -29,8 +33,7 @@ class UserModel
             JOIN product_variants as pv ON p.id= pv.product_id
             JOIN product_images as pi ON pv.id= pi.product_variant_id
             WHERE pi.is_primary = 1
-            ORDER BY latest_date DESC
-            ";
+            ORDER BY latest_date DESC";
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -47,25 +50,25 @@ class UserModel
             JOIN product_variants as pv ON p.id= pv.product_id
             JOIN product_images as pi ON pv.id= pi.product_variant_id AND pi.is_primary=1
             WHERE p.product_featured = 1
-            ORDER BY latest_date DESC
-            ";
+            ORDER BY latest_date DESC";
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //login
+    // login
     public function checkLogin($username, $password)
     {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && $password === $user['password']) {
+        // Kiểm tra người dùng và xác thực mật khẩu với password_verify
+        if ($user && password_verify($password, $user['password'])) {
             // Trả về toàn bộ thông tin người dùng (bao gồm ID)
             return $user;
         }
 
-        return false;
+        return false; // Trả về false nếu thông tin không khớp
     }
 
     function isLoggedIn()
@@ -83,9 +86,7 @@ class UserModel
                     JOIN product_images pi ON pv.id = pi.product_variant_id
                    WHERE p.category_id = :id AND pi.is_primary = 1";
 
-
             $stmt = $this->conn->prepare($sql);
-
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
@@ -98,7 +99,6 @@ class UserModel
             exit;
         }
     }
-
 
     function getCategoryInfo($id)
     {
@@ -113,8 +113,6 @@ class UserModel
             return null;
         }
     }
-
-
 
     public function totalCart($cartItems)
     {
@@ -140,7 +138,7 @@ class UserModel
         $stmt->execute([$username, $email]);
         return $stmt->fetchColumn() > 0;
     }
-    
+
     //sp chi tiết
     function getRawProductDetails($id)
     {
@@ -156,11 +154,11 @@ class UserModel
                 JOIN product_variants pv ON p.id = pv.product_id
                 JOIN product_images pi ON pv.id = pi.product_variant_id
                 JOIN variant_options vo ON pv.id = vo.product_variant_id
-                WHERE p.id = '$id';
-                ";
+                WHERE p.id = '$id';";
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+
     function getFormattedProductData($id)
     {
         //lấy dữ liệu thô
@@ -193,5 +191,58 @@ class UserModel
         }
 
         return $data[$id];
+    }
+
+    //chức năng quên pass
+    public function findByEmail($email)
+    {
+        $sql = 'SELECT * FROM `users` WHERE email = :email';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePassword($email, $password)
+    {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $sql = 'UPDATE users SET password = :password WHERE email = :email';
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            'password' => $hashedPassword,
+            'email' => $email
+        ]);
+    }
+
+    public function createPasswordResetToken($email)
+    {
+        $token = bin2hex(random_bytes(32));
+
+        // Đặt thời gian hết hạn token là 1 giờ từ khi tạo
+        $expires = date("Y-m-d H:i:s", strtotime('+1 hour'));
+
+        $sql = 'INSERT INTO password_resets (email, token, expires_at) VALUES (:email, :token, :expires)';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'email' => $email,
+            'token' => $token,
+            'expires' => $expires
+        ]);
+
+        return $token;
+    }
+
+    public function findByToken($token)
+    {
+        $sql = 'SELECT * FROM password_resets WHERE token = :token AND expires_at > NOW()';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['token' => $token]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteToken($email)
+    {
+        $sql = 'DELETE FROM password_resets WHERE email = :email';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['email' => $email]);
     }
 }
