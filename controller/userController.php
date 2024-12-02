@@ -286,6 +286,7 @@ class UserController
         $spnoibats = $this->userModel->getSpNoibat();
         $ketqua = $this->userModel->searchProducts($search);
         include "./view/search.php";
+    }
       
     //checkout
     function checkout()
