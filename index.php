@@ -55,7 +55,11 @@ switch ($action) {
     case 'productDetail':
         $userController->productDetail();
         break;
+    // checkout
     case 'checkout':
         $userController->checkout();
+        break;
+    case 'createOrder':
+        $userController->createOrder();
         break;
 }

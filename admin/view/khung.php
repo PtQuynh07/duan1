@@ -155,7 +155,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="?action=orders" class="nav-link">
               <i class='fas fa-cart-arrow-down'></i>
               <p>
                 Quản lý đơn hàng

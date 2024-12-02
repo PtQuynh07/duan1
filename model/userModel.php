@@ -245,4 +245,19 @@ class UserModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['email' => $email]);
     }
+
+    //checkout
+    function createOrder($fullName, $address, $phone, $email, $paymentMethod, $totalAmount, $note){
+        $sql = "INSERT INTO oders(customer_name, customer_email, customer_phone, total_amount, 	payment_method, shipping_address, note)
+                VALUES ('$fullName', '$email', '$phone', '$totalAmount', '$paymentMethod', '$address', '$note')";
+        $this->conn->query($sql);
+    }
+
+    function addOrderItem($orderId, $productId, $quantity, $unitPrice){
+        // Tính subtotal
+        $subtotal = $unitPrice * $quantity;
+        $sql = "INSERT INTO order_items(order_id, quantity, unit_price, subtotal)
+                VALUES ('$orderId', '$quantity', '$unitPrice', '$subtotal')";
+        $this->conn->query($sql);
+    }
 }

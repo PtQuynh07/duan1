@@ -167,6 +167,9 @@
             font-weight: bold;
             box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
         }
+        .align-items-center{
+            margin-left: -20px;
+        }
     </style>
 </head>
 
@@ -360,14 +363,61 @@
                             <div class="variable-single-item ">
                                 <span>Quantity</span>
                                 <div class="product-variable-quantity">
-                                    <input min="1" max="100" value="1" type="number">
+                                    <input min="1" max="100" value="1" type="number" id="quantity-input">
                                 </div>
                             </div>
-
                             <div class="d-flex align-items-center ">
-                                <div class="product-buy-now-btn">
-                                    <a href="?action=checkout" class="btn btn-block btn-lg btn-black-default-hover">Buy Now</a>
+                                <!-- Nút Buy Now -->
+                                <div class="product-add-cart-btn">
+                                    <a href="javascript:void(0);" class="btn-buy-now btn btn-block btn-lg btn-black-default-hover"
+                                        data-product-name="<?php echo $productData['product_name']; ?>"
+                                        data-product-price="<?php echo $productData['price']; ?>"
+                                        data-selected-color="<?php echo $color === array_key_first($productData['variants']) ? 'checked' : ''; ?>"
+                                        data-quantity="1"
+                                        data-product-description="<?php echo $productData['description']; ?>">Buy Now</a>
                                 </div>
+
+                                <!-- js xử lý dữ liệu nút buynow -->
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        const buyNowButton = document.querySelector('.btn-buy-now');
+                                        const quantityInput = document.getElementById('quantity-input');
+
+                                        // Hàm để lấy màu sắc đã chọn
+                                        function getSelectedColor() {
+                                            const selectedColorInput = document.querySelector('.color-select:checked');
+                                            return selectedColorInput ? selectedColorInput.value : null;
+                                        }
+
+                                        // Cập nhật data-quantity khi người dùng thay đổi số lượng
+                                        quantityInput.addEventListener('input', () => {
+                                            buyNowButton.setAttribute('data-quantity', quantityInput.value);
+                                        });
+
+                                        buyNowButton.addEventListener('mouseover', () => {
+                                            // Lấy dữ liệu từ nút
+                                            const productName = buyNowButton.getAttribute('data-product-name');
+                                            const productPrice = buyNowButton.getAttribute('data-product-price');
+                                            const selectedColor = getSelectedColor(); // Lấy màu đã chọn
+                                            const quantity = quantityInput.value; // Lấy số lượng
+                                            const productDescription = buyNowButton.getAttribute('data-product-description');
+
+                                            // Cập nhật data-quantity
+                                            buyNowButton.setAttribute('data-quantity', quantity);
+
+                                            // Tạo URL
+                                            const checkoutUrl = `?action=checkout&product_name=${encodeURIComponent(productName)}&product_price=${productPrice}&color=${encodeURIComponent(selectedColor)}&quantity=${quantity}&product_description=${encodeURIComponent(productDescription)}`;
+
+                                            // Hiển thị URL khi hover
+                                            buyNowButton.setAttribute('href', checkoutUrl);
+
+                                        });
+
+                                        // Khởi tạo giá trị data-quantity ban đầu
+                                        buyNowButton.setAttribute('data-quantity', quantityInput.value);
+                                    });
+                                </script>
+
                                 <div class="product-add-cart-btn">
                                     <a href="" class="btn btn-block btn-lg btn-black-default-hover">+ Add To Cart</a>
                                 </div>
