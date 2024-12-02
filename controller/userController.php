@@ -45,7 +45,7 @@ class UserController
                         'id' => $user['id'],
                         'username' => $user['username'],
                     ];
-                    
+
                     // Chuyển hướng đến trang chủ
                     header('Location: ?action=home');
                     exit;
@@ -228,7 +228,7 @@ class UserController
         include "./view/product_detail.php";
     }
 
-//quen mat khau
+    //quen mat khau
     public function showForgotPasswordForm()
     {
         include './view/forgot_password.php';
@@ -247,7 +247,7 @@ class UserController
             mail($email, "Reset Password", "Click here to reset your password: $resetLink");
 
             // echo '<a href="'.$resetLink.'">Bấm vào đây</a> để đổi lại mật khẩu.';
-            header('location: '.$resetLink);
+            header('location: ' . $resetLink);
         } else {
             echo "Email không tồn tại.";
         }
@@ -279,8 +279,82 @@ class UserController
     }
 
     //checkout
-    function checkout(){
+    function checkout()
+    {
         $danhmucs = $this->userModel->getDanhmuc();
-        include "./view/checkout.php";
+
+        if (isset($_GET['action']) && $_GET['action'] == 'checkout') {
+            $color = $_GET['color'] ?? '';
+            $quantity = $_GET['quantity'] ?? 1;
+            $productName = $_GET['product_name'] ?? '';
+            $productPrice = $_GET['product_price'] ?? '';
+            $productDescription = $_GET['product_description'] ?? '';
+
+            // lưu vào session
+            if (!isset($_SESSION['checkout_data'])) {
+                $_SESSION['checkout_data'] = [];
+            }
+            
+            // $id = $_GET['id'];
+            // $productData = $this->userModel->getFormattedProductData($id);
+
+            $_SESSION['checkout_data'] = [
+                [
+                    // 'id' => $productData,
+                    'color' => $color,
+                    'quantity' => $quantity,
+                    'product_name' => $productName,
+                    'product_price' => $productPrice,
+                    'product_description' => $productDescription,
+                ]
+            ];
+
+            include "./view/checkout.php";
+        }
+    }
+
+    function createOrder()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_payment'])) {
+            // Lấy dữ liệu từ form
+            $fullName = $_POST['fullname'];
+            $country = $_POST['country'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $town = $_POST['town'];
+            $phone = $_POST['phone'];
+            $email = $_POST['email'];
+            $paymentMethod = $_POST['payment_method']; // Lấy phương thức thanh toán
+            $addressLine = $_POST['address']; // Lấy địa chỉ cụ thể
+            $address = $addressLine . ', ' . $town  . ', ' . $district . ', ' . $city . ', ' . $country; // Nối các phần của địa chỉ
+            $note = $_POST['note'];
+
+            // Lấy tổng tiền từ form
+            $totalAmount = (float)preg_replace('/[^0-9.]/', '', $_POST['finalTotal']); // Lấy tổng tiền
+
+            // Tạo đối tượng Order
+            $orderId = $this->userModel->createOrder($fullName, $address, $phone, $email, $paymentMethod, $totalAmount, $note);
+
+            if ($orderId) {
+                // Lưu các món hàng vào order_items
+                foreach ($_SESSION['checkout_data'] ?? [] as $item) {
+                    if (!empty($item['product_id']) && !empty($item['product_name']) && !empty($item['quantity'])) {
+                        $productPrice = (float)preg_replace('/[^0-9.]/', '', $item['product_price']);
+                        $this->userModel->addOrderItem($orderId, $item['product_name'], $item['quantity'], $productPrice);
+                    }
+                }
+            } else {
+                // Xử lý lỗi nếu không thể tạo đơn hàng
+                echo "Lỗi khi tạo đơn hàng.";
+                exit();
+            }
+
+            // Xóa dữ liệu checkout khỏi session
+            unset($_SESSION['checkout_data']);
+
+            // Chuyển hướng đến trang xác nhận đơn hàng
+            header("Location: ?action=home");
+            exit();
+        }
     }
 }

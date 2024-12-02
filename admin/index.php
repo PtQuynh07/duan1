@@ -71,5 +71,13 @@ switch ($action) {
     case 'deleteSanpham':
         $adminController->deleteSanpham();
         break;
+
+    //orders
+    case 'orders':
+        $adminController->orders();
+        break;
+    case 'items':
+        $adminController->items();
+        break;
 }
 ?>

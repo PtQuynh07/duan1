@@ -253,6 +253,7 @@ class AdminController
         header("location:?action=danhmuc");
     }
 
+    //quản trị tài khoản
     function loadViewUser(){
         // require_once "./view/user.php";
         $admins = $this->adminModel->getAllUser();
@@ -262,6 +263,21 @@ class AdminController
     function loadViewClient(){
         $customers = $this->adminModel->getAllUser();
         include "./view/customerAcc.php";
+    }
+
+    //quản trị đơn hàng
+    function orders(){
+        $orders = $this->adminModel->getOrders();
+        include "./view/orders.php";
+    }
+
+    function items(){
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+            $id = $_GET['id'];
+            $items = $this->adminModel->getItems($id);
+            include "./view/order_items.php";
+        }
+        
     }
 
 
