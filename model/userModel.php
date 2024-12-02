@@ -246,6 +246,24 @@ class UserModel
         $stmt->execute(['email' => $email]);
     }
 
+//tim kiem
+    public function searchProducts($search)
+    {
+        // $sql = "SELECT * FROM product_images WHERE alt_text LIKE :search";
+        $sql = "SELECT
+            p.id,
+            p.product_name, 
+            pv.price,
+            pi.image_url
+            FROM products as p
+            JOIN product_variants as pv ON p.id= pv.product_id
+            JOIN product_images as pi ON pv.id= pi.product_variant_id
+            WHERE alt_text LIKE :search
+            ORDER BY id DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':search' => "%$search%"]);
+        return $stmt->fetchAll();
+    }
     //checkout
     function createOrder($fullName, $address, $phone, $email, $paymentMethod, $totalAmount, $note){
         $sql = "INSERT INTO oders(customer_name, customer_email, customer_phone, total_amount, 	payment_method, shipping_address, note)
