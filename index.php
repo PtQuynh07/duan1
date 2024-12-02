@@ -1,7 +1,16 @@
 <?php
 include "./controller/userController.php";
+// require_once "./view/home.php";
 // echo "Ket noi thanh cong";
 $action = isset($_GET['action']) ? $_GET['action'] : 'home';
+
+if(isset($_POST['search']))
+{
+    $search = trim($_POST['search']);
+    $action = 'search';
+    
+}
+
 $userController = new UserController();
 switch ($action) {
     case 'home':
@@ -54,5 +63,8 @@ switch ($action) {
         break;
     case 'productDetail':
         $userController->productDetail();
+        break;
+    case 'search':
+        $userController->featureSearch($search);
         break;
 }

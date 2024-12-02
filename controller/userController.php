@@ -15,7 +15,7 @@ class UserController
         $danhmucs = $this->userModel->getDanhmuc();
         $spmois = $this->userModel->getSpMoi();
         $spnoibats = $this->userModel->getSpNoibat();
-        include "./view/home.php";
+        include_once "./view/home.php";
     }
 
     //hiển thị form đăng nhập
@@ -66,6 +66,7 @@ class UserController
         $category_info = $this->userModel->getCategoryInfo($id);
         $spnoibats = $this->userModel->getSpNoibat();
         include "./view/product_category.php";
+        
     }
 
     // Thêm sản phẩm vào giỏ hàng
@@ -275,5 +276,13 @@ class UserController
         } else {
             echo "Có lỗi xảy ra. Vui lòng thử lại.";
         }
+    }
+
+    public function featureSearch($search)
+    {
+        $danhmucs = $this->userModel->getDanhmuc();
+        $spnoibats = $this->userModel->getSpNoibat();
+        $ketqua = $this->userModel->searchProducts($search);
+        include "./view/search.php";
     }
 }
