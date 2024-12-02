@@ -216,8 +216,35 @@ function deletesanphamById($id) {
         WHERE id = '$id'";
         $this->conn->query($sql);
     }
+
+    //quản trị tài khoản
     function getAllUser(){
         $sql = "SELECT * FROM users";
+        $result = $this->conn->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    //quản trị đơn hàng
+    function getOrders(){
+        $sql = "SELECT * FROM orders";
+        $result = $this->conn->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getItems($id){
+        $sql = "SELECT
+                p.product_name,
+                oi.quantity,
+                oi.unit_price,
+                oi.discount_amount,
+                oi.subtotal,
+                o.payment_status,
+                o.shipping_status,
+                o.payment_method
+                FROM order_items oi
+                JOIN orders o ON  o.id = oi.order_id
+                JOIN products p ON p.id = oi.product_id
+                WHERE oi.order_id = $id";
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
