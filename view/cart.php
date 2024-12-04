@@ -39,6 +39,14 @@
 .cart-image:hover {
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Bóng đậm hơn khi hover */
 }
+.product-price::after {
+    content: " đ";
+    text-transform: none; /* Giữ nguyên chữ thường */
+}
+.product-total-price {
+    text-transform: none; /* Đảm bảo không thay đổi kiểu chữ */
+}
+
 
     </style>
 
@@ -176,7 +184,8 @@
 
 
     <!-- Start Product Default Slider Section -->
-    <div class="cart-section">
+     <!-- ...:::: Start Cart Section:::... -->
+     <div class="cart-section">
         <!-- Start Cart Table -->
         <div class="cart-table-wrapper"  data-aos="fade-up"  data-aos-delay="0">
             <div class="container">
@@ -184,113 +193,116 @@
                     <div class="col-12">
                         <div class="table_desc">
                             <div class="table_page table-responsive">
-                            <table>
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php if (!empty($cartItems)): ?>
-        <?php foreach ($cartItems as $item): ?>
-            <tr>
-                <td><img src="assets/images/product/default/home-1/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="cart-image"></td>
-                <td><?= htmlspecialchars($item['name']) ?></td>
-                <td><?= number_format($item['price'], 0, ',', '.') ?>đ</td>
-                <td>
-                    <input 
-                        type="number" 
-                        name="quantity" 
-                        value="<?= $item['quantity'] ?>" 
-                        min="1" 
-                        onchange="updateQuantity('<?= htmlspecialchars($item['name']) ?>', this.value)"
-                        style="width: 60px; text-align: center;">
-                </td>
-                <td id="total-<?= htmlspecialchars($item['name']) ?>"><?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?>đ</td>
-                <td><a href="#" class="btn-remove" data-url="?action=removeFromCart&name=<?= urlencode($item['name']) ?>"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <tr>
-            <td colspan="6">Your cart is empty.</td>
-        </tr>
-    <?php endif; ?>
-</tbody>
+                                <table>
+                                    <!-- Start Cart Table Head -->
+                                    <thead>
+                                        <tr>
+                                            
+                                            <th class="product_thumb">Image</th>
+                                            <th class="product_name">Product</th>
+                                            <th class="product-price">Price</th>
+                                            <th class="product_quantity">Quantity</th>
+                                            <th class="product_total">Total</th>
+                                            <th class="product_remove">Delete</th>
+                                        </tr>
+                                    </thead> 
+                                    <tbody>
+                                        <?php
+                                        $tongGioHang = 0; 
+                                        foreach( $chiTietGioHang as $key => $sanPham) {
+                                        ?>
+                                            <tr>
+                                                <td class="product_thumb">
+                                                    <a href="#">
+                                                        <img src="assets/images/product/default/home-1/<?= $sanPham['image_url'] ?>" alt="">
+                                                    </a>
+                                                </td>
+                                                <td class="product_name">
+                                                    <a href="#"><?= $sanPham['product_name'] ?></a>
+                                                </td>
+                                                <td class="product-price">
+                                            <?php
+                                            // Đảm bảo giá tiền là số thực
+                                            $price = str_replace(',', '', $sanPham['price']);
+                                            $price = str_replace('.', '', $price);
+                                            $price = floatval($price); // Chuyển sang kiểu số thực để tránh sai lệch
+                                            echo number_format($price, 0, ',', '.'); // Định dạng lại số với dấu phẩy phân cách hàng nghìn
+                                            ?>
+                                        </td>
 
-</table>
+                                        <td class="product_quantity">
+                                            <input min="1" max="100" value="<?= $sanPham['quantity'] ?>" type="number" class="quantity-input" data-price="<?= $price ?>" data-product-id="<?= $sanPham['id'] ?>">
+                                        </td>
 
-<script>
-function updateQuantity(name, quantity) {
-    if (quantity < 1) {
-        alert("Quantity must be at least 1.");
-        return;
-    }
+                                        <td class="product_total">
+                                            <span class="product-total-price" data-price="<?= $price ?>" data-quantity="<?= $sanPham['quantity'] ?>">
+                                                <?php
+                                                $quantity = intval($sanPham['quantity']);
+                                                $tongTien = $price * $quantity;
+                                                $tongGioHang += $tongTien;
 
-    // Gửi yêu cầu AJAX để cập nhật số lượng
-    fetch('?action=updateQuantity', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `name=${encodeURIComponent(name)}&quantity=${quantity}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Cập nhật tổng giá trị (total) mới
-            const totalCell = document.getElementById(`total-${name}`);
-            if (totalCell) {
-                totalCell.innerText = data.newTotalFormatted; // Giá trị tổng mới
-            }
-        } else {
-            alert(data.message || "Failed to update quantity.");
-        }
-    })
-    .catch(error => {
-        console.error("Error updating quantity:", error);
-    });
-}
+                                                $formattedPrice = number_format($tongTien, 0, ',', '.'); // Định dạng lại số tiền
+                                                echo $formattedPrice . " đ";
+                                                ?>
+                                            </span>
+                                        </td>
 
+                                        <td class="pro-remove">
+                                            <form method="POST" action="<?= '?action=xoasanphamcart' ?>" onsubmit="return showNotification()">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="cart_detail_id" value="<?= $sanPham['id'] ?>">
+                                                <button type="submit"><i class="fa fa-trash-o"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
 
-document.querySelectorAll('.btn-remove').forEach(button => {
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const url = this.getAttribute('data-url');
-        Swal.fire({
-            title: 'Bạn có chắc chắn không?',
-            text: "Bạn có muốn xóa sản phẩm khỏi giỏ hàng không",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = url; 
-            }
-        });
-    });
-});
-
-</script>
-
-
-
+                                       
+                                       
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="cart_submit">
-                                <button class="btn btn-md btn-golden" type="submit">update cart</button>
-                            </div>
+    <button class="btn btn-md btn-golden" type="button" id="update-cart">Update Cart</button>
+</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div> <!-- End Cart Table -->
+        <!-- Gọi sự kiện update -->
+         <script>
+            document.addEventListener('DOMContentLoaded', function () {
+    const quantityInput = document.querySelector('.quantity-input');
+    const updateButton = document.getElementById('update-cart');
+    
+    // Khi trang được tải lại, kiểm tra và cập nhật giá trị quantity từ localStorage
+    const productId = quantityInput.getAttribute('data-product-id');
+    if (localStorage.getItem('quantity_' + productId)) {
+        quantityInput.value = localStorage.getItem('quantity_' + productId);
+    }
+
+    // Lắng nghe sự kiện click vào nút "Update Cart"
+    updateButton.addEventListener('click', function () {
+        const newQuantity = quantityInput.value;
+
+        // Kiểm tra số lượng hợp lệ
+        if (newQuantity < 1 || newQuantity > 100) {
+            alert("Số lượng phải nằm trong khoảng từ 1 đến 100");
+            return;
+        }
+
+        // Lưu giá trị số lượng mới vào localStorage
+        localStorage.setItem('quantity_' + productId, newQuantity);
+
+        alert('Số lượng đã được cập nhật!');
+    });
+});
+
+         </script>
+
 
         <!-- Start Coupon Start -->
         <div class="coupon_area">
@@ -308,24 +320,34 @@ document.querySelectorAll('.btn-remove').forEach(button => {
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="coupon_code right"  data-aos="fade-up"  data-aos-delay="400">
-                            <h3>Cart Totals</h3>
+                            <h3>Tổng đơn hàng</h3>
                             <div class="coupon_inner">
                                 <div class="cart_subtotal">
-                                    <p>Subtotal</p>
-                                    <p class="cart_amount">$215.00</p>
+                                    <p>Tổng tiền sản phẩm:</p>
+                                    <span id="cart-total">
+                                    <p class="cart_amount">
+                                        <?=number_format($tongGioHang, 0, '', '.')?>.đ
+                                    </p>
+                                    </span>
+                                    
                                 </div>
                                 <div class="cart_subtotal ">
-                                    <p>Shipping</p>
-                                    <p class="cart_amount"><span>Flat Rate:</span> $255.00</p>
+                                    <p>Vận chuyển:</p>
+                                    <p class="cart_amount"><span></span> 255.000 đ</p>
                                 </div>
-                                <a href="#">Calculate shipping</a>
+                                <a href="#"></a>
 
                                 <div class="cart_subtotal">
-                                    <p>Total</p>
-                                    <p class="cart_amount">$215.00</p>
+                                    <p>Tổng:</p>
+                                    <span id="grand-total">
+                                    <!-- <p class="cart_amount"> -->
+                                    <?=number_format($tong, 0, '', '.') ?> đ   
+                                     <!-- </p> -->
+                                    </span>
+                                  
                                 </div>
                                 <div class="checkout_btn">
-                                    <a href="#" class="btn btn-md btn-golden">Proceed to Checkout</a>
+                                    <a href="?action=checkoutCart" class="btn btn-md btn-golden">Tiến hành đặt hàng</a>
                                 </div>
                             </div>
                         </div>
@@ -333,10 +355,92 @@ document.querySelectorAll('.btn-remove').forEach(button => {
                 </div>
             </div>
         </div> <!-- End Coupon Start -->
-    </div>
+    </div> 
+    
+    <script>
+    function showNotification() {
+        // Hiển thị hộp thoại xác nhận
+        const userConfirmed = confirm('Bạn có muốn xóa sản phẩm này không?');
+
+        // Nếu người dùng chọn "Cancel", ngừng hành động xóa
+        if (!userConfirmed) {
+            return false; // Không gửi form, ngừng hành động
+        }
+
+        // Nếu người dùng chọn "OK", tiếp tục gửi form
+        return true;
+    }
+
+    // Thực hiện tăng số lượng
+
+    document.addEventListener('DOMContentLoaded', function () {
+    // Lấy tất cả các ô nhập số lượng
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+
+    // Hàm định dạng số tiền theo kiểu Việt Nam, không làm tròn, giữ nguyên tất cả các chữ số
+    function formatCurrency(amount) {
+        return amount.toLocaleString('vi-VN'); // Dùng dấu ',' phân cách hàng nghìn
+    }
+
+    // Hàm cập nhật tổng tiền sản phẩm
+    function updateProductTotal(input) {
+        const price = parseFloat(input.getAttribute('data-price').replace(',', '.')); // Lấy giá trị gốc từ data-price (đảm bảo không làm tròn)
+        const quantity = parseInt(input.value); // Số lượng hiện tại
+        if (isNaN(quantity) || quantity <= 0) return; // Kiểm tra số lượng hợp lệ
+
+        const productTotal = price * quantity; // Tính tổng tiền sản phẩm
+        const totalPriceElement = input.closest('tr').querySelector('.product-total-price');
+
+        if (totalPriceElement) {
+            totalPriceElement.innerText = `${formatCurrency(productTotal)} đ`; // Cập nhật giá trị tiền sản phẩm với định dạng
+        }
+    }
+
+    // Hàm cập nhật tổng tiền giỏ hàng
+    function updateCartTotal() {
+        let cartTotal = 0;
+
+        // Duyệt qua tất cả các sản phẩm trong giỏ hàng và tính tổng tiền
+        document.querySelectorAll('.product-total-price').forEach((totalPriceElement) => {
+            const priceText = totalPriceElement.innerText.replace(' đ', '').replace(/\./g, ''); // Lấy giá tiền, bỏ dấu '.'
+            const price = parseFloat(priceText); // Chuyển sang số
+            if (!isNaN(price)) {
+                cartTotal += price; // Tính tổng tiền giỏ hàng
+            }
+        });
+
+        const shippingFee = 250000; // Phí vận chuyển
+        const grandTotal = cartTotal + shippingFee; // Tổng tiền giỏ hàng + phí vận chuyển
+
+        // Cập nhật tổng tiền giỏ hàng
+        const cartTotalElement = document.getElementById('cart-total');
+        if (cartTotalElement) {
+            cartTotalElement.innerText = `${formatCurrency(cartTotal)} đ`;
+        }
+
+        // Cập nhật tổng tiền cuối cùng (bao gồm phí vận chuyển)
+        const grandTotalElement = document.getElementById('grand-total');
+        if (grandTotalElement) {
+            grandTotalElement.innerText = `${formatCurrency(grandTotal)} đ`;
+        }
+    }
+
+    // Lắng nghe sự kiện thay đổi số lượng
+    quantityInputs.forEach((input) => {
+        input.addEventListener('input', function () {
+            updateProductTotal(input); // Cập nhật tiền sản phẩm
+            updateCartTotal(); // Cập nhật tổng giỏ hàng
+        });
+    });
+
+    // Cập nhật tổng tiền giỏ hàng ngay khi trang tải
+    updateCartTotal();
+});
 
 
 
+</script>
+        
     <!-- FOOTER -->
 
      <footer class="footer-section footer-bg section-top-gap-100">
@@ -404,7 +508,7 @@ document.querySelectorAll('.btn-remove').forEach(button => {
                     </div>
                 </div>
             </div>
-            <!-- End Footer Top -->
+ 
 
             <!-- Start Footer Center -->
             <div class="footer-center">

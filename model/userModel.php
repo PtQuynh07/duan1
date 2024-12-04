@@ -55,7 +55,8 @@ class UserModel
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //login
+
+    // login
     public function checkLogin($email, $password)
     {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
@@ -173,7 +174,7 @@ class UserModel
         //cbi dữ liệu đã xử lý
         $data = [];
         foreach ($productDetails as $detail) {
-            $id = $detail['productId'];
+            $productId = $detail['productId'];
 
             //xử lý cấp độ sản phẩm
             if (!isset($data[$id])) {
@@ -199,6 +200,262 @@ class UserModel
 
         return $data[$id];
     }
+
+
+
+    // xử lí giỏ hàng
+
+     // Lấy giỏ hàng của người dùng theo user_id
+     public function getTaiKhoanFormEmail($email)
+     {
+         try {
+             $sql = 'SELECT * from users where email =:email';
+             $stmt = $this->conn->prepare($sql);
+             $stmt->execute(
+                 [
+                     ':email' => $email
+                 ]
+             );
+             return $stmt->fetch();
+         } catch (Exception $e) {
+             echo "lỗi" . $e->getMessage();
+         }
+     }
+
+
+     public function getGioHangFromUser($id){
+        try{
+            $sql = "SELECT * FROM carts WHERE user_id = :user_id";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([':user_id'=>$id]);
+
+            return $stmt->fetch();
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+
+    }
+    public function getDetailGioHang($id){
+        try{
+            $sql = "SELECT ci.*, p.product_name, pi.image_url, pv.price,pi.is_primary
+            FROM cart_items ci
+            INNER JOIN products p  ON ci.product_id = p.id
+            JOIN product_variants pv ON pv.product_id=p.id
+            JOIN product_images pi ON pi.product_variant_id=pv.id
+            WHERE ci.cart_id = :cart_id AND is_primary =1  " ;
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([':cart_id'=>$id]);
+            
+            return $stmt->fetchAll();
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+
+    }
+
+    public function addGioHang($id){
+        try{
+            $sql = "INSERT INTO carts(user_id) VALUES (:id)";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([':id'=>$id]);
+            $cart_id = $this->conn->lastInsertId();
+            // var_dump($cart_id); die();
+            return $cart_id;
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+    public function updateSoLuong($cart_id, $product_id, $quantity){
+        try{
+            $sql = "UPDATE cart_items 
+            SET quantity = :quantity
+            WHERE cart_id = :cart_id AND product_id = :product_id
+            ";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([':cart_id'=>$cart_id, ':product_id'=>$product_id, ':quantity'=>$quantity]);
+
+            return true;
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+
+    public function addDetailGioHang($cart_id, $product_id, $quantity){
+        try{
+            $sql = "INSERT INTO cart_items(cart_id, product_id, quantity,added_at) 
+            VALUES (:cart_id, :product_id, :quantity,CURRENT_TIMESTAMP) ";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([':cart_id'=>$cart_id, ':product_id'=>$product_id, ':quantity'=>$quantity]);
+
+            return true;
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+    public function deleteChiTietGioHang($id)
+    {
+        try {
+            $sql = "DELETE FROM cart_items WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':id' => $id,
+            ]);
+            return true;
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+
+    public function addDonHang($user_id,
+    $customer_name,
+    $customer_email,
+    $customer_phone,
+    $shipping_address, 
+    $note,
+    $total_amount, 
+    $payment_method_id,
+    $order_date,
+    $order_status_id){
+        try{
+            $sql = "INSERT INTO orders (user_id,
+            customer_name,
+            customer_email,
+            customer_phone,
+            shipping_address, 
+            note,
+            total_amount, 
+            payment_method_id,
+            order_date,
+            order_status_id)
+            VALUES(:user_id,
+            :customer_name,
+            :customer_email,
+            :customer_phone,
+            :shipping_address, 
+            :note,
+            :total_amount, 
+            :payment_method_id,
+            :order_date,
+            :order_status_id)
+            ";
+            $stmt = $this->conn->prepare($sql);
+                                
+            $order = $stmt->execute([':user_id'=>$user_id,
+                            ':customer_name'=>$customer_name,
+                            ':customer_email'=>$customer_email,
+                            ':customer_phone'=>$customer_phone,
+                            ':shipping_address'=>$shipping_address,
+                            ':note'=>$note,
+                            ':total_amount'=>$total_amount,
+                            ':payment_method_id'=>$payment_method_id,
+                            ':order_date'=>$order_date,
+                            ':order_status_id'=>$order_status_id
+                           
+                            ]);
+                                
+            return $this->conn->lastInsertId();
+            }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();            
+            }
+
+    }
+
+    public function addChiTietDonHang($order_id,$product_id,$unit_price,$quantity,$total) {
+        try {
+        $sql = "INSERT INTO order_items (order_id, product_id, unit_price, quantity, total) 
+        VALUES (:order_id, :product_id, :unit_price, :quantity, :total)";
+        $stmt = $this->conn->prepare($sql);
+                            
+        $result = $stmt->execute([
+            ':order_id'=>$order_id,
+            ':product_id'=>$product_id,
+            ':unit_price'=>$unit_price,
+            ':quantity'=>$quantity,
+            ':total'=>$total,
+        ]);
+        return $result;
+                
+        } catch (Exception $e){
+        echo "Lỗi: " .$e->getMessage();
+                            
+        }
+    }
+
+    public function deleteCartBought($gioHangId) {
+        try {
+            
+            $sql = "DELETE FROM `cart_items` WHERE cart_id = :cart_id ";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([ ':cart_id' => $gioHangId ]);
+        
+        } catch (Exception $e) {
+    
+            echo "Lỗi: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+    
+    public function clearGioHang($user_id) {
+        try {
+            
+            $sql = "DELETE FROM `carts` WHERE user_id = :user_id ";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([ ':user_id' => $user_id ]);
+        
+        } catch (Exception $e) {
+    
+            echo "Lỗi: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+
+    public function getCartIdByUser($user_id) {
+        try {
+            $sql = "SELECT id FROM `carts` WHERE user_id = :user_id";
+            
+            $stmt = $this->conn->prepare($sql);
+            
+            $stmt->execute([':user_id' => $user_id]);
+    
+            return $stmt->fetch(PDO::FETCH_COLUMN);
+            
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+            return [];
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //chức năng quên pass
     public function findByEmail($email)

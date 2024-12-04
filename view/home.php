@@ -139,7 +139,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="?action=cart">
+                                    <a href="?action=viewCart">
                                         <i class="icon-bag"></i>
                                         <span class="item-count">3</span>
                                     </a>
@@ -359,7 +359,9 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right">
-                                                    <span class="price"><?php echo $spmoi['price'] ?></span>
+                                                <span class="price">
+                                                    <?php echo number_format($spmoi['price'], 0, '', '.'); ?>
+                                                </span>
                                                 </div>
 
                                             </div>
@@ -529,7 +531,9 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right">
-                                                    <span class="price"><?php echo $spnoibat['price'] ?></span>
+                                                <span class="price">
+                                                    <?php echo number_format($spnoibat['price'], 0, '', '.'); ?>
+                                                </span>
                                                 </div>
 
                                             </div>
