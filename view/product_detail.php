@@ -171,6 +171,13 @@
         .align-items-center {
             margin-left: -20px;
         }
+        #bynow{
+      margin-top: 100px;
+        }
+        #quantity{
+            margin-left: 25px;
+        }
+        
     </style>
 </head>
 
@@ -334,7 +341,10 @@
                                 </ul>
                                 <a href="#" class="customer-review ml-2">(customer review )</a>
                             </div>
-                            <div class="price"><?php echo $productData['price']; ?></div>
+                            <div class="price">
+                                <?php echo number_format($productData['price'], 0, '', '.') . ' đ'; ?>
+                            </div>
+
                             <p><?php echo $productData['description']; ?></p>
                         </div> <!-- End  Product Details Text Area-->
 
@@ -361,23 +371,24 @@
                                 </div>
                             </div>
                             <!-- Product Variable Single Item -->
-                            <div class="variable-single-item ">
-                                <span>Quantity</span>
-                                <div class="product-variable-quantity">
-                                    <input min="1" max="100" value="1" type="number" id="quantity-input">
-                                </div>
-                            </div>
+                         
                             <div class="d-flex align-items-center ">
                                 <!-- Nút Buy Now -->
-                                <div class="product-add-cart-btn">
-                                    <a href="javascript:void(0);" class="btn-buy-now btn btn-block btn-lg btn-black-default-hover"
-                                        data-product-id="<?php echo $productData['id']; ?>"
-                                        data-product-name="<?php echo $productData['product_name']; ?>"
-                                        data-product-price="<?php echo $productData['price']; ?>"
-                                        data-selected-color="<?php echo $color === array_key_first($productData['variants']) ? 'checked' : ''; ?>"
-                                        data-quantity="1"
-                                        data-product-description="<?php echo $productData['description']; ?>">Buy Now</a>
+                            
+                            <form action="<?="?action=giohang"?>" method="POST">
+                            <input type="hidden" name="product_id" value="<?= $productData['id'] ?? '' ?>">
+                            
+                            <div class="variable-single-item " id="quantity">
+                                <span>Quantity</span>
+                                <div class="product-variable-quantity">
+                                    <input min="1" max="100" value="1" type="number" id="quantity-input" name="quantity" >
                                 </div>
+                            </div>
+                            
+                                <div class="product-add-cart-btn">
+                                    <button type="submit" class="btn btn-block btn-lg btn-black-default-hover">+ ADD TO CART</button>
+                                </div>
+                            </form>
 
                                 <!-- js xử lý dữ liệu nút buynow -->
                                 <script>
@@ -420,9 +431,20 @@
                                     });
                                 </script>
 
-                                <div class="product-add-cart-btn">
-                                    <a href="" class="btn btn-block btn-lg btn-black-default-hover">+ Add To Cart</a>
+
+                                    <div class="product-add-cart-btn" id="bynow">
+                                    <a href="javascript:void(0);" class="btn-buy-now btn btn-block btn-lg btn-black-default-hover"
+                                        data-product-name="<?php echo $productData['product_name']; ?>"
+                                        data-product-price="<?php echo $productData['price']; ?>"
+                                        data-selected-color="<?php echo $color === array_key_first($productData['variants']) ? 'checked' : ''; ?>"
+                                        data-quantity="1"
+                                        data-product-description="<?php echo $productData['description']; ?>">Buy Now</a>
                                 </div>
+
+
+
+
+
                             </div>
 
                         </div> <!-- End Product Variable Area -->
@@ -582,7 +604,10 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right">
-                                                    <span class="price"><?php echo $spnoibat['price'] ?></span>
+                                                <span class="price">
+                                                    <?php echo number_format($spnoibat['price'], 0, '', '.'); ?>
+                                                </span>
+
                                                 </div>
 
                                             </div>

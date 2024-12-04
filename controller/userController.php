@@ -4,9 +4,11 @@ include "./model/userModel.php";
 class UserController
 {
     public $userModel;
+
     function __construct()
     {
         $this->userModel = new UserModel();
+       
     }
 
     //trang chủ
@@ -38,12 +40,11 @@ class UserController
             } else {
                 $userModel = new UserModel();
                 $user = $userModel->checkLogin($email, $password);
-
+    
                 if ($user) {
-                    // Lưu email của người dùng vào session
+                    // Lưu email và id của người dùng vào session
                     $_SESSION['mail'] = $user['email'];
-                    $_SESSION['user_id'] = $user['id'];
-                
+                    $_SESSION['user_id'] = $user['id'];  // Lưu id của người dùng
                     // Chuyển hướng đến trang chủ
                     header('Location: ?action=home');
                     exit;
@@ -52,7 +53,7 @@ class UserController
                 }
             }
         }
-
+    
         include './view/login.php';
     }
 
@@ -79,7 +80,6 @@ class UserController
     exit();
 }
 
-
     // Hiển thị sản phẩm theo danh mục
     function product_category($id)
     {
@@ -91,108 +91,78 @@ class UserController
     }
 
     // Thêm sản phẩm vào giỏ hàng
-    public function addToCart()
-    {
 
-        if (!$this->userModel->isLoggedIn()) {
-            // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-            header('Location: ?action=login');
-            exit;
-        }
-        // Lấy thông tin từ URL
-        $name = $_GET['name'] ?? null;
-        $price = (float) preg_replace('/[^0-9.]/', '', $_GET['price'] ?? 0);
-        $image = $_GET['image'] ?? null;
+   function addGiohang(){
+    if($_SERVER['REQUEST_METHOD']){
+        if(isset($_SESSION['mail'])){
+            $email=$this->userModel->getTaiKhoanFormEmail($_SESSION['mail']);
 
-        $userId = $_SESSION['user']['id'];
+          
+            $gioHang = $this->userModel->getGioHangFromUser($email["id"]);
+            $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+            if(!$gioHang){
+                $gioHangId = $this->userModel->addGioHang($email["id"]);
+                $gioHang = ['id' => $gioHangId];
+                $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+             }else{
+              $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+             }
 
-        if (!$name || !$price || !$image) {
-            header('Location: ?action=cart');
-            exit;
-        }
-
-        if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [];
-        }
-
-        // Kiểm tra sản phẩm đã có trong giỏ hàng chưa
-        $productFound = false;
-        foreach ($_SESSION['cart'] as &$item) {
-            if ($item['name'] == $name) {
-                $item['quantity'] += 1;
-                $productFound = true;
+            $productId = $_POST['product_id'];
+            $quantity= $_POST['quantity'];
+            $checkSanPham = false;
+         foreach($chiTietGioHang as $detail){
+              if($detail['product_id'] == $productId){
+                $newSoLuong = $detail["quantity"] + $quantity;
+                $this->userModel->updateSoLuong($gioHang['id'], $productId, $newSoLuong);
+                $checkSanPham = true;
                 break;
-            }
-        }
+              }
+          }
+          if(!$checkSanPham){
+            $this->userModel->addDetailGioHang($gioHang['id'], $productId, $quantity);
 
-        // Nếu sản phẩm chưa có trong giỏ, thêm mới vào giỏ
-        if (!$productFound) {
-            $_SESSION['cart'][] = [
-                'name' => $name,
-                'price' => $price,
-                'image' => $image,
-                'quantity' => 1
-            ];
-        }
-
-
-        header('Location: ?action=cart');
-        exit;
+          }
+          header("Location:?action=viewCart");
+        }else{
+            var_dump('Lỗi');
+        } 
+        
     }
+   }
 
+   public function gioHang(){
+    $danhmucs = $this->userModel->getDanhmuc();
+    if(isset($_SESSION["mail"])){
+      $email = $this->userModel->getTaiKhoanFormEmail($_SESSION["mail"]);
+   
+       $gioHang = $this->userModel->getGioHangFromUser($email["id"]);
+       if(!$gioHang){
+          $gioHangId = $this->userModel->addGioHang($email["id"]);
+          $gioHang = ['id' => $gioHangId];
+          $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+       }else{
+        $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+       }
 
+    include "./view/cart.php";
+ 
+    }else{
+      header("Location: ?action=login");
+    }
+  }
 
-    // Hiển thị giỏ hàng
-    public function cart()
+  public function deleteOneGioHang()
     {
-        $cartItems = $_SESSION['cart'] ?? [];
-        $cartTotal = $this->userModel->totalCart($cartItems);
-        $danhmucs = $this->userModel->getDanhmuc();
-
-        include './view/cart.php';
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['_method'] == 'DELETE') {
+            $cartDetailId = $_POST['cart_detail_id'];
+            $this->userModel->deleteChiTietGioHang($cartDetailId);
+            header("Location:?action=viewCart");
+            exit();
+        }
     }
 
-    // Xóa sản phẩm khỏi giỏ hàng
-    public function removeFromCart()
-    {
-        $name = $_GET['name'] ?? null;
-        if (isset($_SESSION['cart']) && $name) {
-
-            $_SESSION['cart'] = array_values(array_filter($_SESSION['cart'], function ($item) use ($name) {
-                return $item['name'] !== $name;
-            }));
-        }
-        header('Location: ?action=cart');
-        exit;
-    }
-
-
-    // Cập nhật số lượng sản phẩm
-    public function updateQuantity()
-    {
-        $name = $_POST['name'] ?? null;
-        $quantity = max(1, intval($_POST['quantity'] ?? 1));
-
-        if (!$name || !isset($_SESSION['cart'])) {
-            echo json_encode(['success' => false, 'message' => 'Invalid product.']);
-            exit;
-        }
-
-        $newTotal = 0;
-        foreach ($_SESSION['cart'] as &$item) {
-            if ($item['name'] === $name) {
-                $item['quantity'] = $quantity;
-                $newTotal = $item['price'] * $item['quantity']; // Tính tổng giá mới
-                break;
-            }
-        }
-
-        echo json_encode([
-            'success' => true,
-            'newTotalFormatted' => number_format($newTotal, 0, ',', '.') . 'đ'
-        ]);
-        exit;
-    }
+    
 
     //xử lý đăng ký tài khoản
     public function register()
@@ -388,6 +358,87 @@ class UserController
             echo '<script>alert("Đặt hàng thành công")</script>';
             echo '<script>window.location.href = "?action=home";</script>';
             exit();
+        }
+    }
+
+    //CHECKOUT CART
+
+    function checkoutCart(){
+        $danhmucs = $this->userModel->getDanhmuc();
+        if (isset($_SESSION["mail"])) {
+            $user = $this->userModel->getTaiKhoanFormEmail($_SESSION["mail"]);
+            $gioHang = $this->userModel->getGioHangFromUser($user['id']);
+            if (!$gioHang) {
+              $gioHangId = $this->userModel->addgioHang($user['id']);
+              $gioHang = ['id' => $gioHangId];
+            }
+            $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+            require_once './view/checkoutCart.php';
+          } else {
+            header("Location: ?action=login");
+            exit;
+          }
+    }
+    function postDathang(){
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            $customer_name = $_POST["name"];
+            $country = $_POST['country'];
+            $city = $_POST['city'];
+            $district = $_POST['district'];
+            $town = $_POST['town'];
+            $customer_email = $_POST["email"];
+            $customer_phone = $_POST["phone"];
+            $addressLine  = $_POST["address"];
+            $shipping_address= $addressLine . ', ' . $town  . ', ' . $district . ', ' . $city . ', ' . $country; 
+            $note = $_POST["note"];
+            $total_amount = $_POST["tong_tien"];
+            $payment_method_id = $_POST["phuong_thuc_thanh_toan"]; // phuong_thuc_thanh_toan_id
+    
+            $order_date = date('Y-m-d');
+            $order_status_id = 1; // trạng thái đơn hàng  = 1 chưa xác nhận
+    
+            $user = $this->userModel->getTaiKhoanFormEmail($_SESSION["mail"]);
+            $user_id = $user['id']; // tai_khoan_id
+           
+    
+            // Thêm thông tin vào db
+            $donHang = $this->userModel->addDonHang($user_id,
+            $customer_name,
+            $customer_email,
+            $customer_phone,
+            $shipping_address, 
+            $note,
+            $total_amount, 
+            $payment_method_id,
+            $order_date,
+            $order_status_id
+            
+           
+          );
+    
+          $gioHang= $this->userModel->getGioHangFromUser($user_id);
+          if($donHang){
+            $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+            foreach($chiTietGioHang as $item){
+                $donGia =$item['price'];
+
+                $this->userModel->addChiTietDonHang(
+                    $donHang,
+                    $item['product_id'],
+                    $donGia,
+                    $item['quantity'],
+                    $donGia*$item['quantity']
+
+
+                );
+            }
+            // Xóa sản phẩm trong giỏ hàng
+            $this->userModel->deleteCartBought($gioHang['id']);
+            $this->userModel->clearGioHang($user_id);
+            echo '<script>alert("Đặt hàng thành công")</script>';
+            echo '<script>window.location.href = "?act=/";</script>';
+
+          }
         }
     }
 }
