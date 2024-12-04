@@ -167,7 +167,8 @@
             font-weight: bold;
             box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
         }
-        .align-items-center{
+
+        .align-items-center {
             margin-left: -20px;
         }
     </style>
@@ -370,6 +371,7 @@
                                 <!-- Nút Buy Now -->
                                 <div class="product-add-cart-btn">
                                     <a href="javascript:void(0);" class="btn-buy-now btn btn-block btn-lg btn-black-default-hover"
+                                        data-product-id="<?php echo $productData['id']; ?>"
                                         data-product-name="<?php echo $productData['product_name']; ?>"
                                         data-product-price="<?php echo $productData['price']; ?>"
                                         data-selected-color="<?php echo $color === array_key_first($productData['variants']) ? 'checked' : ''; ?>"
@@ -396,6 +398,7 @@
 
                                         buyNowButton.addEventListener('mouseover', () => {
                                             // Lấy dữ liệu từ nút
+                                            const productId = buyNowButton.getAttribute('data-product-id'); // Lấy ID sản phẩm
                                             const productName = buyNowButton.getAttribute('data-product-name');
                                             const productPrice = buyNowButton.getAttribute('data-product-price');
                                             const selectedColor = getSelectedColor(); // Lấy màu đã chọn
@@ -406,11 +409,10 @@
                                             buyNowButton.setAttribute('data-quantity', quantity);
 
                                             // Tạo URL
-                                            const checkoutUrl = `?action=checkout&product_name=${encodeURIComponent(productName)}&product_price=${productPrice}&color=${encodeURIComponent(selectedColor)}&quantity=${quantity}&product_description=${encodeURIComponent(productDescription)}`;
+                                            const checkoutUrl = `?action=checkout&product_id=${productId}&product_name=${encodeURIComponent(productName)}&product_price=${productPrice}&color=${encodeURIComponent(selectedColor)}&quantity=${quantity}&product_description=${encodeURIComponent(productDescription)}`;
 
                                             // Hiển thị URL khi hover
                                             buyNowButton.setAttribute('href', checkoutUrl);
-
                                         });
 
                                         // Khởi tạo giá trị data-quantity ban đầu

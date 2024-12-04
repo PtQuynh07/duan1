@@ -225,28 +225,91 @@ function deletesanphamById($id) {
     }
 
     //quản trị đơn hàng
-    function getOrders(){
-        $sql = "SELECT * FROM orders";
-        $result = $this->conn->query($sql);
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+    //show danh sách đơn hàng
+    function getAllOrders(){
+        try {
+            $sql = "SELECT orders.*, order_status.status_name 
+                    FROM orders
+                    INNER JOIN order_status ON orders.order_status_id = order_status.id
+                    ";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        } catch(Exception $e){
+            echo "lỗi" . $e-> getMessage();
+        }
     }
 
-    function getItems($id){
-        $sql = "SELECT
-                p.product_name,
-                oi.quantity,
-                oi.unit_price,
-                oi.discount_amount,
-                oi.subtotal,
-                o.payment_status,
-                o.shipping_status,
-                o.payment_method
-                FROM order_items oi
-                JOIN orders o ON  o.id = oi.order_id
-                JOIN products p ON p.id = oi.product_id
-                WHERE oi.order_id = $id";
-        $result = $this->conn->query($sql);
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+    //chi tiết đơn hàng
+    function getDetailOrder($order_id){
+        try {
+            $sql = "SELECT orders.*, order_status.status_name, payment_methods.method_name
+                    FROM orders
+                    INNER JOIN order_status ON orders.order_status_id = order_status.id
+                    INNER JOIN payment_methods ON orders.payment_method_id  = payment_methods.id
+                    WHERE orders.id = $order_id";
+            $result = $this->conn->query($sql);
+            return $result->fetch(PDO::FETCH_ASSOC);
+
+        }catch(Exception $e){
+            echo "lỗi" . $e-> getMessage();
+        }
     }
-    
+
+    function getListSpOrder($order_id){
+        try{
+            $sql = "SELECT order_items.*, products.product_name
+                    FROM order_items
+                    INNER JOIN products ON order_items.product_id  = products.id
+                    WHERE order_id = $order_id";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+
+        }catch(Exception $e){
+            echo "lỗi" . $e-> getMessage();
+        }
+    }
+    //trang thái đơn hàng
+    function getAllOrderStatus(){
+        try {
+            $sql = "SELECT * FROM order_status";
+            $result = $this->conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        } catch(Exception $e){
+            echo "lỗi" . $e-> getMessage();
+        }
+    }
+
+    //update đơn hàng
+    public function updateDonHang($order_id,$name,$phone, $email,$address,$note,$order_status_id){
+        try{
+            // var_dump($order_id);die;
+            $sql = "UPDATE orders
+            SET
+             customer_name = :name,
+             customer_phone = :phone,
+             customer_email = :email,
+             shipping_address = :address,
+             note = :note,
+             order_status_id = :order_status_id
+           WHERE id = :order_id ";
+            $stmt = $this->conn->prepare($sql);
+
+            // var_dump($stmt);die;
+            $stmt->execute([
+                ':name' => $name,
+                ':phone'=> $phone,
+                ':email'=> $email,
+                ':address' => $address,
+                ':note'=> $note,
+                ':order_status_id' => $order_status_id,
+                ':order_id'=> $order_id
+            ]);
+          
+            return true;
+            
+        }catch(Exception $e){
+            echo "Lỗi".      $e->getMessage();
+        }
+    }
+
 }
