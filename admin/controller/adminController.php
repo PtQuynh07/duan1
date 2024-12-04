@@ -267,19 +267,102 @@ class AdminController
 
     //quản trị đơn hàng
     function orders(){
-        $orders = $this->adminModel->getOrders();
+        $listOrder = $this->adminModel->getAllOrders();
         include "./view/orders.php";
     }
 
-    function items(){
-        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-            $id = $_GET['id'];
-            $items = $this->adminModel->getItems($id);
-            include "./view/order_items.php";
-        }
-        
+    function orderDetail(){
+        $order_id = $_GET['order_id'];
+
+        //lấy thông tin đơn hàng ở bảng orders
+        $order = $this-> adminModel->getDetailOrder($order_id);
+
+        //lấy thông tin danh sách sản phẩm của đơn hàng của bảng order_item
+        $sanphamOrder = $this->adminModel-> getListSpOrder($order_id);
+
+        $listOrderStatus = $this->adminModel->getAllOrderStatus();
+
+        include "./view/orderDetail.php";
     }
 
+    //sửa đơn hàng
+    function formEditOrder(){
+        $order_id = $_GET['order_id'];
+        $order = $this-> adminModel->getDetailOrder($order_id);
+        $listOrderStatus = $this->adminModel->getAllOrderStatus();
+        if($order){
+            include "./view/formOrderEdit.php";
+        }else{
+            header("location:?action=orders");
+            exit();
+        }
+    }
 
+    function postEditOrder(){
+        // hàm này xử lí thêm dữ liệu
+        // Kiểm tra xem dữ liệu có phải được submit lên không
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+          
+            // Lấy ra dữ liệu
+            // Lấy ra dữ liệu cũ của sản phẩm
+            $order_id = $_POST['order_id'] ?? '';
+           
+            $name = $_POST['name'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $address = $_POST['address'] ?? '';
+            $note = $_POST['note'] ?? '';
+            $order_status_id = $_POST['order_status_id'] ?? '';
+            
+  
+          
+            // Tạo 1 mảng trống chứa dữ liệu 
+            $error = [];
+            if(empty($name)){
+              $error["name"] = "Tên người nhận không được bỏ trống !";
+            }
+            if(empty($phone)){
+              $error["phone"] = "Số điện thoại người nhận không được bỏ trống !";
+            }
+            if(empty($email)){
+              $error["email"] = "Email người nhận không được bỏ trống !";
+            }
+            if(empty($address)){
+              $error["address"] = "Địa chỉ người nhận không được bỏ trống !";
+            }
+            if(empty($order_status_id)){
+              $error["order_status_id"] = "Trạng thái đơn hàng phải chọn!";
+            }
+            
+            $_SESSION['error'] = $error;
+            // Nếu không có lỗi thì tiến hành sửa
+            // var_dump($error);die;
+            // var_dump($order_id);die;
+            if(empty($error)){
+             
+              // Nếu không có lỗi tiến hành thêm sản phẩm
+              // var_dump("đã nhận dc dữ liệu");
+              $this->adminModel->updateDonHang(
+                                                $order_id,
+                                                $name,
+                                                $phone, 
+                                                $email,
+                                                $address,
+                                                $note,
+                                                $order_status_id, 
+                                              );
+                                            //   var_dump($abc);die;
+        
+              header("location:?action=orders");
+              exit();
+            }else
+              // Nếu có lỗi trả về form và lỗi
+              // Đặt chỉ tị và xóa session sau khi hiển thị from
+              $_SESSION['flash'] = true;
+              header("location:?action=formEditOrder&order_id=$order_id");
+              exit();
+              // require_once './views/sanpham/addSanPham.php';
+          }
+    }
 }
 

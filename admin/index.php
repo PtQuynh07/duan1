@@ -76,8 +76,15 @@ switch ($action) {
     case 'orders':
         $adminController->orders();
         break;
-    case 'items':
-        $adminController->items();
+    case 'orderDetail':
+        $adminController->orderDetail();
         break;
+    case 'formEditOrder':
+        $adminController->formEditOrder();
+        break;
+    case 'editOrder':
+        $adminController->postEditOrder();
+        break;
+    
 }
 ?>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         .header-logo .logo img {
             height: 100px;
@@ -50,7 +51,7 @@
             cursor: pointer;
             z-index: 1001;
             margin-right: 250px;
-            margin-top:-20px;
+            margin-top: -20px;
         }
 
         #search .close:hover {
@@ -61,8 +62,8 @@
         /* Input Search */
         #search input[type="text"] {
             width: 60%;
-            height:50px;
-            margin-top:0px;
+            height: 50px;
+            margin-top: 0px;
             margin-left: 300px;
             padding: 10px 15px;
             border: 1px solid white;
@@ -115,15 +116,15 @@
                                             <?php
                                             foreach ($danhmucs as $danhmuc) {
                                             ?>
-                                                <li><a href="?action=product_category&id=<?=$danhmuc['id']?>"><?php echo $danhmuc['category_name'] ?></a></li>
-                                            <?php
-                                                }
-                                            ?>
-                                        </li>
-                                        
-                                        <li>
-                                            <a href="#">Contact Us</a>
-                                        </li>
+                                        <li><a href="?action=product_category&id=<?= $danhmuc['id'] ?>"><?php echo $danhmuc['category_name'] ?></a></li>
+                                    <?php
+                                            }
+                                    ?>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Contact Us</a>
+                                    </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -143,11 +144,14 @@
                                         <span class="item-count">3</span>
                                     </a>
                                 </li>
-
                                 <li>
                                     <a href="?action=login"><i class="bi bi-person-circle"></i></a>
                                 </li>
+                                <li>
+                                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                                </li>
                             </ul>
+
                             <!-- End Header Action Link -->
                         </div>
                     </div>

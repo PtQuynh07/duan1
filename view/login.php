@@ -152,8 +152,7 @@
 </head>
 
 <body>
-
-    <div class="container-fluid">
+<div class="container-fluid">
         <div>
             <!-- Phần Form Đăng Nhập -->
             <div class="text-black">
@@ -161,7 +160,7 @@
                     <img class="logo" src="./assets/images/logo/logo.jpg" style="mix-blend-mode: multiply; width:auto; height:130px;">
                     <h4 class="margin-bottom:80px;">Đăng nhập</h4>
                     <form class="form" method="POST">
-                        <input type="text" name="user" placeholder="Tên đăng nhập" required>
+                        <input type="email" name="email" placeholder="Nhập email" required>
                         <input type="password" name="pass" placeholder="Mật khẩu" required>
                         <input type="submit" value="Đăng nhập" name="submit" class="btn btn-success">
                     </form>
@@ -176,6 +175,8 @@
             </div>
         </div>
     </div>
+    <!-- </section> -->
+
     <!-- </section> -->
 
 </body>

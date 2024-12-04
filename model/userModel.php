@@ -55,11 +55,11 @@ class UserModel
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // login
-    public function checkLogin($username, $password)
+    //login
+    public function checkLogin($email, $password)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = :username");
-        $stmt->execute(['username' => $username]);
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // Kiểm tra người dùng và xác thực mật khẩu với password_verify
@@ -73,8 +73,10 @@ class UserModel
 
     function isLoggedIn()
     {
-        return isset($_SESSION['user']);
+        return isset($_SESSION['mail']);
     }
+
+
 
     // Sản phẩm theo danh mục
     function getProductCategory($id)
@@ -123,9 +125,11 @@ class UserModel
         return $total;
     }
 
+    //đăng kí tài khoản
+    
     public function createUser($username, $email, $password)
     {
-        $hashedPassword = $password;
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         return $stmt->execute([$username, $email, $hashedPassword]);
@@ -138,6 +142,8 @@ class UserModel
         $stmt->execute([$username, $email]);
         return $stmt->fetchColumn() > 0;
     }
+
+
 
     //sp chi tiết
     function getRawProductDetails($id)
@@ -172,6 +178,7 @@ class UserModel
             //xử lý cấp độ sản phẩm
             if (!isset($data[$id])) {
                 $data[$id] = [
+                    'id' => $id,
                     'product_name' => $detail['product_name'],
                     'description' => $detail['description'],
                     'material' => $detail['material'],
@@ -264,18 +271,41 @@ class UserModel
         $stmt->execute([':search' => "%$search%"]);
         return $stmt->fetchAll();
     }
+
     //checkout
-    function createOrder($fullName, $address, $phone, $email, $paymentMethod, $totalAmount, $note){
-        $sql = "INSERT INTO oders(customer_name, customer_email, customer_phone, total_amount, 	payment_method, shipping_address, note)
-                VALUES ('$fullName', '$email', '$phone', '$totalAmount', '$paymentMethod', '$address', '$note')";
-        $this->conn->query($sql);
-    }
+    function createOrder($userId, $fullName, $address, $phone, $email, $paymentMethodId, $order_status_id, $totalAmount, $note)
+{
+    // Sử dụng câu lệnh chuẩn bị để tránh lỗi và bảo mật hơn
+    $sql = "INSERT INTO orders (user_id, customer_name, customer_email, customer_phone, total_amount, shipping_address, note, payment_method_id, order_status_id)
+            VALUES (:userId, :fullName, :email, :phone, :totalAmount, :address, :note, :paymentMethodId, :orderStatusId)";
+    
+    $stmt = $this->conn->prepare($sql);
+
+    // Nếu $userId là null, PDO sẽ tự động ánh xạ thành NULL trong SQL
+    $stmt->execute([
+        ':userId' => $userId, // NULL nếu người dùng chưa đăng nhập
+        ':fullName' => $fullName,
+        ':email' => $email,
+        ':phone' => $phone,
+        ':totalAmount' => $totalAmount,
+        ':address' => $address,
+        ':note' => $note,
+        ':paymentMethodId' => $paymentMethodId,
+        ':orderStatusId' => $order_status_id,
+    ]);
+
+    // Trả về ID của đơn hàng vừa được tạo
+    return $this->conn->lastInsertId();
+}
+
 
     function addOrderItem($orderId, $productId, $quantity, $unitPrice){
         // Tính subtotal
-        $subtotal = $unitPrice * $quantity;
-        $sql = "INSERT INTO order_items(order_id, quantity, unit_price, subtotal)
-                VALUES ('$orderId', '$quantity', '$unitPrice', '$subtotal')";
+        $total = $unitPrice * $quantity;
+        $sql = "INSERT INTO order_items(order_id, product_id, quantity, unit_price, total)
+                VALUES ('$orderId','$productId', '$quantity', '$unitPrice', '$total')";
         $this->conn->query($sql);
     }
+
+    
 }

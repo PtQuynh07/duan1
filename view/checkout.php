@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 </head>
 
@@ -81,6 +82,9 @@
 
                                 <li>
                                     <a href="?action=login"><i class="bi bi-person-circle"></i></a>
+                                </li>
+                                <li>
+                                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                                 </li>
                             </ul>
                             <!-- End Header Action Link -->
@@ -184,177 +188,165 @@
             <!-- Start User Details Checkout Form -->
             <div class="checkout_form" data-aos="fade-up" data-aos-delay="400">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <form action="#" method="POST">
-                            <h3>CHI TIẾT THANH TOÁN</h3>
+                    <form action="?action=createOrder" method="POST">
+                        <div class="checkout_form" data-aos="fade-up" data-aos-delay="400">
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="default-form-box">
-                                        <label>Họ và Tên <span>*</span></label>
-                                        <input type="text" name="fullname" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="default-form-box">
-                                        <label>Quốc gia <span>*</span></label>
-                                        <input type="text" name="country" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="default-form-box">
-                                        <label>Địa chỉ cụ thể <span>*</span></label>
-                                        <input placeholder="Số nhà và tên phố" type="text" name="address" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="default-form-box">
-                                        <input placeholder="Thị trấn/Xã..." type="text" name="town" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="default-form-box">
-                                        <label>Thành phố<span>*</span></label>
-                                        <input type="text" name="city" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="default-form-box">
-                                        <label>Quận<span>*</span></label>
-                                        <input type="text" name="district" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="default-form-box">
-                                        <label>Điện thoại<span>*</span></label>
-                                        <input type="text" name="phone" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="default-form-box">
-                                        <label>Địa chỉ Email<span>*</span></label>
-                                        <input type="text" name="email" required>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <label class="checkbox-default" for="newAccount" data-bs-toggle="collapse" data-bs-target="#newAccountPassword">
-                                        <input type="checkbox" id="newAccount">
-                                        <span>Tạo tài khoản?</span>
-                                    </label>
-                                    <div id="newAccountPassword" class="collapse mt-3" data-parent="#newAccountPassword">
-                                        <div class="card-body1 default-form-box">
-                                            <label> Mật khẩu tài khoản <span>*</span></label>
-                                            <input placeholder="Mật khẩu..." type="password">
+                                <!-- Cột bên trái: Điền thông tin khách hàng -->
+                                <div class="col-lg-6 col-md-6">
+                                    <h3>CHI TIẾT THANH TOÁN</h3>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="default-form-box">
+                                                <label>Họ và Tên <span>*</span></label>
+                                                <input type="text" name="fullname" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="default-form-box">
+                                                <label>Quốc gia <span>*</span></label>
+                                                <input type="text" name="country" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="default-form-box">
+                                                <label>Địa chỉ cụ thể <span>*</span></label>
+                                                <input placeholder="Số nhà và tên phố" type="text" name="address" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="default-form-box">
+                                                <input placeholder="Thị trấn/Xã..." type="text" name="town" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="default-form-box">
+                                                <label>Thành phố <span>*</span></label>
+                                                <input type="text" name="city" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="default-form-box">
+                                                <label>Quận <span>*</span></label>
+                                                <input type="text" name="district" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="default-form-box">
+                                                <label>Điện thoại <span>*</span></label>
+                                                <input type="text" name="phone" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="default-form-box">
+                                                <label>Địa chỉ Email <span>*</span></label>
+                                                <input type="email" name="email" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <div class="order-notes">
+                                                <label for="order_note">Ghi chú</label>
+                                                <textarea id="order_note" placeholder="Ghi chú về đơn hàng của bạn, ví dụ ghi chú đặc biệt về việc giao hàng." name="note"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-12 mt-3">
-                                    <div class="order-notes">
-                                        <label for="order_note">Ghi chú</label>
-                                        <textarea id="order_note" placeholder="Ghi chú về đơn hàng của bạn, ví dụ ghi chú đặc biệt về việc giao hàng." name="note"></textarea>
+                                <!-- Cột bên phải: Sản phẩm và thanh toán -->
+                                <div class="col-lg-6 col-md-6">
+                                    <h3>ĐƠN HÀNG CỦA BẠN</h3>
+                                    <div class="order_table table-responsive">
+                                        <table id="checkoutTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sản phẩm</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Tổng cộng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $checkoutData = $_SESSION['checkout_data'] ?? [];
+                                                $totalAmount = 0; // Khởi tạo biến tổng để tính tổng cho tất cả sản phẩm
+
+                                                foreach ($checkoutData as $item) {
+                                                    if (
+                                                        empty($item['product_name']) ||
+                                                        empty($item['product_price']) ||
+                                                        empty($item['quantity'])
+                                                    ) {
+                                                        continue;
+                                                    }
+                                                    // Chuyển đổi product_price thành số
+                                                    $productPrice = (int)preg_replace('/[^0-9]/', '', $item['product_price']); // Loại bỏ ký tự không phải số
+                                                    $totalPrice = $productPrice * $item['quantity'];
+                                                    $totalAmount += $totalPrice; // Cộng dồn vào tổng
+                                                ?>
+                                                    <tr>
+                                                        <td><?php echo htmlspecialchars($item['product_name'] . ' - ' . $item['color']); ?></td>
+                                                        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                                                        <td class="item-total"><?php echo number_format($totalPrice, 0, ',', '.') . 'đ'; ?></td> <!-- Hiển thị tổng giá trị từng sản phẩm -->
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Tổng cộng giỏ hàng:</th>
+                                                    <td></td>
+                                                    <td id="totalAmount"><?php echo number_format($totalAmount, 0, ',', '.') . 'đ'; ?></td> <!-- Hiển thị tổng cộng ở đây -->
+                                                </tr>
+                                                <tr>
+                                                    <th>Vận chuyển:</th>
+                                                    <td></td>
+                                                    <td><strong>35.000đ</strong></td>
+                                                </tr>
+                                                <tr class="order_total">
+                                                    <th>Tổng đơn hàng:</th>
+                                                    <td></td>
+                                                    <td id="finalTotal"></td>
+                                                    <input type="hidden" name="finalTotal" id="hiddenTotalAmount" value="<?php echo number_format($totalAmount, 0, ',', '.'); ?>">
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function() {
+                                                const shippingCost = 35000; // Phí vận chuyển
+                                                const totalAmountElement = document.getElementById('totalAmount').textContent.replace('đ', '').replace(/\./g, '').trim();
+                                                const totalAmount = parseInt(totalAmountElement); // Chuyển đổi tổng cộng thành số nguyên
+
+                                                // Tính tổng đơn hàng
+                                                const finalTotal = totalAmount + shippingCost;
+                                                document.getElementById('finalTotal').textContent = finalTotal.toLocaleString('vi-VN') + 'đ';
+
+                                                // Cập nhật giá trị hidden input cho tổng số tiền
+                                                document.getElementById('hiddenTotalAmount').value = finalTotal;
+                                            });
+                                        </script>
                                     </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <form action="#" method="POST">
-                            <h3>ĐƠN HÀNG CỦA BẠN</h3>
-                            <div class="order_table table-responsive">
-                                <table id="checkoutTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Sản phẩm</th>
-                                            <th>Số lượng</th>
-                                            <th>Tổng cộng</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $checkoutData = $_SESSION['checkout_data'] ?? [];
-                                        $totalAmount = 0; // Khởi tạo biến tổng để tính tổng cho tất cả sản phẩm
-
-                                        foreach ($checkoutData as $item) {
-                                            if (
-                                                empty($item['product_name']) ||
-                                                empty($item['product_price']) ||
-                                                empty($item['quantity'])
-                                            ) {
-                                                continue;
-                                            }
-                                            // Chuyển đổi product_price thành số
-                                            $productPrice = (int)preg_replace('/[^0-9]/', '', $item['product_price']); // Loại bỏ ký tự không phải số
-                                            $totalPrice = $productPrice * $item['quantity'];
-                                            $totalAmount += $totalPrice; // Cộng dồn vào tổng
-                                        ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($item['product_name'] . ' - ' . $item['color']); ?></td>
-                                                <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                                                <td class="item-total"><?php echo number_format($totalPrice, 0, ',', '.') . 'đ'; ?></td> <!-- Hiển thị tổng giá trị từng sản phẩm -->
-                                            </tr>
-                                        <?php
-                                        }
-                                        ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Tổng cộng giỏ hàng:</th>
-                                            <td></td>
-                                            <td id="totalAmount"><?php echo number_format($totalAmount, 0, ',', '.') . 'đ'; ?></td> <!-- Hiển thị tổng cộng ở đây -->
-                                        </tr>
-                                        <tr>
-                                            <th>Vận chuyển:</th>
-                                            <td></td>
-                                            <td><strong>35.000đ</strong></td>
-                                        </tr>
-                                        <tr class="order_total">
-                                            <th>Tổng đơn hàng:</th>
-                                            <td></td>
-                                            <td id="finalTotal"></td>
-                                            <input type="hidden" name="finalTotal" id="hiddenTotalAmount" value="<?php echo number_format($totalAmount, 0, ',', '.'); ?>">
-                                        </tr>
-                                    </tfoot>
-                                </table>
-
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const shippingCost = 35000; // Phí vận chuyển
-                                        const totalAmountElement = document.getElementById('totalAmount').textContent.replace('đ', '').replace(/\./g, '').trim();
-                                        const totalAmount = parseInt(totalAmountElement); // Chuyển đổi tổng cộng thành số nguyên
-
-                                        // Tính tổng đơn hàng
-                                        const finalTotal = totalAmount + shippingCost;
-                                        document.getElementById('finalTotal').textContent = finalTotal.toLocaleString('vi-VN') + 'đ';
-
-                                        // Cập nhật giá trị hidden input cho tổng số tiền
-                                        document.getElementById('hiddenTotalAmount').value = finalTotal;
-                                    });
-                                </script>
-                            </div>
-                            <div class="payment_method">
-                                <div class="panel-default">
-                                    <label class="checkbox-default" for="currencyCod" data-bs-toggle="collapse" data-bs-target="#methodCod">
-                                        <input type="radio" name="payment_method" id="currencyCod" value="cash_on_delivery" checked>
-                                        <span>Thanh toán khi nhận hàng.</span>
-                                    </label>
-                                </div>
-                                <div class="panel-default">
-                                    <label class="checkbox-default" for="currencyPaypal" data-bs-toggle="collapse" data-bs-target="#methodPaypal">
-                                        <input type="radio" id="currencyPaypal" name="payment_method" value="momo">
-                                        <span>MoMo</span>
-                                    </label>
-                                    <div id="methodPaypal" class="collapse " data-parent="#methodPaypal">
-                                        <div class="card-body1">
-                                            <p>Thanh toán qua MoMo.</p>
+                                    <div class="payment_method">
+                                        <div>
+                                            <label class="checkbox-default" for="currencyCod">
+                                                <input type="radio" name="payment_method" id="currencyCod" value="1" checked>
+                                                <span>Thanh toán khi nhận hàng</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label class="checkbox-default" for="currencyPaypal">
+                                                <input type="radio" name="payment_method" id="currencyPaypal" value="2">
+                                                <span>MoMo</span>
+                                            </label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="order_button pt-3">
-                                    <button class="btn btn-md btn-black-default-hover" type="submit" name="submit_payment">Thanh toán</button>
+                                    <div class="order_button pt-3">
+                                        <button class="btn btn-md btn-black-default-hover" type="submit">Thanh toán</button>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+
                 </div>
             </div> <!-- Start User Details Checkout Form -->
         </div>

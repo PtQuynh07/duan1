@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản trị đơn hàng</title>
+    <title>Quản lý danh sách đơn hàng</title>
     <style>
         .table {
             width: 100%;
@@ -81,40 +81,41 @@
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
-                <h1 class="m-0">Đơn hàng</h1>
+                <h1 class="m-0">Quản lý danh sách đơn hàng</h1>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">User</th>
                             <th scope="col">Tên khách hàng</th>
-                            <th scope="col">Địa chỉ Email</th>
                             <th scope="col">Điện thoại</th>
                             <th scope="col">Ngày đặt hàng</th>
-                            <th scope="col">Địa chỉ nhận hàng</th>
                             <th scope="col">Tổng đơn hàng</th>
-                            <th scope="col">Notes</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Thao tác</th>
                         </tr>
                     </thead>
                     <?php
-                    if (isset($orders) && is_array($orders)) {
-                        foreach ($orders as $order) {
+                    if (isset($listOrder) && is_array($listOrder)) {
+                        foreach ($listOrder as $order) {
                     ?>
                             <tbody>
                                 <tr>
                                     <td scope="row"><?php echo $order['id'] ?></td>
-                                    <td>
-                                        <a href="?action=items&id=<?php echo $order['id'] ?>">
-                                            <span class="glyphicon glyphicon-user"></span>
-                                        </a>
-                                    </td>
                                     <td><?php echo $order['customer_name'] ?></td>
-                                    <td><?php echo $order['customer_email'] ?></td>
                                     <td><?php echo $order['customer_phone'] ?></td>
                                     <td><?php echo $order['order_date'] ?></td>
-                                    <td><?php echo $order['shipping_address'] ?></td>
-                                    <td><?php echo $order['total_amount'] ?></td>
-                                    <td><?php echo $order['note'] ?></td>
+                                    <td><?php echo number_format($order['total_amount'], 0, ',', '.') . ' đ'; ?></td>
+                                    <td><?php echo $order['status_name'] ?></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="?action=orderDetail&order_id=<?= $order['id'] ?>">
+                                                <button class="btn btn-primary"><i class="far fa-eye"></i></button>
+                                            </a>
+                                            <a href="?action=formEditOrder&order_id=<?= $order['id'] ?>">
+                                                <button class="btn btn-warning"><i class="fas fa-tools"></i></button>
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                     <?php

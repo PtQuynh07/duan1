@@ -16,6 +16,7 @@ switch ($action) {
     case 'home':
         $userController->showSanpham();
         break;
+    //đăng nhập
     case 'login':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userController->login();
@@ -23,6 +24,7 @@ switch ($action) {
             $userController->showLoginForm();
         }
         break;
+    //đăng kí
     case 'signUp':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userController->register();
@@ -30,6 +32,7 @@ switch ($action) {
             $userController->showSignUpForm();
         }
         break;
+    //quên pass
     case 'forgot_form':
         $userController->showForgotPasswordForm();
         break;
@@ -46,6 +49,11 @@ switch ($action) {
     case 'reset_password':
         $userController->handleResetPassword();
         break;
+    //đăng xuất
+    case 'logout':
+        $userController->logout();
+        break;
+        
     case 'product_category':
         $userController->product_category($_GET['id']);
         break;
