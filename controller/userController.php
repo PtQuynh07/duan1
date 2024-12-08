@@ -57,6 +57,7 @@ class UserController
         include './view/login.php';
     }
 
+
     //logout
     function logout()
 {
@@ -125,7 +126,11 @@ class UserController
           }
           header("Location:?action=viewCart");
         }else{
-            var_dump('Lỗi');
+            echo "<script>
+                alert('Bạn chưa đăng nhập');
+                window.location.href='?action=login';
+            </script>";
+           
         } 
         
     }
@@ -151,6 +156,49 @@ class UserController
       header("Location: ?action=login");
     }
   }
+
+
+  function updateCart() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_SESSION['mail'])) {
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            $productId = $data['product_id'];
+            $quantity = $data['quantity'];
+
+            // Lấy thông tin tài khoản và giỏ hàng
+            $email = $this->userModel->getTaiKhoanFormEmail($_SESSION['mail']);
+            $gioHang = $this->userModel->getGioHangFromUser($email["id"]);
+
+            if ($gioHang) {
+                // Kiểm tra xem sản phẩm có trong giỏ hàng hay chưa
+                $chiTietGioHang = $this->userModel->getDetailGioHang($gioHang['id']);
+                $productExists = false;
+
+                foreach ($chiTietGioHang as $detail) {
+                    if ($detail['product_id'] == $productId) {
+                        // Cập nhật số lượng sản phẩm
+                        $this->userModel->updateSoLuong($gioHang['id'], $productId, $quantity);
+                        $productExists = true;
+                        break;
+                    }
+                }
+
+                // Nếu sản phẩm không tồn tại, thêm sản phẩm vào giỏ hàng
+                if (!$productExists) {
+                    $this->userModel->addDetailGioHang($gioHang['id'], $productId, $quantity);
+                }
+
+                echo json_encode(["success" => true]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Không tìm thấy giỏ hàng!"]);
+            }
+        } else {
+            echo json_encode(["success" => false, "message" => "Bạn chưa đăng nhập!"]);
+        }
+    }
+}
+
 
   public function deleteOneGioHang()
     {
@@ -441,4 +489,119 @@ class UserController
           }
         }
     }
+
+   // ĐƠN HÀNG
+
+   function donHang(){
+     $danhmucs = $this->userModel->getDanhmuc();
+      if(isset($_SESSION['mail'])){
+        // lấy  thông tin tài khoản đăng nhập
+        $user = $this->userModel->getTaiKhoanFormEmail($_SESSION["mail"]);
+        $user_id = $user['id']; // tai_khoan_id
+
+        // lấy ra danh sách trạng thái đơn hàng
+        $arrTrangThaiDonHang = $this->userModel->getTrangThaiDonHang();
+        $trangThaiDonHang = array_column($arrTrangThaiDonHang, 'status_name', 'id');
+        // echo ("<pre>");
+        // print_r($trangThaiDonHang);die;
+
+        //lấy ra phương thức thanh  thanh toán
+        $arrPhuongThucThanhToan = $this->userModel->getPhuongThucThanhToan();
+        $phuongThucThanhToan = array_column($arrPhuongThucThanhToan, 'method_name','id');
+        // echo ("<pre>");
+        // print_r($phuongThucThanhToan);die;
+
+        // lấy ra danh sách đơn hàng của tài khoản
+        $donHangs = $this->userModel->getDonHangFormUser($user_id);
+        // echo("<pre>");
+        // print_r($donHangs );
+        
+       include './view/donhang.php';
+      }else{
+        echo "<script>
+        alert('Bạn chưa đăng nhập');
+        window.location.href='?action=login';
+        </script>";
+      }
+   }
+
+   function chiTietDonHang(){
+    $danhmucs = $this->userModel->getDanhmuc();
+    if(isset($_SESSION['mail'])){
+        // lấy  thông tin tài khoản đăng nhập
+        $user = $this->userModel->getTaiKhoanFormEmail($_SESSION["mail"]);
+        $user_id = $user['id']; 
+
+        $donhangId= $_GET['id'];
+
+        $arrTrangThaiDonHang = $this->userModel->getTrangThaiDonHang();
+        $trangThaiDonHang = array_column($arrTrangThaiDonHang, 'status_name', 'id');
+        // echo ("<pre>");
+        // print_r($trangThaiDonHang);die;
+
+        //lấy ra phương thức thanh  thanh toán
+        $arrPhuongThucThanhToan = $this->userModel->getPhuongThucThanhToan();
+        $phuongThucThanhToan = array_column($arrPhuongThucThanhToan, 'method_name','id');
+        
+        // Lấy thông tin đơn hàng theo ID
+
+        $donHang=$this->userModel->getDonHangById($donhangId);
+
+         //lấy thông tin sản phẩm đơn hàng
+
+         $chitietdonhang = $this->userModel->getChiTietDonHangByDonHangId($donhangId);
+        //     echo("<pre>");
+        //    print_r($donHang );
+        //    print_r($chitietdonhang );die;
+        if($donHang['user_id']!=$user_id){
+            echo "<script>
+            alert('Bạn không có quyền truy cập đơn hàng này');
+        
+            </script>";
+            exit;
+
+        }
+        include './view/order_detail.php';
+
+      }else{
+        echo "<script>
+        alert('Bạn chưa đăng nhập');
+        window.location.href='?action=login';
+        </script>";
+      }
+   }
+
+   function huyDonHang(){
+    if(isset($_SESSION['mail'])){
+        // lấy  thông tin tài khoản đăng nhập
+        $user = $this->userModel->getTaiKhoanFormEmail($_SESSION["mail"]);
+        $user_id = $user['id']; 
+
+        $donhangId= $_GET['id'];
+
+        $donHang=$this->userModel->getDonHangById($donhangId);
+      
+
+        if($donHang['user_id']!=$user_id ){
+            echo "<script>
+            alert('Bạn không có quyền hủy đơn hàng này');
+            </script>";
+            exit;
+        }
+        if($donHang['order_status_id']!=1){
+            echo "<script>
+            alert('Chỉ đơn hàng ở trạng thái 'Chưa xác nhận' mới được hủy');
+            </script>";
+            exit;
+        }
+        //Hủy đơn hàng
+        $this->userModel->updateTrangThaiDonHang($donhangId,11);
+        header("Location: ?action=donhang");
+      }else{
+        echo "<script>
+        alert('Bạn chưa đăng nhập');
+        window.location.href='?action=login';
+        </script>";
+      }
+   }
 }

@@ -162,13 +162,14 @@
                     <form action="?action=createOrder" method="POST">
                         <div class="checkout_form" data-aos="fade-up" data-aos-delay="400">
                             <div class="row">
+                               
                                 <!-- Cột bên trái: Điền thông tin khách hàng -->
                                 <div class="col-lg-6 col-md-6">
                                     <h3>CHI TIẾT THANH TOÁN</h3>
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="default-form-box">
-                                                <label>Họ và Tên <span>*</span></label>
+                                                <label>Họ và Tên  <span>*</span></label>
                                                 <input type="text" name="fullname" required>
                                             </div>
                                         </div>
@@ -210,7 +211,7 @@
                                         <div class="col-lg-6">
                                             <div class="default-form-box">
                                                 <label>Địa chỉ Email <span>*</span></label>
-                                                <input type="email" name="email" required>
+                                                <input type="email" name="email"  required>
                                             </div>
                                         </div>
                                         <div class="col-12 mt-3">

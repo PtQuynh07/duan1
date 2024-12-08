@@ -39,13 +39,7 @@
 .cart-image:hover {
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Bóng đậm hơn khi hover */
 }
-.product-price::after {
-    content: " đ";
-    text-transform: none; /* Giữ nguyên chữ thường */
-}
-.product-total-price {
-    text-transform: none; /* Đảm bảo không thay đổi kiểu chữ */
-}
+
 
 
     </style>
@@ -103,14 +97,17 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="cart.html">
+                                <a href="?action=viewCart">
                                         <i class="icon-bag"></i>
                                         <span class="item-count">3</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="login.html"><i class="bi bi-person-circle"></i></a>
+                                    <a href="?action=login"><i class="bi bi-person-circle"></i></a>
+                                </li>
+                                <li>
+                                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                                 </li>
                             </ul>
                             <!-- End Header Action Link -->
@@ -166,13 +163,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h3 class="breadcrumb-title">Cart</h3>
+                        <h3 class="breadcrumb-title">Giỏ hàng</h3>
                         <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li><a href="?action=home">Home</a></li>
+                                    <li><a href="?action=home">Trang chủ</a></li>
                                     <li><a href="blog-grid-sidebar-left.html">Blog</a></li>
-                                    <li><a href="#">Cart</a></li>
+                                    <li><a href="#">Giỏ hàng</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -198,12 +195,12 @@
                                     <thead>
                                         <tr>
                                             
-                                            <th class="product_thumb">Image</th>
-                                            <th class="product_name">Product</th>
-                                            <th class="product-price">Price</th>
-                                            <th class="product_quantity">Quantity</th>
-                                            <th class="product_total">Total</th>
-                                            <th class="product_remove">Delete</th>
+                                            <th class="product_thumb">Hình ảnh</th>
+                                            <th class="product_name">Tên sản phẩm</th>
+                                            <th class="product-price">Giá</th>
+                                            <th class="product_quantity">Số lượng</th>
+                                            <th class="product_total">Tổng</th>
+                                            <th class="product_remove">Thao tác</th>
                                         </tr>
                                     </thead> 
                                     <tbody>
@@ -265,8 +262,8 @@
                                 </table>
                             </div>
                             <div class="cart_submit">
-    <button class="btn btn-md btn-golden" type="button" id="update-cart">Update Cart</button>
-</div>
+                            <button class="btn btn-md btn-golden" type="button" id="update-cart">Update Cart</button>
+                            </div>              
                         </div>
                     </div>
                 </div>
@@ -274,33 +271,36 @@
         </div> <!-- End Cart Table -->
         <!-- Gọi sự kiện update -->
          <script>
-            document.addEventListener('DOMContentLoaded', function () {
-    const quantityInput = document.querySelector('.quantity-input');
-    const updateButton = document.getElementById('update-cart');
-    
-    // Khi trang được tải lại, kiểm tra và cập nhật giá trị quantity từ localStorage
-    const productId = quantityInput.getAttribute('data-product-id');
-    if (localStorage.getItem('quantity_' + productId)) {
-        quantityInput.value = localStorage.getItem('quantity_' + productId);
-    }
+               // Lấy danh sách tất cả các nút Update Cart
+    const updateButtons = document.querySelectorAll(".update-cart");
 
-    // Lắng nghe sự kiện click vào nút "Update Cart"
-    updateButton.addEventListener('click', function () {
-        const newQuantity = quantityInput.value;
+   updateButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+        const row = button.closest("tr"); // Lấy hàng hiện tại
+        const input = row.querySelector(".quantity-input"); // Lấy input quantity
+        const productId = input.dataset.productId;
+        const quantity = input.value;
 
-        // Kiểm tra số lượng hợp lệ
-        if (newQuantity < 1 || newQuantity > 100) {
-            alert("Số lượng phải nằm trong khoảng từ 1 đến 100");
-            return;
-        }
-
-        // Lưu giá trị số lượng mới vào localStorage
-        localStorage.setItem('quantity_' + productId, newQuantity);
-
-        alert('Số lượng đã được cập nhật!');
+        // Gửi yêu cầu AJAX đến Controller
+        fetch("?action=updateCart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ product_id: productId, quantity: quantity }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    alert("Cập nhật giỏ hàng thành công!");
+                    window.location.reload();
+                } else {
+                    alert(data.message || "Có lỗi xảy ra!");
+                }
+            })
+            .catch((error) => console.error("Error:", error));
     });
 });
-
          </script>
 
 

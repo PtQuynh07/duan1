@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <style>
         .header-logo .logo img {
@@ -237,9 +238,17 @@
                                         <span class="item-count">3</span>
                                     </a>
                                 </li>
+                                 
+                                <li>
+                                    <a href="?action=donhang"><i class=" nav-icon fas fa-file-invoice-dollar"></i></a>
+                                </li>
 
                                 <li>
                                     <a href="?action=login"><i class="bi bi-person-circle"></i></a>
+                                </li>
+
+                                <li>
+                                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                                 </li>
                             </ul>
                             <!-- End Header Action Link -->
@@ -271,12 +280,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h3 class="breadcrumb-title">Product Details - Default</h3>
+                        <h3 class="breadcrumb-title">Chi tiết sản phẩm</h3>
                         <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li><a href="index.html">Home</a></li>
-                                    <li class="active" aria-current="page">Product Details Default</li>
+                                    <li><a href="index.html">Trang chủ</a></li>
+                                    <li class="active" aria-current="page">Chi tiết sản phẩm</li>
                                 </ul>
                             </nav>
                         </div>
@@ -350,7 +359,7 @@
 
                         <!-- Start Product Variable Area -->
                         <div class="product-details-variable">
-                            <h4 class="title">Color Options</h4>
+                            <h4 class="title">Màu Sắc</h4>
                             <!-- Product Variable Single Item -->
                             <div class="variable-single-item">
                                 <!-- Start Color Options -->
@@ -379,14 +388,14 @@
                             <input type="hidden" name="product_id" value="<?= $productData['id'] ?? '' ?>">
                             
                             <div class="variable-single-item " id="quantity">
-                                <span>Quantity</span>
+                                <span>Số Lượng</span>
                                 <div class="product-variable-quantity">
                                     <input min="1" max="100" value="1" type="number" id="quantity-input" name="quantity" >
                                 </div>
                             </div>
                             
                                 <div class="product-add-cart-btn">
-                                    <button type="submit" class="btn btn-block btn-lg btn-black-default-hover">+ ADD TO CART</button>
+                                    <button type="submit" class="btn btn-block btn-lg btn-black-default-hover">+ Thêm vào giỏ hàng</button>
                                 </div>
                             </form>
 
@@ -434,11 +443,12 @@
 
                                     <div class="product-add-cart-btn" id="bynow">
                                     <a href="javascript:void(0);" class="btn-buy-now btn btn-block btn-lg btn-black-default-hover"
+                                        data-product-id="<?php echo $productData['id']; ?>"
                                         data-product-name="<?php echo $productData['product_name']; ?>"
                                         data-product-price="<?php echo $productData['price']; ?>"
                                         data-selected-color="<?php echo $color === array_key_first($productData['variants']) ? 'checked' : ''; ?>"
                                         data-quantity="1"
-                                        data-product-description="<?php echo $productData['description']; ?>">Buy Now</a>
+                                        data-product-description="<?php echo $productData['description']; ?>">Mua Ngay</a>
                                 </div>
 
 
@@ -555,8 +565,8 @@
                     <div class="col-12">
                         <div class="section-content-gap">
                             <div class="secton-content">
-                                <h3 class="section-title">BEST SELLERS</h3>
-                                <p>Add our best sellers to your weekly lineup.</p>
+                                <h3 class="section-title">Sản phẩm bán chạy</h3>
+                                <p>Thêm sản phẩm bán chạy nhất của chúng tôi vào danh sách hàng tuần của bạn.</p>
                             </div>
                         </div>
                     </div>

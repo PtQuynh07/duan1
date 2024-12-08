@@ -73,7 +73,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="?action=cart">
+                                <a href="?action=viewCart">
                                         <i class="icon-bag"></i>
                                         <span class="item-count">3</span>
                                     </a>
@@ -163,7 +163,7 @@
                                 <div class="col-12">
                                     <div class="default-form-box">
                                         <label>Họ và Tên <span>*</span></label>
-                                        <input type="text" name="name" required>
+                                        <input type="text" name="name" value="<?= $user['username']?>" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -204,7 +204,7 @@
                                 <div class="col-lg-6">
                                     <div class="default-form-box">
                                         <label>Địa chỉ Email<span>*</span></label>
-                                        <input type="text" name="email" required>
+                                        <input type="text" name="email" value="<?= $user['email']?>" required>
                                     </div>
                                 </div>
                                 <div class="col-12">

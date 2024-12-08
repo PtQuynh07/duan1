@@ -70,6 +70,11 @@ switch ($action) {
     case 'productDetail':
         $userController->productDetail();
         break;
+
+    case 'updateCart':
+        $userController->updateCart();
+        break;
+
     case 'xoasanphamcart':
         $userController->deleteOneGioHang();
         break;
@@ -92,5 +97,16 @@ switch ($action) {
    case 'xulidathang':
         $userController->postDathang();
         break;
+
+    // Đơn hàng
+    case 'donhang':
+        $userController->donHang();
+        break;
+    case 'chitietdonhang':
+            $userController->chiTietDonHang();
+            break;
+    case 'huydonhang':
+            $userController->huyDonHang();
+            break;
 
 }

@@ -177,6 +177,7 @@ class UserModel
             $productId = $detail['productId'];
 
             //xử lý cấp độ sản phẩm
+
             if (!isset($data[$id])) {
                 $data[$id] = [
                     'id' => $id,
@@ -439,6 +440,111 @@ class UserModel
             return [];
         }
     }
+
+    // ĐƠN HÀNG
+
+    public function getDonHangFormUser($taikhoan){
+        try{
+            $sql = " SELECT * FROM orders WHERE user_id=:user_id ";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute([':user_id'=>$taikhoan,]);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+    public function getTrangThaiDonHang(){
+        try{
+            $sql = " SELECT * FROM order_status ";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+    public function getPhuongThucThanhToan(){
+        try{
+            $sql = " SELECT * FROM payment_methods ";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+    public function getDonHangById($donhangId){
+        try{
+            $sql = " SELECT * FROM orders WHERE  id=:id ";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute(
+                [':id'=>$donhangId]
+            );
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+    public function updateTrangThaiDonHang($donhangId,$trangThaiId){
+        try{
+            $sql = " UPDATE orders SET order_status_id=:order_status_id WHERE  id=:id ";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute(
+                [':id'=>$donhangId,
+                        ':order_status_id'=>$trangThaiId
+                
+                ]
+            );
+
+            return true;
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+    public function getChiTietDonHangByDonHangId($donhangId){
+        try{
+            $sql = " SELECT oi.*,o.*,p.product_name,pi.image_url
+             FROM order_items oi 
+             JOIN orders o ON o.id=oi.order_id
+             JOIN products p ON p.id = oi.product_id
+             JOIN product_variants pv ON p.id=pv.product_id
+             JOIN product_images pi ON pi.product_variant_id = pv .id
+             WHERE  oi.order_id=:id  AND pi.is_primary=1";
+            $stmt = $this->conn->prepare($sql);
+
+            $stmt->execute(
+                [':id'=>$donhangId]
+            );
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+            echo "Lỗi" .$e->getMessage();
+
+        }
+    }
+
+
+
+
 
 
 
