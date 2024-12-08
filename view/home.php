@@ -37,24 +37,20 @@
         }
 
         #search form {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 600px;
+            width: 80%;
+            /* max-width: 600px; */
         }
 
         /* Nút Close */
         #search .close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             font-size: 2rem;
             color: white;
             background: transparent;
             border: none;
             cursor: pointer;
             z-index: 1001;
-            margin-right: 280px;
+            margin-right: 250px;
+            margin-top: -20px;
         }
 
         #search .close:hover {
@@ -63,9 +59,11 @@
         }
 
         /* Input Search */
-        #search input[type="search"] {
-            width: 50%;
-            margin-top: -280px;
+        #search input[type="text"] {
+            width: 60%;
+            height: 50px;
+            margin-top: 0px;
+            margin-left: 300px;
             padding: 10px 15px;
             border: 1px solid white;
             border-radius: 25px;
@@ -75,14 +73,14 @@
             outline: none;
         }
 
-        #search input[type="search"]::placeholder {
+        #search input[type="text"]::placeholder {
             color: #ddd;
         }
 
-        #search .icon-search {
-            margin-right: 10px;
-            margin-left: 130px;
-            margin-top: 30px;
+        #search .form-search .icon-search {
+            float: right;
+            margin-top: 5px;
+            margin-right: 50px;
             font-size: 1.5rem;
         }
     </style>
@@ -117,15 +115,15 @@
                                             <?php
                                             foreach ($danhmucs as $danhmuc) {
                                             ?>
-                                                <li><a href="?action=product_category&id=<?=$danhmuc['id']?>"><?php echo $danhmuc['category_name'] ?></a></li>
-                                            <?php
-                                                }
-                                            ?>
-                                        </li>
-                                        
-                                        <li>
-                                            <a href="#">Contact Us</a>
-                                        </li>
+                                        <li><a href="?action=product_category&id=<?= $danhmuc['id'] ?>"><?php echo $danhmuc['category_name'] ?></a></li>
+                                    <?php
+                                            }
+                                    ?>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Contact Us</a>
+                                    </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -160,17 +158,18 @@
 
     <!-- Start Offcanvas Search Bar Section tìm kiếm -->
     <div id="search" class="search-modal">
-        <form class="form-search">
+        <form class="form-search" method="post" action="http://localhost/duan1/index.php">
+            <!-- Input -->
+            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm" />
+            <!-- Close Button -->
+            <button type="button" class="close">×</button>
             <!-- Icon Search -->
             <span class="icon-search">
                 <i class="bi bi-search"></i>
             </span>
-            <!-- Input -->
-            <input type="search" placeholder="Tìm kiếm sản phẩm" />
-            <!-- Close Button -->
-            <button type="button" class="close">×</button>
         </form>
     </div>
+    <!-- End Offcanvas Search Bar Section -->
 
     <!-- Start Hero Slider Section-->
     <div class="hero-slider-section">

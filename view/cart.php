@@ -26,20 +26,69 @@
             height: 100px;
             width: 150px;
         }
-        .cart-image {
-    width: 200px;
-    height: auto;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ cho ảnh */
-    border-radius: 5px; /* Bo góc cho ảnh để mềm mại hơn */
-    transition: box-shadow 0.3s ease; /* Hiệu ứng khi hover */
-    background: transparent; /* Đảm bảo không có nền */
-    border: none; /* Loại bỏ viền nếu có */
-}
 
-.cart-image:hover {
-    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Bóng đậm hơn khi hover */
-}
+        .product-default-single-item .image-link img {
+            margin-bottom: 50px;
+        }
 
+        #search {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            z-index: 1000;
+        }
+
+        #search form {
+            width: 80%;
+            /* max-width: 600px; */
+        }
+
+        /* Nút Close */
+        #search .close {
+            font-size: 2rem;
+            color: white;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+            margin-right: 250px;
+            margin-top: -20px;
+        }
+
+        #search .close:hover {
+            color: #f1c40f;
+            /* Màu nổi bật khi hover */
+        }
+
+        /* Input Search */
+        #search input[type="text"] {
+            width: 60%;
+            height: 50px;
+            margin-top: 0px;
+            margin-left: 300px;
+            padding: 10px 15px;
+            border: 1px solid white;
+            border-radius: 25px;
+            background-color: transparent;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        #search input[type="text"]::placeholder {
+            color: #ddd;
+        }
+
+        #search .form-search .icon-search {
+            float: right;
+            margin-top: 5px;
+            margin-right: 50px;
+            font-size: 1.5rem;
+        }
     </style>
 
 </head>
@@ -70,17 +119,17 @@
                                         </li>
                                         <li class="has-dropdown ">
                                             <?php
-                                                foreach($danhmucs as $danhmuc){
+                                            foreach ($danhmucs as $danhmuc) {
                                             ?>
-                                               <li><a href="?action=product_category&id=<?=$danhmuc['id']?>"><?php echo $danhmuc['category_name'] ?></a></li>
-                                            <?php
-                                                }
-                                            ?>
-                                        </li>
-                                        
-                                        <li>
-                                            <a href="#">Contact Us</a>
-                                        </li>
+                                        <li><a href="?action=product_category&id=<?= $danhmuc['id'] ?>"><?php echo $danhmuc['category_name'] ?></a></li>
+                                    <?php
+                                            }
+                                    ?>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Contact Us</a>
+                                    </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -95,14 +144,14 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="cart.html">
+                                    <a href="?action=cart">
                                         <i class="icon-bag"></i>
                                         <span class="item-count">3</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="login.html"><i class="bi bi-person-circle"></i></a>
+                                    <a href="?action=login"><i class="bi bi-person-circle"></i></a>
                                 </li>
                             </ul>
                             <!-- End Header Action Link -->
@@ -112,7 +161,7 @@
             </div>
         </div>
     </header>
- 
+
     <!-- Start Offcanvas Mobile Menu Section -->
     <div id="offcanvas-about" class="offcanvas offcanvas-rightside offcanvas-mobile-about-section">
         <!-- Start Offcanvas Header -->
@@ -133,24 +182,29 @@
         </div> <!-- End Offcanvas Header -->
 
         <!-- GIỎ HÀNG -->
-     
+
 
     </div> <!-- End  Offcanvas Addcart Section -->
 
 
 
-    <!-- Start Offcanvas Search Bar Section -->
+    <!-- Start Offcanvas Search Bar Section tìm kiếm -->
     <div id="search" class="search-modal">
-        <button type="button" class="close">×</button>
-        <form>
-            <input type="search" placeholder="type keyword(s) here" />
-            <button type="submit" class="btn btn-lg btn-golden">Search</button>
+        <form class="form-search" method="post" action="http://localhost/duan1/index.php">
+            <!-- Input -->
+            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm" />
+            <!-- Close Button -->
+            <button type="button" class="close">×</button>
+            <!-- Icon Search -->
+            <span class="icon-search">
+                <i class="bi bi-search"></i>
+            </span>
         </form>
     </div>
     <!-- End Offcanvas Search Bar Section -->
 
     <!-- Offcanvas Overlay -->
-   
+
 
     <!-- Start Hero Slider Section-->
     <div class="breadcrumb-section breadcrumb-bg-color--golden">
@@ -178,107 +232,106 @@
     <!-- Start Product Default Slider Section -->
     <div class="cart-section">
         <!-- Start Cart Table -->
-        <div class="cart-table-wrapper"  data-aos="fade-up"  data-aos-delay="0">
+        <div class="cart-table-wrapper" data-aos="fade-up" data-aos-delay="0">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="table_desc">
                             <div class="table_page table-responsive">
-                            <table>
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php if (!empty($cartItems)): ?>
-        <?php foreach ($cartItems as $item): ?>
-            <tr>
-                <td><img src="assets/images/product/default/home-1/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="cart-image"></td>
-                <td><?= htmlspecialchars($item['name']) ?></td>
-                <td><?= number_format($item['price'], 0, ',', '.') ?>đ</td>
-                <td>
-                    <input 
-                        type="number" 
-                        name="quantity" 
-                        value="<?= $item['quantity'] ?>" 
-                        min="1" 
-                        onchange="updateQuantity('<?= htmlspecialchars($item['name']) ?>', this.value)"
-                        style="width: 60px; text-align: center;">
-                </td>
-                <td id="total-<?= htmlspecialchars($item['name']) ?>"><?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?>đ</td>
-                <td><a href="#" class="btn-remove" data-url="?action=removeFromCart&name=<?= urlencode($item['name']) ?>"><i class="fa-solid fa-trash-can"></i></a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <tr>
-            <td colspan="6">Your cart is empty.</td>
-        </tr>
-    <?php endif; ?>
-</tbody>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($cartItems)): ?>
+                                            <?php foreach ($cartItems as $item): ?>
+                                                <tr>
+                                                    <td><img src="assets/images/product/default/home-1/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="cart-image"></td>
+                                                    <td><?= htmlspecialchars($item['name']) ?></td>
+                                                    <td><?= number_format($item['price'], 0, ',', '.') ?>đ</td>
+                                                    <td>
+                                                        <input
+                                                            type="number"
+                                                            name="quantity"
+                                                            value="<?= $item['quantity'] ?>"
+                                                            min="1"
+                                                            onchange="updateQuantity('<?= htmlspecialchars($item['name']) ?>', this.value)"
+                                                            style="width: 60px; text-align: center;">
+                                                    </td>
+                                                    <td id="total-<?= htmlspecialchars($item['name']) ?>"><?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?>đ</td>
+                                                    <td><a href="#" class="btn-remove" data-url="?action=removeFromCart&name=<?= urlencode($item['name']) ?>"><i class="fa-solid fa-trash-can"></i></a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="6">Your cart is empty.</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
 
-</table>
+                                </table>
 
-<script>
-function updateQuantity(name, quantity) {
-    if (quantity < 1) {
-        alert("Quantity must be at least 1.");
-        return;
-    }
+                                <script>
+                                    function updateQuantity(name, quantity) {
+                                        if (quantity < 1) {
+                                            alert("Quantity must be at least 1.");
+                                            return;
+                                        }
 
-    // Gửi yêu cầu AJAX để cập nhật số lượng
-    fetch('?action=updateQuantity', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `name=${encodeURIComponent(name)}&quantity=${quantity}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Cập nhật tổng giá trị (total) mới
-            const totalCell = document.getElementById(`total-${name}`);
-            if (totalCell) {
-                totalCell.innerText = data.newTotalFormatted; // Giá trị tổng mới
-            }
-        } else {
-            alert(data.message || "Failed to update quantity.");
-        }
-    })
-    .catch(error => {
-        console.error("Error updating quantity:", error);
-    });
-}
+                                        // Gửi yêu cầu AJAX để cập nhật số lượng
+                                        fetch('?action=updateQuantity', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                                },
+                                                body: `name=${encodeURIComponent(name)}&quantity=${quantity}`
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    // Cập nhật tổng giá trị (total) mới
+                                                    const totalCell = document.getElementById(`total-${name}`);
+                                                    if (totalCell) {
+                                                        totalCell.innerText = data.newTotalFormatted; // Giá trị tổng mới
+                                                    }
+                                                } else {
+                                                    alert(data.message || "Failed to update quantity.");
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error("Error updating quantity:", error);
+                                            });
+                                    }
 
 
-document.querySelectorAll('.btn-remove').forEach(button => {
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const url = this.getAttribute('data-url');
-        Swal.fire({
-            title: 'Bạn có chắc chắn không?',
-            text: "Bạn có muốn xóa sản phẩm khỏi giỏ hàng không",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Đồng ý'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = url; 
-            }
-        });
-    });
-});
-
-</script>
+                                    document.querySelectorAll('.btn-remove').forEach(button => {
+                                        button.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            const url = this.getAttribute('data-url');
+                                            Swal.fire({
+                                                title: 'Bạn có chắc chắn không?',
+                                                text: "Bạn có muốn xóa sản phẩm khỏi giỏ hàng không",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'Đồng ý'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    window.location.href = url;
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
 
 
 
@@ -290,14 +343,14 @@ document.querySelectorAll('.btn-remove').forEach(button => {
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
 
         <!-- Start Coupon Start -->
         <div class="coupon_area">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <div class="coupon_code left"  data-aos="fade-up"  data-aos-delay="200">
+                        <div class="coupon_code left" data-aos="fade-up" data-aos-delay="200">
                             <h3>Coupon</h3>
                             <div class="coupon_inner">
                                 <p>Enter your coupon code if you have one.</p>
@@ -307,7 +360,7 @@ document.querySelectorAll('.btn-remove').forEach(button => {
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <div class="coupon_code right"  data-aos="fade-up"  data-aos-delay="400">
+                        <div class="coupon_code right" data-aos="fade-up" data-aos-delay="400">
                             <h3>Cart Totals</h3>
                             <div class="coupon_inner">
                                 <div class="cart_subtotal">
@@ -339,7 +392,7 @@ document.querySelectorAll('.btn-remove').forEach(button => {
 
     <!-- FOOTER -->
 
-     <footer class="footer-section footer-bg section-top-gap-100">
+    <footer class="footer-section footer-bg section-top-gap-100">
         <div class="footer-wrapper">
             <!-- Start Footer Top -->
             <div class="footer-top">
@@ -631,11 +684,11 @@ document.querySelectorAll('.btn-remove').forEach(button => {
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">Add To Cart</a>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                     <div class="modal-product-about-text">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam, reiciendis maiores quidem aperiam, rerum vel recusandae</p>
                                     </div>
-                               
+
                                     <div class="modal-product-details-social">
                                         <span class="title">SHARE THIS PRODUCT</span>
                                         <ul>
@@ -654,12 +707,14 @@ document.querySelectorAll('.btn-remove').forEach(button => {
                 </div>
             </div>
         </div>
-    </div> <
-    <script src="assets/js/vendor/vendor.min.js"></script>
-    <script src="assets/js/plugins/plugins.min.js"></script>
+    </div>
+    <
+        <script src="assets/js/vendor/vendor.min.js">
+        </script>
+        <script src="assets/js/plugins/plugins.min.js"></script>
 
-    <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
+        <!-- Main JS -->
+        <script src="assets/js/main.js"></script>
 
 </body>
 

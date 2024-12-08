@@ -22,121 +22,9 @@
             height: 100px;
             width: 150px;
         }
-        .col-lg-12{
-            margin-top: -80px;
-        }
 
-        /* Thẻ cha bao gồm cả ảnh và nút */
-        .product-wrapper {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-box img {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* Phóng to ảnh khi hover vào thẻ cha */
-        .product-wrapper:hover .image-box img {
-            transform: scale(1.1);
-        }
-
-        /* Ẩn div chứa nút ADD TO CART */
-        .action-link {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.8);
-            /* Nền đen với độ mờ */
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        /* Hiển thị nút ADD TO CART khi hover vào thẻ cha */
-        .product-wrapper:hover .action-link {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Chữ "ADD TO CART" đậm hơn */
-        .action-link-left .btn-add-to-cart {
-            font-weight: bold;
-            /* Làm chữ đậm */
-            font-size: 16px;
-            /* Tăng kích thước chữ nếu cần */
-            color: #fff;
-            /* Màu chữ trắng */
-            text-decoration: none;
-            /* Loại bỏ gạch chân */
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        /* Căn chỉnh icon-heart ngang hàng */
-        .action-link-right a {
-            color: #fff;
-            /* Màu trắng để đồng bộ */
-            font-size: 20px;
-            /* Kích thước phù hợp với chữ */
-            margin-left: 10px;
-            /* Khoảng cách giữa chữ và icon */
-            display: inline-block;
-            vertical-align: middle;
-            /* Giúp icon và chữ ngang hàng */
-        }
-
-        /* Căn chỉnh icon-heart ngang hàng */
-        .action-link-right a {
-            color: #fff;
-            /* Màu trắng để đồng bộ */
-            font-size: 20px;
-            /* Kích thước phù hợp với chữ */
-            margin-left: 10px;
-            /* Khoảng cách giữa chữ và icon */
-            display: inline-block;
-            vertical-align: middle;
-            /* Giúp icon và chữ ngang hàng */
-        }
-
-        /* Chỉnh toàn bộ action-link */
-        .action-link {
-            display: flex;
-            /* Sử dụng flexbox để căn chỉnh */
-            justify-content: space-between;
-            /* Đẩy hai phần trái và phải sang hai đầu */
-            align-items: center;
-            /* Đảm bảo căn giữa theo trục dọc */
-        }
-
-        /* Chữ "ADD TO CART" đậm hơn */
-        .action-link-left .btn-add-to-cart {
-            font-weight: bold;
-            /* Làm chữ đậm */
-            font-size: 16px;
-            /* Tăng kích thước chữ nếu cần */
-            color: #fff;
-            /* Màu chữ ban đầu */
-            text-decoration: none;
-            /* Loại bỏ gạch chân */
-            display: inline-block;
-            vertical-align: middle;
-            transition: color 0.3s ease;
-            /* Thêm hiệu ứng chuyển đổi mượt */
-        }
-
-        /* Khi hover vào nút "ADD TO CART" */
-        .action-link-left .btn-add-to-cart:hover {
-            color: #bda379;
-            /* Màu vàng đậm */
-        }
-
-        .img-fluid {
-            margin-bottom: 40px;
+        .product-default-single-item .image-link img {
+            margin-bottom: 50px;
         }
 
         #search {
@@ -151,24 +39,20 @@
         }
 
         #search form {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 600px;
+            width: 80%;
+            /* max-width: 600px; */
         }
 
         /* Nút Close */
         #search .close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             font-size: 2rem;
             color: white;
             background: transparent;
             border: none;
             cursor: pointer;
             z-index: 1001;
-            margin-right: 280px;
+            margin-right: 250px;
+            margin-top: -20px;
         }
 
         #search .close:hover {
@@ -177,9 +61,11 @@
         }
 
         /* Input Search */
-        #search input[type="search"] {
-            width: 50%;
-            margin-top: -280px;
+        #search input[type="text"] {
+            width: 60%;
+            height: 50px;
+            margin-top: 0px;
+            margin-left: 300px;
             padding: 10px 15px;
             border: 1px solid white;
             border-radius: 25px;
@@ -189,14 +75,14 @@
             outline: none;
         }
 
-        #search input[type="search"]::placeholder {
+        #search input[type="text"]::placeholder {
             color: #ddd;
         }
 
-        #search .icon-search {
-            margin-right: 10px;
-            margin-left: 130px;
-            margin-top: 30px;
+        #search .form-search .icon-search {
+            float: right;
+            margin-top: 5px;
+            margin-right: 50px;
             font-size: 1.5rem;
         }
     </style>
@@ -300,15 +186,15 @@
 
     <!-- Start Offcanvas Search Bar Section tìm kiếm -->
     <div id="search" class="search-modal">
-        <form class="form-search">
+        <form class="form-search" method="post" action="http://localhost/duan1/index.php">
+            <!-- Input -->
+            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm" />
+            <!-- Close Button -->
+            <button type="button" class="close">×</button>
             <!-- Icon Search -->
             <span class="icon-search">
                 <i class="bi bi-search"></i>
             </span>
-            <!-- Input -->
-            <input type="search" placeholder="Tìm kiếm sản phẩm" />
-            <!-- Close Button -->
-            <button type="button" class="close">×</button>
         </form>
     </div>
     <!-- End Offcanvas Search Bar Section -->

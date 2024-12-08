@@ -37,24 +37,20 @@
         }
 
         #search form {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 600px;
+            width: 80%;
+            /* max-width: 600px; */
         }
 
         /* Nút Close */
         #search .close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             font-size: 2rem;
             color: white;
             background: transparent;
             border: none;
             cursor: pointer;
             z-index: 1001;
-            margin-right: 280px;
+            margin-right: 250px;
+            margin-top: -20px;
         }
 
         #search .close:hover {
@@ -63,9 +59,11 @@
         }
 
         /* Input Search */
-        #search input[type="search"] {
-            width: 50%;
-            margin-top: -280px;
+        #search input[type="text"] {
+            width: 60%;
+            height: 50px;
+            margin-top: 0px;
+            margin-left: 300px;
             padding: 10px 15px;
             border: 1px solid white;
             border-radius: 25px;
@@ -75,14 +73,14 @@
             outline: none;
         }
 
-        #search input[type="search"]::placeholder {
+        #search input[type="text"]::placeholder {
             color: #ddd;
         }
 
-        #search .icon-search {
-            margin-right: 10px;
-            margin-left: 130px;
-            margin-top: 30px;
+        #search .form-search .icon-search {
+            float: right;
+            margin-top: 5px;
+            margin-right: 50px;
             font-size: 1.5rem;
         }
     </style>
@@ -117,15 +115,15 @@
                                             <?php
                                             foreach ($danhmucs as $danhmuc) {
                                             ?>
-                                                <li><a href="?action=product_category&id=<?=$danhmuc['id']?>"><?php echo $danhmuc['category_name'] ?></a></li>
-                                            <?php
-                                                }
-                                            ?>
-                                        </li>
-                                        
-                                        <li>
-                                            <a href="#">Contact Us</a>
-                                        </li>
+                                        <li><a href="?action=product_category&id=<?= $danhmuc['id'] ?>"><?php echo $danhmuc['category_name'] ?></a></li>
+                                    <?php
+                                            }
+                                    ?>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Contact Us</a>
+                                    </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -178,26 +176,22 @@
 
     <!-- Start Offcanvas Search Bar Section tìm kiếm -->
     <div id="search" class="search-modal">
-        <form class="form-search">
+        <form class="form-search" method="post" action="http://localhost/duan1/index.php">
+            <!-- Input -->
+            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm" />
+            <!-- Close Button -->
+            <button type="button" class="close">×</button>
             <!-- Icon Search -->
             <span class="icon-search">
                 <i class="bi bi-search"></i>
             </span>
-            <!-- Input -->
-            <input type="search" placeholder="Tìm kiếm sản phẩm" />
-            <!-- Close Button -->
-            <button type="button" class="close">×</button>
         </form>
     </div>
-
-
-
     <!-- End Offcanvas Search Bar Section -->
 
     <!-- Offcanvas Overlay -->
     <div class="offcanvas-overlay"></div>
 
-    <!-- Start Hero Slider Section-->
     <div class="hero-slider-section">
         <!-- Slider main container -->
         <div class="hero-slider-active swiper-container">
@@ -255,7 +249,82 @@
             <div class="swiper-button-next d-none d-lg-block"></div>
         </div>
     </div>
-    <!-- End Hero Slider Section-->
+
+    <!-- Start Search -->
+    <div class="container">
+        <h1 style="margin-top:20px; margin-left:27px">Kết quả tìm kiếm</h1>
+        <div class="product-wrapper" data-aos="fade-up" data-aos-delay="200">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-slider-default-2rows default-slider-nav-arrow">
+                            <!-- Slider main container -->
+                            <div class="swiper-container product-default-slider-4grid-2row">
+                                <!-- Additional required wrapper -->
+                                <div class="swiper-wrapper">
+                                    <!-- Start Product Default Single Item- sp mới -->
+                                    <div class="container">
+                                        <?php
+                                        if (empty($ketqua)) {
+                                            echo '<p>Không tìm thấy sản phẩm nào phù hợp</p>';
+                                        } else {
+                                            foreach ($ketqua as $spmoi) {
+                                        ?>
+                                                <div class="product-default-single-item product-color--golden swiper-slide">
+                                                    <div class="image-box">
+                                                        <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>" class="image-link">
+                                                            <img class="img_product" src="./assets/images/product/default/home-1/<?php echo $spmoi['image_url'] ?>" alt="">
+                                                            <!-- <img src="./assets/images/product/default/home-1/<?php echo $spmoi['hover_image'] ?>" alt=""> -->
+                                                        </a>
+                                                        <div class="tag">
+                                                            <span>sale</span>
+                                                        </div>
+                                                        <div class="action-link">
+                                                            <div class="action-link-left">
+                                                                <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>">Buy Now</a>
+                                                            </div>
+                                                            <div class="action-link-right">
+                                                                <a href="#"><i class="icon-heart"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="content">
+                                                        <div class="content-left">
+                                                            <h6 class="title"><a href=""><?php echo $spmoi['product_name'] ?></a></h6>
+                                                            <ul class="review-star">
+                                                                <li class="fill"><i class="ion-android-star"></i></li>
+                                                                <li class="fill"><i class="ion-android-star"></i></li>
+                                                                <li class="fill"><i class="ion-android-star"></i></li>
+                                                                <li class="fill"><i class="ion-android-star"></i></li>
+                                                                <li class="empty"><i class="ion-android-star"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="content-right">
+                                                            <span class="price"><?php echo $spmoi['price'] ?></span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <!-- End Product Default Single Item -->
+                                </div>
+                            </div>
+                            <!-- If we need navigation buttons -->
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- End Search -->
 
     <!-- Start Service Section -->
     <div class="service-promo-section section-top-gap-100">
@@ -320,89 +389,6 @@
     </div>
     <!-- End Service Section -->
 
-    <!-- Start Product Default Slider Section -->
-    <div class="product-default-slider-section section-top-gap-100 section-fluid">
-        <!-- Start Section Content Text Area -->
-        <div class="section-title-wrapper" data-aos="fade-up" data-aos-delay="0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-content-gap">
-                            <div class="secton-content">
-                                <h3 class="section-title">THE NEW ARRIVALS</h3>
-                                <p>Preorder now to receive exclusive deals & gifts</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Start Section Content Text Area -->
-        <div class="product-wrapper" data-aos="fade-up" data-aos-delay="200">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="product-slider-default-2rows default-slider-nav-arrow">
-                            <!-- Slider main container -->
-                            <div class="swiper-container product-default-slider-4grid-2row">
-                                <!-- Additional required wrapper -->
-                                <div class="swiper-wrapper">
-                                    <!-- Start Product Default Single Item- sp mới -->
-                                    <?php
-                                    foreach ($spmois as $spmoi) {
-                                    ?>
-                                        <div class="product-default-single-item product-color--golden swiper-slide">
-                                            <div class="image-box">
-                                                <a href="" class="image-link">
-                                                    <img class="img_product" src="./assets/images/product/default/home-1/<?php echo $spmoi['image_url'] ?>" alt="">
-                                                    <!-- <img src="./assets/images/product/default/home-1/<?php echo $spmoi['hover_image'] ?>" alt=""> -->
-                                                </a>
-                                                <div class="tag">
-                                                    <span>sale</span>
-                                                </div>
-                                                <div class="action-link">
-                                                    <div class="action-link-left">
-                                                        <a href="cart.html">Add to Cart</a>
-                                                    </div>
-                                                    <div class="action-link-right">
-                                                        <a href="#"><i class="icon-heart"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <div class="content-left">
-                                                    <h6 class="title"><a href=""><?php echo $spmoi['product_name'] ?></a></h6>
-                                                    <ul class="review-star">
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="empty"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="content-right">
-                                                    <span class="price"><?php echo $spmoi['price'] ?></span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    <?php
-                                    }
-                                    ?>
-
-                                    <!-- End Product Default Single Item -->
-                                </div>
-                            </div>
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Product Default Slider Section -->
 
     <!-- Start Banner Section -->
     <div class="banner-section section-top-gap-100 section-fluid">
@@ -522,42 +508,49 @@
                                 <div class="swiper-wrapper">
                                     <!-- Start Product Default Single Item - sp nổi bật -->
                                     <?php
-                                    foreach ($spnoibats as $spnoibat) {
-                                    ?>
-                                        <div class="product-default-single-item product-color--golden swiper-slide">
-                                            <div class="image-box">
-                                                <a href="" class="image-link">
-                                                    <img src="./assets/images/product/default/home-1/<?php echo $spnoibat['image_url'] ?>" alt="">
-                                                    <!-- <img src="./assets/images/product/default/home-1/<?php echo $spnoibat['hover_image'] ?>" alt=""> -->
-                                                </a>
-                                                <div class="action-link">
-                                                    <div class="action-link-left">
-                                                        <a href="cart.html">Add to Cart</a>
-                                                    </div>
-                                                    <div class="action-link-right">
-                                                        <a href="wishlist.html"><i class="icon-heart"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <div class="content-left">
-                                                    <h6 class="title"><a href=""><?php echo $spnoibat['product_name'] ?></a></h6>
-                                                    <ul class="review-star">
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="fill"><i class="ion-android-star"></i></li>
-                                                        <li class="empty"><i class="ion-android-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="content-right">
-                                                    <span class="price"><?php echo $spnoibat['price'] ?></span>
-                                                </div>
 
+                                    foreach ($spnoibats as $spnoibat) {
+                                        if (isset($spnoibat['product_name'])) {
+                                    ?>
+                                            <div class="product-default-single-item product-color--golden swiper-slide">
+                                                <div class="image-box">
+                                                    <a href="" class="image-link">
+                                                        <img src="./assets/images/product/default/home-1/<?php echo $spnoibat['image_url'] ?>" alt="">
+                                                        <!-- <img src="./assets/images/product/default/home-1/<?php echo $spnoibat['hover_image'] ?>" alt=""> -->
+                                                    </a>
+                                                    <div class="action-link">
+                                                        <div class="action-link-left">
+                                                            <a href="cart.html">Add to Cart</a>
+                                                        </div>
+                                                        <div class="action-link-right">
+                                                            <a href="wishlist.html"><i class="icon-heart"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="content">
+                                                    <div class="content-left">
+                                                        <h6 class="title"><a href=""><?php echo $spnoibat['product_name'] ?></a></h6>
+                                                        <ul class="review-star">
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="fill"><i class="ion-android-star"></i></li>
+                                                            <li class="empty"><i class="ion-android-star"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="content-right">
+                                                        <span class="price"><?php echo $spnoibat['price'] ?></span>
+                                                    </div>
+
+                                                </div>
                                             </div>
-                                        </div>
                                     <?php
+                                        } else {
+                                            echo ('Không có sản phẩm phù hợp!');
+                                            break;
+                                        }
                                     }
+
                                     ?>
 
                                     <!-- End Product Default Single Item -sp nổi bật-->

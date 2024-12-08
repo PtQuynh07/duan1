@@ -38,24 +38,20 @@
         }
 
         #search form {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 600px;
+            width: 80%;
+            /* max-width: 600px; */
         }
 
         /* Nút Close */
         #search .close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
             font-size: 2rem;
             color: white;
             background: transparent;
             border: none;
             cursor: pointer;
             z-index: 1001;
-            margin-right: 280px;
+            margin-right: 250px;
+            margin-top: -20px;
         }
 
         #search .close:hover {
@@ -64,9 +60,11 @@
         }
 
         /* Input Search */
-        #search input[type="search"] {
-            width: 50%;
-            margin-top: -280px;
+        #search input[type="text"] {
+            width: 60%;
+            height: 50px;
+            margin-top: 0px;
+            margin-left: 300px;
             padding: 10px 15px;
             border: 1px solid white;
             border-radius: 25px;
@@ -76,96 +74,15 @@
             outline: none;
         }
 
-        #search input[type="search"]::placeholder {
+        #search input[type="text"]::placeholder {
             color: #ddd;
         }
 
-        #search .icon-search {
-            margin-right: 10px;
-            margin-left: 130px;
-            margin-top: 30px;
+        #search .form-search .icon-search {
+            float: right;
+            margin-top: 5px;
+            margin-right: 50px;
             font-size: 1.5rem;
-        }
-
-        .product-add-cart-btn {
-            margin-left: 20px;
-        }
-
-        /* Slideshow Container */
-        #slideshow-container {
-            right: 18%;
-            width: 120%;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .product-large-image img {
-            width: 100%;
-            /* Đảm bảo ảnh lấp đầy container */
-            height: auto;
-            /* Giữ tỷ lệ ảnh */
-            object-fit: cover;
-            background-color: #f0f0f0;
-        }
-
-        /* Thumbnails */
-        #thumbnails {
-            width: 100%;
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .product-image-thumb-single img {
-            width: 150px;
-            /* Thumbnail size */
-            height: 120px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border 0.3s ease;
-        }
-
-        .product-image-thumb-single img:hover,
-        .product-image-thumb-single img.active {
-            border-color: #000;
-            /* Đổi màu khi hover hoặc active */
-        }
-
-        /* Thiết kế cơ bản cho label */
-        .product-variable-color label {
-            display: inline-block;
-            padding: 15px 20px;
-            border: 2px solid #ccc;
-            /* Khung mặc định */
-            border-radius: 2px;
-            margin: 3px;
-            cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Ẩn input radio */
-        .product-variable-color input[type="radio"] {
-            display: none;
-        }
-
-        /* Hiệu ứng hover */
-        .product-variable-color label:hover {
-            background-color: #66aaff;
-            border-color: #66aaff;
-        }
-
-        /* Khi input radio được chọn */
-        .product-variable-color input[type="radio"]:checked+label {
-            background-color: #66aaff;
-            border-color: #66aaff;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
         }
     </style>
 </head>
@@ -241,17 +158,18 @@
 
     <!-- Start Offcanvas Search Bar Section tìm kiếm -->
     <div id="search" class="search-modal">
-        <form class="form-search">
+        <form class="form-search" method="post" action="http://localhost/duan1/index.php">
+            <!-- Input -->
+            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm" />
+            <!-- Close Button -->
+            <button type="button" class="close">×</button>
             <!-- Icon Search -->
             <span class="icon-search">
                 <i class="bi bi-search"></i>
             </span>
-            <!-- Input -->
-            <input type="search" placeholder="Tìm kiếm sản phẩm" />
-            <!-- Close Button -->
-            <button type="button" class="close">×</button>
         </form>
     </div>
+    <!-- End Offcanvas Search Bar Section -->
 
 
     <!-- ...:::: Start Breadcrumb Section:::... -->
