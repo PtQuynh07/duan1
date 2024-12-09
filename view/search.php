@@ -362,7 +362,7 @@
                                                 </a>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a href="cart.html">Add to Cart</a>
+                                                        <a href="cart.html">Thêm giỏ hàng</a>
                                                     </div>
                                                     <div class="action-link-right">
                                                         <a href="wishlist.html"><i class="icon-heart"></i></a>
