@@ -49,8 +49,7 @@
             border: none;
             cursor: pointer;
             z-index: 1001;
-            margin-right: 250px;
-            margin-top: -20px;
+            margin-right: 200px;
         }
 
         #search .close:hover {
@@ -59,11 +58,10 @@
         }
 
         /* Input Search */
-        #search input[type="text"] {
+        #search input[type="search"] {
             width: 60%;
             height: 50px;
-            margin-top: 0px;
-            margin-left: 300px;
+            margin-top: -280px;
             padding: 10px 15px;
             border: 1px solid white;
             border-radius: 25px;
@@ -73,7 +71,7 @@
             outline: none;
         }
 
-        #search input[type="text"]::placeholder {
+        #search input[type="search"]::placeholder {
             color: #ddd;
         }
 
@@ -156,98 +154,14 @@
         </div>
     </header>
 
-    <!-- Start Offcanvas Mobile Menu Section -->
-    <div id="offcanvas-about" class="offcanvas offcanvas-rightside offcanvas-mobile-about-section">
-        <!-- Start Offcanvas Header -->
-        <div class="offcanvas-header text-right">
-            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
-        </div> <!-- End Offcanvas Header -->
-
-        <!-- End Mobile contact Info -->
-    </div> <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
-
-    <!-- Start Offcanvas Addcart Section -->
-    <div id="offcanvas-add-cart" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
-        <!-- Start Offcanvas Header -->
-        <div class="offcanvas-header text-right">
-            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
-        </div> <!-- End Offcanvas Header -->
-    </div>
-
-    <!-- Start Offcanvas Search Bar Section tìm kiếm -->
-    <div id="search" class="search-modal">
+     <!-- Start Offcanvas Search Bar Section tìm kiếm -->
+     <div id="search" class="search-modal">
         <form class="form-search" method="post" action="http://localhost/duan1/index.php">
             <!-- Input -->
-            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm" />
+            <input type="search" name="search" placeholder="Tìm kiếm sản phẩm" />
             <!-- Close Button -->
             <button type="button" class="close">×</button>
-            <!-- Icon Search -->
-            <span class="icon-search">
-                <i class="bi bi-search"></i>
-            </span>
         </form>
-    </div>
-    <!-- End Offcanvas Search Bar Section -->
-
-    <!-- Offcanvas Overlay -->
-    <div class="offcanvas-overlay"></div>
-
-    <div class="hero-slider-section">
-        <!-- Slider main container -->
-        <div class="hero-slider-active swiper-container">
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Start Hero Single Slider Item -->
-                <div class="hero-single-slider-item swiper-slide">
-                    <!-- Hero Slider Image -->
-                    <div class="hero-slider-bg">
-                        <img src="assets/images/hero-slider/home-1/hero-slider-1.jpg" alt="">
-                    </div>
-                    <!-- Hero Slider Content -->
-                    <div class="hero-slider-wrapper">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="hero-slider-content">
-                                        <h4 class="subtitle">New collection</h4>
-                                        <h2 class="title">Best Of NeoCon <br> Gold Award </h2>
-                                        <a href="product-details-default.html" class="btn btn-lg btn-outline-golden">shop now </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- End Hero Single Slider Item -->
-                <!-- Start Hero Single Slider Item -->
-                <div class="hero-single-slider-item swiper-slide">
-                    <!-- Hero Slider Image -->
-                    <div class="hero-slider-bg">
-                        <img src="assets/images/hero-slider/home-1/hero-slider-2.jpg" alt="">
-                    </div>
-                    <!-- Hero Slider Content -->
-                    <div class="hero-slider-wrapper">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="hero-slider-content">
-                                        <h4 class="subtitle">New collection</h4>
-                                        <h2 class="title">Luxy Chairs <br> Design Award </h2>
-                                        <a href="#" class="btn btn-lg btn-outline-golden">shop now </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- End Hero Single Slider Item -->
-            </div>
-
-            <!-- If we need pagination -->
-            <div class="swiper-pagination active-color-golden"></div>
-
-            <!-- If we need navigation buttons -->
-            <div class="swiper-button-prev d-none d-lg-block"></div>
-            <div class="swiper-button-next d-none d-lg-block"></div>
-        </div>
     </div>
 
     <!-- Start Search -->
@@ -319,70 +233,6 @@
 
     </div>
     <!-- End Search -->
-
-    <!-- Start Service Section -->
-    <div class="service-promo-section section-top-gap-100">
-        <div class="service-wrapper">
-            <div class="container">
-                <div class="row">
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="0">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-1.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">FREE SHIPPING</h6>
-                                <p>Get 10% cash back, free shipping, free returns, and more at 1000+ top retailers!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Service Promo Single Item -->
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="200">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-2.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">30 DAYS MONEY BACK</h6>
-                                <p>100% satisfaction guaranteed, or get your money back within 30 days!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Service Promo Single Item -->
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="400">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-3.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">SAFE PAYMENT</h6>
-                                <p>Pay with the world’s most popular and secure payment methods.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Service Promo Single Item -->
-                    <!-- Start Service Promo Single Item -->
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="600">
-                            <div class="image">
-                                <img src="assets/images/icons/service-promo-4.png" alt="">
-                            </div>
-                            <div class="content">
-                                <h6 class="title">LOYALTY CUSTOMER</h6>
-                                <p>Card for the other 30% of their purchases at a rate of 1% cash back.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Service Promo Single Item -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Service Section -->
-
 
     <!-- Start Banner Section -->
     <div class="banner-section section-top-gap-100 section-fluid">
