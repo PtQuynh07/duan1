@@ -138,7 +138,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="?action=cart">
+                                    <a href="?action=viewCart">
                                         <i class="icon-bag"></i>
                                         <span class="item-count">3</span>
                                     </a>
@@ -277,7 +277,7 @@
                                                 </div>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>">Buy Now</a>
+                                                        <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>">Mua Ngay</a>
                                                     </div>
                                                     <div class="action-link-right">
                                                         <a href="#"><i class="icon-heart"></i></a>
@@ -296,7 +296,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right">
-                                                    <span class="price"><?php echo $spmoi['price'] ?></span>
+                                                <?php echo number_format($spmoi['price'], 0, '', '.' ); ?> 
                                                 </div>
 
                                             </div>
@@ -482,8 +482,8 @@
                     <div class="col-12">
                         <div class="section-content-gap">
                             <div class="secton-content">
-                                <h3 class="section-title">BEST SELLERS</h3>
-                                <p>Add our best sellers to your weekly lineup.</p>
+                                <h3 class="section-title">Sản phẩm bán chạy</h3>
+                                <p>Thêm sản phẩm bán chạy nhất của chúng tôi vào danh sách hàng tuần của bạn.</p>
                             </div>
                         </div>
                     </div>
@@ -531,7 +531,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right">
-                                                    <span class="price"><?php echo $spnoibat['price'] ?></span>
+                                                    <?php echo number_format($spnoibat['price'], 0, '', '.' ); ?> 
                                                 </div>
 
                                             </div>

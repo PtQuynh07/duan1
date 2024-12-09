@@ -170,7 +170,6 @@
                             <nav aria-label="breadcrumb">
                                 <ul>
                                     <li><a href="?action=home">Trang chủ</a></li>
-                                    <li><a href="blog-grid-sidebar-left.html">Blog</a></li>
                                     <li><a href="#">Chi tiết đơn hàng</a></li>
                                 </ul>
                             </nav>

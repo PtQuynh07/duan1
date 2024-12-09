@@ -51,8 +51,7 @@
             border: none;
             cursor: pointer;
             z-index: 1001;
-            margin-right: 250px;
-            margin-top: -20px;
+            margin-right: 200px;
         }
 
         #search .close:hover {
@@ -61,11 +60,10 @@
         }
 
         /* Input Search */
-        #search input[type="text"] {
+        #search input[type="search"] {
             width: 60%;
             height: 50px;
-            margin-top: 0px;
-            margin-left: 300px;
+            margin-top: -280px;
             padding: 10px 15px;
             border: 1px solid white;
             border-radius: 25px;
@@ -75,7 +73,7 @@
             outline: none;
         }
 
-        #search input[type="text"]::placeholder {
+        #search input[type="search"]::placeholder {
             color: #ddd;
         }
 
@@ -172,13 +170,9 @@
     <div id="search" class="search-modal">
         <form class="form-search" method="post" action="http://localhost/duan1/index.php">
             <!-- Input -->
-            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm" />
+            <input type="search" name="search" placeholder="Tìm kiếm sản phẩm" />
             <!-- Close Button -->
             <button type="button" class="close">×</button>
-            <!-- Icon Search -->
-            <span class="icon-search">
-                <i class="bi bi-search"></i>
-            </span>
         </form>
     </div>
 
