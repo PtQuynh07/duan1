@@ -1,4 +1,4 @@
-<?php session_start(); ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -99,10 +99,11 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="https://img.pikbest.com/png-images/qiantu/cartoon-creative-game-character-round-face-monster-decoration-design_2598202.png!f305cw" class="img-circle elevation-2" alt="User Image">
+        <i class="fa-solid fa-user" style="color: #ffffff;"></i>
         </div>
         <div class="info">
-          <a href="?action=home" class="d-block">Admin</a>
+        <a href="?action=home" class="d-block"><?= $user['username'] ?></a>
+    
         </div>
       </div>
       <!-- Sidebar Menu -->
