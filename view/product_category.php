@@ -255,10 +255,14 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="?action=cart">
+                                    <a href="?action=viewCart">
                                         <i class="icon-bag"></i>
                                         <span class="item-count">3</span>
                                     </a>
+                                </li>
+
+                                <li>
+                                    <a href="?action=donhang"><i class=" nav-icon fas fa-file-invoice-dollar"></i></a>
                                 </li>
 
                                 <li>
@@ -326,11 +330,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h3 class="breadcrumb-title">Product by Category</h3>
+                        <h3 class="breadcrumb-title">Sản phẩm theo danh mục</h3>
                         <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li><a href="?action=home">Home</a></li>
+                                    <li><a href="?action=home">Trang chủ</a></li>
                                     <li><a href="?action=product_category&id=<?= $danhmuc['id'] ?>"><?php echo isset($category_info['category_name']) ? $category_info['category_name'] : ''; ?></a></li>
                                 </ul>
                             </nav>
@@ -370,7 +374,7 @@
                                             </div>
                                             <div class="action-link">
                                                 <div class="action-link-left">
-                                                    <a href="?action=productDetail&id=<?php echo $sanphamdm['id'] ?>" class="btn-add-to-cart">BUY NOW</a>
+                                                    <a href="?action=productDetail&id=<?php echo $sanphamdm['id'] ?>" class="btn-add-to-cart">Mua Ngay</a>
                                                 </div>
                                                 <div class="action-link-right">
                                                     <a href="#"><i class="icon-heart"></i></a>
@@ -390,7 +394,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right" style="margin-left: 180px;">
-                                                    <span class="price"><?= $sanphamdm['price'] ?></span>
+                                                <?php echo number_format($sanphamdm['price'], 0, '', '.' ); ?> 
                                                 </div>
                                             </div>
                                         </div>
@@ -516,8 +520,8 @@
                     <div class="col-12">
                         <div class="section-content-gap">
                             <div class="secton-content">
-                                <h3 class="section-title">BEST SELLERS</h3>
-                                <p>Add our best sellers to your weekly lineup.</p>
+                                <h3 class="section-title">SẢN PHẨM BÁN CHẠY</h3>
+                                <p>Thêm sản phẩm bán chạy nhất của chúng tôi vào danh sách hàng tuần của bạn.</p>
                             </div>
                         </div>
                     </div>
@@ -546,7 +550,7 @@
                                                 </a>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a href="cart.html">BUY NOW</a>
+                                                    <a href="?action=productDetail&id=<?php echo $spnoibat['id'] ?>">Mua Ngay</a>
                                                     </div>
                                                     <div class="action-link-right">
                                                         <a href="wishlist.html"><i class="icon-heart"></i></a>
@@ -565,7 +569,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right">
-                                                    <span class="price"><?php echo $spnoibat['price'] ?></span>
+                                                <?php echo number_format($spnoibat['price'], 0, '', '.' ); ?> 
                                                 </div>
 
                                             </div>

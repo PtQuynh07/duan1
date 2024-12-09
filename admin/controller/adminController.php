@@ -1,5 +1,7 @@
 <?php
+session_start(); 
 include "./model/adminModel.php";
+
 
 class AdminController
 {
@@ -28,7 +30,7 @@ class AdminController
                         // Lưu thông tin vào session
                         $_SESSION['username'] = $userInfo['username'];
                         $_SESSION['role'] = $userInfo['role'];
-        
+                        var_dump($_SESSION);
                         // Chuyển hướng đến trang chính
                         header("Location: ?action=home");
                         exit();
@@ -52,21 +54,59 @@ class AdminController
         exit();
     }
 
-    function homeController()
+    // function homeController()
+    // {
+        
+    //     include "./view/home.php";
+    // }
+
+    public function homeController()
     {
-        include "./view/home.php";
+       // Đảm bảo session được khởi động
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            include 'view/home.php';
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
     }
+    
 
     // quan tri san pham
     function sanphamController(){
-        $allsanpham = $this->adminModel->getAllsanpham();
-        include "./view/sanpham.php";
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $allsanpham = $this->adminModel->getAllsanpham();
+            include "./view/sanpham.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+        // $allsanpham = $this->adminModel->getAllsanpham();
+        // include "./view/sanpham.php";
     }
 
     function addSanpham()
     {
-        $product = $this->adminModel->getAllsanpham();
-        include "./view/addSanpham.php";
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $product = $this->adminModel->getAllsanpham();
+            include "./view/addSanpham.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+       
     }
     public function prushSanpham() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -119,20 +159,32 @@ class AdminController
 
        // Hiển thị biểu mẫu cập nhật sản phẩm
        public function editProduct($id) {
-        $product = $this->adminModel->getProductById($id);
-        $variants = $this->adminModel->getProductVariants($id);
-    
-        // Giả sử bạn muốn lấy dữ liệu cho biến thể đầu tiên (nếu có)
-        if (!empty($variants)) {
-            $product_variant_id = $variants[0]['id'];
-            $images = $this->adminModel->getProductImages($product_variant_id);
-            $options = $this->adminModel->getVariantOptions($product_variant_id);
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+            $product = $this->adminModel->getProductById($id);
+            $variants = $this->adminModel->getProductVariants($id);
+        
+            // Giả sử bạn muốn lấy dữ liệu cho biến thể đầu tiên (nếu có)
+            if (!empty($variants)) {
+                $product_variant_id = $variants[0]['id'];
+                $images = $this->adminModel->getProductImages($product_variant_id);
+                $options = $this->adminModel->getVariantOptions($product_variant_id);
+            } else {
+                $images = [];
+                $options = [];
+            }
+        
+            include "./view/editSanpham.php";
+            // Truyền dữ liệu người dùng đến View
+          
         } else {
-            $images = [];
-            $options = [];
+            header("Location: ?action=login");
+            exit;
         }
-    
-        include "./view/editSanpham.php";
+        
+
+        
     }
     
 
@@ -205,14 +257,35 @@ class AdminController
     //quan tri danh muc
     function danhmucController()
     {
-        $danhmucs = $this->adminModel->getAllloai();
-        include "./view/danhmuc.php";
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $danhmucs = $this->adminModel->getAllloai();
+            include "./view/danhmuc.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+        
+       
     }
 
     function addDanhmuc()
     {
-        $category = $this->adminModel->getAllloai();
-        include "./view/addDanhmuc.php";
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $category = $this->adminModel->getAllloai();
+            include "./view/addDanhmuc.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+       
     }
 
     function pushDanhmuc()
@@ -255,24 +328,60 @@ class AdminController
 
     //quản trị tài khoản
     function loadViewUser(){
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $admins = $this->adminModel->getAllUser();
+            include "./view/adminAcc.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
         // require_once "./view/user.php";
-        $admins = $this->adminModel->getAllUser();
-        include "./view/adminAcc.php";
+        
     }
 
     function loadViewClient(){
-        $customers = $this->adminModel->getAllUser();
-        include "./view/customerAcc.php";
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $customers = $this->adminModel->getAllUser();
+            include "./view/customerAcc.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+       
     }
 
     //quản trị đơn hàng
     function orders(){
-        $listOrder = $this->adminModel->getAllOrders();
-        include "./view/orders.php";
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $listOrder = $this->adminModel->getAllOrders();
+            include "./view/orders.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+
     }
 
     function orderDetail(){
-        $order_id = $_GET['order_id'];
+
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $order_id = $_GET['order_id'];
 
         //lấy thông tin đơn hàng ở bảng orders
         $order = $this-> adminModel->getDetailOrder($order_id);
@@ -283,19 +392,34 @@ class AdminController
         $listOrderStatus = $this->adminModel->getAllOrderStatus();
 
         include "./view/orderDetail.php";
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+        
     }
 
     //sửa đơn hàng
     function formEditOrder(){
-        $order_id = $_GET['order_id'];
-        $order = $this-> adminModel->getDetailOrder($order_id);
-        $listOrderStatus = $this->adminModel->getAllOrderStatus();
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION['username'];
+            $user = $this->adminModel->getUserById($username); // Lấy thông tin người dùng từ Model
+    
+            // Truyền dữ liệu người dùng đến View
+            $order_id = $_GET['order_id'];
+            $order = $this-> adminModel->getDetailOrder($order_id);
+            $listOrderStatus = $this->adminModel->getAllOrderStatus();
         if($order){
             include "./view/formOrderEdit.php";
         }else{
             header("location:?action=orders");
             exit();
         }
+        } else {
+            header("Location: ?action=login");
+            exit;
+        }
+        
     }
 
     function postEditOrder(){

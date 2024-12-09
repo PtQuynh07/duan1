@@ -24,10 +24,25 @@ class AdminModel
             return false;
         }
     }
+
+    public function getUserById($user_id)
+    {
+        try {
+            $sql = 'SELECT * FROM users WHERE username = :username'; // Sửa :user thành :id
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':username' => $user_id // Đảm bảo tên tham số trùng khớp
+            ]);
+            return $stmt->fetch(PDO::FETCH_ASSOC); // Đảm bảo trả về dữ liệu dạng mảng
+        } catch (Exception $e) {
+            echo "Lỗi: " . $e->getMessage();
+        }
+    }
+    
     
     // san pham
     function allsanpham(){
-        $sql = "SELECT * FROM products order by id asc";
+        $sql = "SELECT * FROM products order by id desc";
         return $this->conn->query($sql);
    }
 
@@ -189,7 +204,7 @@ function deletesanphamById($id) {
     //danh muc
     function getAllloai()
     {
-        $sql = "SELECT * FROM categories";
+        $sql = "SELECT * FROM categories  ORDER BY id DESC";
         $result = $this->conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -231,6 +246,7 @@ function deletesanphamById($id) {
             $sql = "SELECT orders.*, order_status.status_name 
                     FROM orders
                     INNER JOIN order_status ON orders.order_status_id = order_status.id
+                    ORDER BY id DESC
                     ";
             $result = $this->conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);

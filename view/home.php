@@ -35,6 +35,7 @@
             background: rgba(0, 0, 0, 0.8);
             display: flex;
             z-index: 1000;
+           
         }
 
         #search form {
@@ -144,9 +145,16 @@
                                         <span class="item-count">3</span>
                                     </a>
                                 </li>
+
+                                <li>
+                                    <a href="?action=donhang"><i class=" nav-icon fas fa-file-invoice-dollar"></i></a>
+                                </li>
+                                
                                 <li>
                                     <a href="?action=login"><i class="bi bi-person-circle"></i></a>
                                 </li>
+
+
                                 <li>
                                     <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i></a>
                                 </li>
@@ -173,6 +181,7 @@
             </span>
         </form>
     </div>
+
     <!-- End Offcanvas Search Bar Section -->
 
     <!-- Start Hero Slider Section-->
@@ -247,8 +256,8 @@
                                 <img src="assets/images/icons/service-promo-1.png" alt="">
                             </div>
                             <div class="content">
-                                <h6 class="title">FREE SHIPPING</h6>
-                                <p>Get 10% cash back, free shipping, free returns, and more at 1000+ top retailers!</p>
+                                <h6 class="title">MIỄN PHÍ VẬN CHUYỂN</h6>
+                                <p>Nhận lại 10% tiền mặt, giao hàng miễn phí, trả lại miễn phí và hơn thế nữa tại hơn 1000 nhà bán lẻ hàng đầu!</p>
                             </div>
                         </div>
                     </div>
@@ -260,8 +269,9 @@
                                 <img src="assets/images/icons/service-promo-2.png" alt="">
                             </div>
                             <div class="content">
-                                <h6 class="title">30 DAYS MONEY BACK</h6>
-                                <p>100% satisfaction guaranteed, or get your money back within 30 days!</p>
+                                <h6 class="title">HOÀN TIỀN TRONG VÒNG 30 NGÀY</h6>
+                                <p>
+                                Đảm bảo sự hài lòng 100% hoặc nhận lại tiền trong vòng 30 ngày!</p>
                             </div>
                         </div>
                     </div>
@@ -273,8 +283,9 @@
                                 <img src="assets/images/icons/service-promo-3.png" alt="">
                             </div>
                             <div class="content">
-                                <h6 class="title">SAFE PAYMENT</h6>
-                                <p>Pay with the world’s most popular and secure payment methods.</p>
+                                <h6 class="title">THANH TOÁN AN TOÀN</h6>
+                                <p>
+                                Thanh toán bằng các phương thức thanh toán an toàn và phổ biến nhất hiện nay.</p>
                             </div>
                         </div>
                     </div>
@@ -286,8 +297,9 @@
                                 <img src="assets/images/icons/service-promo-4.png" alt="">
                             </div>
                             <div class="content">
-                                <h6 class="title">LOYALTY CUSTOMER</h6>
-                                <p>Card for the other 30% of their purchases at a rate of 1% cash back.</p>
+                                <h6 class="title">KHÁCH HÀNG TRUNG THÀNH</h6>
+                                <p>
+                                Thẻ cho 30% giao dịch mua còn lại của họ với tỷ lệ hoàn lại tiền là 1%.</p>
                             </div>
                         </div>
                     </div>
@@ -307,8 +319,9 @@
                     <div class="col-12">
                         <div class="section-content-gap">
                             <div class="secton-content">
-                                <h3 class="section-title">THE NEW ARRIVALS</h3>
-                                <p>Preorder now to receive exclusive deals & gifts</p>
+                                <h3 class="section-title">Hàng mới về</h3>
+                                <p>
+                                Đặt hàng ngay để nhận ưu đãi & quà tặng độc quyền</p>
                             </div>
                         </div>
                     </div>
@@ -340,7 +353,7 @@
                                                 </div>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>">Buy Now</a>
+                                                        <a href="?action=productDetail&id=<?php echo $spmoi['id'] ?>">Mua Ngay</a>
                                                     </div>
                                                     <div class="action-link-right">
                                                         <a href="#"><i class="icon-heart"></i></a>
@@ -482,8 +495,8 @@
                     <div class="col-12">
                         <div class="section-content-gap">
                             <div class="secton-content">
-                                <h3 class="section-title">BEST SELLERS</h3>
-                                <p>Add our best sellers to your weekly lineup.</p>
+                                <h3 class="section-title">Sản phẩm bán chạy</h3>
+                                <p>Thêm sản phẩm bán chạy nhất của chúng tôi vào danh sách hàng tuần của bạn.</p>
                             </div>
                         </div>
                     </div>
@@ -512,7 +525,7 @@
                                                 </a>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a href="?action=productDetail&id=<?php echo $spnoibat['id'] ?>">Buy Now</a>
+                                                        <a href="?action=productDetail&id=<?php echo $spnoibat['id'] ?>">Mua Ngay</a>
                                                     </div>
                                                     <div class="action-link-right">
                                                         <a href="wishlist.html"><i class="icon-heart"></i></a>
@@ -532,7 +545,7 @@
                                                 </div>
                                                 <div class="content-right">
                                                 <span class="price">
-                                                    <?php echo number_format($spnoibat['price'], 0, '', '.'); ?>
+                                                    <?php echo number_format($spnoibat['price'], 0, '', '.' ); ?> 
                                                 </span>
                                                 </div>
 
